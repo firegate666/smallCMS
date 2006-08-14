@@ -15,7 +15,6 @@
 
 	// enable modules
 	$_CONFIG["cms"] = false;
-	$_CONFIG["game"] = false;
 	$_CONFIG["questionaire"] = false;
 	$_CONFIG["w40k"] = false;	
 
