@@ -3,7 +3,7 @@
  * Templatehandling
  */
 
-$__userrights[] = array('name'=>'templateadmin', 'desc'=>'can edit templates & images');
+$__userrights[] = array('name'=>'templateadmin', 'desc'=>'can edit templates &amp; images');
 
 class Template extends AbstractClass {
 	protected $layout;

@@ -105,7 +105,7 @@ class Postgres extends SQL {
 	}
 
 	public function print_error($method, $query) {
-		$msg = pg_last_error()."<br><b>Query:</b> $query";
+		$msg = pg_last_error()."<br/><b>Query:</b> $query";
 		error($msg, "MySQL", $method);
 	}	
 	

@@ -31,7 +31,7 @@ abstract class AbstractClass {
 					foreach($field['join'] as $key=>$value) {
 						$SELECTED = '';
 						if ($this->get($field['name']) == $value)
-							$SELECTED = 'SELECTED="SELECTED"';	
+							$SELECTED = 'selected="selected"';	
 						$return .= '<option '.$SELECTED.' value="'.$value.'">'.$key.'</option>'."\n";
 					}
 				} else {

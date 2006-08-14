@@ -101,7 +101,7 @@ class MySQL extends SQL {
 	}
 
 	public function print_error($method, $query) {
-		$msg = mysql_error()."<br><b>Query:</b> $query";
+		$msg = mysql_error()."<br/><b>Query:</b> $query";
 		error($msg, "MySQL", $method);
 	}	
 	
