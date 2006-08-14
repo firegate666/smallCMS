@@ -36,7 +36,7 @@ if (!isset($_REQUEST['id'])) {
 		foreach($u->getlist('', true, 'name', array('*')) as $ug) { ?>
 			<tr>
 				<td><?=$ug['name']?></td>
-				<td><a href="?admin&usergroup&id=<?=$ug['id']?>"><img src="img/edit.gif" border="0"/></a></td>
+				<td><a href="?admin&usergroup&id=<?=$ug['id']?>"><img src="img/edit.gif" border="0" alt="Edit"/></a></td>
 			</tr>
 		<? } ?>
 	</table>
@@ -59,7 +59,7 @@ if (!isset($_REQUEST['id'])) {
 					<td>Name</td>
 					<td><input type="text" name="name" value="<?=$ug->get('name')?>"/>
 				</tr>
-				</tr>
+				<tr>
 					<td></td>
 					<td>
 						<? $rights = $ug->getUserrights();
@@ -67,7 +67,7 @@ if (!isset($_REQUEST['id'])) {
 							$checked="";
 							if (in_array($priv['name'], $rights))
 								$checked = 'CHECKED="CHECKED"'; 
-							?><input <?=$checked?> type="checkbox" name="userright[<?=$priv['name']?>]"> <?=$priv['name']?>, <?=$priv['desc']?></br><? 
+							?><input <?=$checked?> type="checkbox" name="userright[<?=$priv['name']?>]"/> <?=$priv['name']?>, <?=$priv['desc']?><br/><? 
 						}?>
 					</td>
 				</tr>

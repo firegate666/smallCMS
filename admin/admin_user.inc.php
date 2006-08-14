@@ -37,7 +37,7 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 	$ug = new Usergroup();
 ?>
 	<h3>User</h3>
-	<form method="post">
+	<form action="index.php" method="post">
 		<input type="hidden" name="admin"/>
 		<input type="hidden" name="user"/>
 		<select name="usergroupid" onChange="this.form.submit()">
@@ -80,7 +80,7 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 				<td><?=$myuser['__createdon']?></td>
 				<td><?=$myuser['errorlogins']?></td>
 				<td><?=$myuser['lastlogin']?></td>
-				<td><a href="?admin&user&userid=<?=$myuser['id']?>"><img src="img/edit.gif" border="0"/></a></td>
+				<td><a href="?admin&user&userid=<?=$myuser['id']?>"><img src="img/edit.gif" border="0" alt="Edit"/></a></td>
 			</tr>
 		<? }
 	?>
@@ -91,7 +91,7 @@ if (isset($_REQUEST['userid'])) {
 	$ug = new Usergroup($u->get('groupid'));
 ?>
 	<a name="edit"></a>
-	<form action="index.php" method="POST">
+	<form action="index.php" method="post">
 		<input type="hidden" name="admin"/>
 		<input type="hidden" name="user"/>
 		<input type="hidden" name="userid" value="<?=$u->get('id')?>"/>
@@ -120,6 +120,7 @@ if (isset($_REQUEST['userid'])) {
 			<tr>
 				<td>&nbsp;</td><td><input type="submit" name="store" value="Speichern"/></td>
 			</tr>
+		</table>
 	</form>
 <? }
  ?>
