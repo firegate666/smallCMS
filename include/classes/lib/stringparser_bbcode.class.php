@@ -64,7 +64,7 @@ class StringParser_BBCode extends StringParser {
 	 * @var int
 	 * @see STRINGPARSER_MODE_SEARCH, STRINGPARSER_MODE_LOOP
 	 */
-	var $_parserMode = STRINGPARSER_MODE_SEARCH;
+	public $_parserMode = STRINGPARSER_MODE_SEARCH;
 	
 	/**
 	 * Defined BB Codes
@@ -74,7 +74,7 @@ class StringParser_BBCode extends StringParser {
 	 * @access protected
 	 * @var array
 	 */
-	var $_codes = array ();
+	public $_codes = array ();
 	
 	/**
 	 * Registered parsers
@@ -82,7 +82,7 @@ class StringParser_BBCode extends StringParser {
 	 * @access protected
 	 * @var array
 	 */
-	var $_parsers = array ();
+	public $_parsers = array ();
 	
 	/**
 	 * Defined maximum occurrences
@@ -90,7 +90,7 @@ class StringParser_BBCode extends StringParser {
 	 * @access protected
 	 * @var array
 	 */
-	var $_maxOccurrences = array ();
+	public $_maxOccurrences = array ();
 	
 	/**
 	 * Root content type
@@ -98,7 +98,7 @@ class StringParser_BBCode extends StringParser {
 	 * @access protected
 	 * @var string
 	 */
-	var $_rootContentType = 'block';
+	public $_rootContentType = 'block';
 	
 	/**
 	 * Do not output but return the tree
@@ -106,7 +106,7 @@ class StringParser_BBCode extends StringParser {
 	 * @access protected
 	 * @var bool
 	 */
-	var $_noOutput = false;
+	public $_noOutput = false;
 	
 	/**
 	 * Global setting: case sensitive
@@ -114,7 +114,7 @@ class StringParser_BBCode extends StringParser {
 	 * @access protected
 	 * @var bool
 	 */
-	var $_caseSensitive = true;
+	public $_caseSensitive = true;
 	
 	/**
 	 * Root paragraph handling enabled
@@ -122,14 +122,14 @@ class StringParser_BBCode extends StringParser {
 	 * @access protected
 	 * @var bool
 	 */
-	var $_rootParagraphHandling = false;
+	public $_rootParagraphHandling = false;
 	
 	/**
 	 * Paragraph handling parameters
 	 * @access protected
 	 * @var array
 	 */
-	var $_paragraphHandling = array (
+	public $_paragraphHandling = array (
 		'detect_string' => "\n\n",
 		'start_tag' => '<p>',
 		'end_tag' => "</p>\n"
@@ -140,14 +140,14 @@ class StringParser_BBCode extends StringParser {
 	 * @access private
 	 * @var bool
 	 */
-	var $_mixedAttributeTypes = false;
+	public $_mixedAttributeTypes = false;
 	
 	/**
 	 * Whether to call validation function again (with $action == 'validate_auto') when closetag comes
 	 * @access protected
 	 * @var bool
 	 */
-	var $_validateAgain = false;
+	public $_validateAgain = false;
 	
 	/**
 	 * Add a code
@@ -1400,7 +1400,7 @@ class StringParser_BBCode_Node_Paragraph extends StringParser_Node {
 	 * @var int
 	 * @see STRINGPARSER_BBCODE_NODE_PARAGRAPH
 	 */
-	var $_type = STRINGPARSER_BBCODE_NODE_PARAGRAPH;
+	public $_type = STRINGPARSER_BBCODE_NODE_PARAGRAPH;
 	
 	/**
 	 * Determines whether a criterium matches this node
@@ -1459,7 +1459,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node {
 	 * @var int
 	 * @see STRINGPARSER_BBCODE_NODE_ELEMENT
 	 */
-	var $_type = STRINGPARSER_BBCODE_NODE_ELEMENT;
+	public $_type = STRINGPARSER_BBCODE_NODE_ELEMENT;
 	
 	/**
 	 * Element name
@@ -1470,7 +1470,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node {
 	 * @see StringParser_BBCode_Node_Element::setName
 	 * @see StringParser_BBCode_Node_Element::appendToName
 	 */
-	var $_name = '';
+	public $_name = '';
 	
 	/**
 	 * Element flags
@@ -1478,7 +1478,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node {
 	 * @access protected
 	 * @var array
 	 */
-	var $_flags = array ();
+	public $_flags = array ();
 	
 	/**
 	 * Element attributes
@@ -1486,7 +1486,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node {
 	 * @access protected
 	 * @var array
 	 */
-	var $_attributes = array ();
+	public $_attributes = array ();
 	
 	/**
 	 * Had a close tag
@@ -1494,7 +1494,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node {
 	 * @access protected
 	 * @var bool
 	 */
-	var $_hadCloseTag = false;
+	public $_hadCloseTag = false;
 	
 	/**
 	 * Was processed by paragraph handling
@@ -1502,7 +1502,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node {
 	 * @access protected
 	 * @var bool
 	 */
-	var $_paragraphHandled = false;
+	public $_paragraphHandled = false;
 	
 	//////////////////////////////////////////////////
 	

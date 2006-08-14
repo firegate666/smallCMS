@@ -47,9 +47,9 @@ if (isset($_REQUEST['delete'])) {
 		<th align="left">Kurzbeschreibung</th>
 		<th align="left">Erstellt am</th>
 		<th align="left">Fertig</th>
-		<th align="left"><img src="img/shuffle.png" border="0" title="Zufällige Seitenreihenfolge"/></th>
-		<th align="left"><img src="img/publish.jpg" border="0" title="Fragebogen veröffentlichen"/></th>
-		<th align="left"><img src="img/locked.gif" border="0" title="Fragebogen schließen"/></th>
+		<th align="left"><img src="img/shuffle.png" border="0" title="Zufällige Seitenreihenfolge" alt="Shuffle"/></th>
+		<th align="left"><img src="img/publish.jpg" border="0" title="Fragebogen veröffentlichen" alt="Publish"/></th>
+		<th align="left"><img src="img/locked.gif" border="0" title="Fragebogen schließen" alt="Locked"/></th>
 		<th align="left">&nbsp;</th>
 	</tr>
 <?
@@ -116,10 +116,10 @@ if (!isset($_REQUEST['id'])) {
 			<div><b>Layouts</b> <u><span id="layoutslabel" onClick="togglevisible('layouts');">anzeigen</span></u>
 			<span id="layouts" style="visibility:hidden;display:none;"><table>
 				<form method="get" action="index.php">
-					<input type="hidden" name="admin">
-					<input type="hidden" name="questionaire">
-					<input type="hidden" name="nolist">
-					<input type="hidden" name="id" value="<?=$q->get('id')?>">
+					<input type="hidden" name="admin"/>
+					<input type="hidden" name="questionaire"/>
+					<input type="hidden" name="nolist"/>
+					<input type="hidden" name="id" value="<?=$q->get('id')?>"/>
 					<tr>
 						<td>Questionaire (Frageseiten)</td>
 						<td><select name="field[layout_main]"><?=Template::getLayoutOptions('questionaire', $q->get('layout_main'))?></select></td>

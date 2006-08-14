@@ -5,15 +5,15 @@ if(!$adminlogin) die("DENIED");
 $error = array();
 
 if(isset($_REQUEST['store']) && isset($_REQUEST['userright'])) {
-		$ug = new Usergroup($_REQUEST['id']);
-		$error = $ug->parsefields($_REQUEST);
-		if (!$error) {
-			$ug->store();
-			$ug->setUserrights($_REQUEST['userright']);
-			unset($_REQUEST['id']);
-			unset($_REQUEST['usergroup']);
-		}
-		unset($_REQUEST['store']);
+	$ug = new Usergroup($_REQUEST['id']);
+	$error = $ug->parsefields($_REQUEST);
+	if (!$error) {
+		$ug->store();
+		$ug->setUserrights($_REQUEST['userright']);
+		unset($_REQUEST['id']);
+		unset($_REQUEST['usergroup']);
+	}
+	unset($_REQUEST['store']);
 } else if(isset($_REQUEST['store']) && !isset($_REQUEST['userright']))
 	$error[] = "You have to set a userright to create a group!";
 
@@ -36,7 +36,9 @@ if (!isset($_REQUEST['id'])) {
 		foreach($u->getlist('', true, 'name', array('*')) as $ug) { ?>
 			<tr>
 				<td><?=$ug['name']?></td>
-				<td><a href="?admin&usergroup&id=<?=$ug['id']?>"><img src="img/edit.gif" border="0" alt="Edit"/></a></td>
+				<td><a href="?admin&usergroup&id=<?=$ug['id']?>">
+					<img src="img/edit.gif" border="0" alt="Edit"/></a>
+				</td>
 			</tr>
 		<? } ?>
 	</table>

@@ -85,42 +85,42 @@ class StringParser {
 	 * @var int
 	 * @see STRINGPARSER_MODE_SEARCH, STRINGPARSER_MODE_LOOP
 	 */
-	var $_parserMode = STRINGPARSER_MODE_SEARCH;
+	public $_parserMode = STRINGPARSER_MODE_SEARCH;
 	
 	/**
 	 * Raw text
 	 * @access protected
 	 * @var string
 	 */
-	var $_text = '';
+	public $_text = '';
 	
 	/**
 	 * Parse stack
 	 * @access protected
 	 * @var array
 	 */
-	var $_stack = array ();
+	public $_stack = array ();
 	
 	/**
 	 * Current position in raw text
 	 * @access protected
 	 * @var integer
 	 */
-	var $_cpos = -1;
+	public $_cpos = -1;
 	
 	/**
 	 * Root node
 	 * @access protected
 	 * @var mixed
 	 */
-	var $_root = null;
+	public $_root = null;
 	
 	/**
 	 * Length of the text
 	 * @access protected
 	 * @var integer
 	 */
-	var $_length = -1;
+	public $_length = -1;
 	
 	/**
 	 * Flag if this object is already parsing a text
@@ -131,7 +131,7 @@ class StringParser {
 	 * @access protected
 	 * @var boolean
 	 */
-	var $_parsing = false;
+	public $_parsing = false;
 	
 	/**
 	 * Strict mode
@@ -141,14 +141,14 @@ class StringParser {
 	 * @access public
 	 * @var boolean
 	 */
-	var $strict = false;
+	public $strict = false;
 	
 	/**
 	 * Characters or strings to look for
 	 * @access protected
 	 * @var array
 	 */
-	var $_charactersSearch = array ();
+	public $_charactersSearch = array ();
 	
 	/**
 	 * Characters currently allowed
@@ -166,35 +166,35 @@ class StringParser {
 	 * @access protected
 	 * @var array
 	 */
-	var $_charactersAllowed = array ();
+	public $_charactersAllowed = array ();
 	
 	/**
 	 * Current parser status
 	 * @access protected
 	 * @var int
 	 */
-	var $_status = 0;
+	public $_status = 0;
 	
 	/**
 	 * Prefilters
 	 * @access protected
 	 * @var array
 	 */
-	var $_prefilters = array ();
+	public $_prefilters = array ();
 	
 	/**
 	 * Postfilters
 	 * @access protected
 	 * @var array
 	 */
-	var $_postfilters = array ();
+	public $_postfilters = array ();
 	
 	/**
 	 * Recently reparsed?
 	 * @access protected
 	 * @var bool
 	 */
-	var $_recentlyReparsed = false;
+	public $_recentlyReparsed = false;
 	 
 	/**
 	 * Constructor
@@ -850,7 +850,7 @@ class StringParser_Node {
 	 * @see STRINGPARSER_NODE_ROOT, STRINGPARSER_NODE_TEXT
 	 * @see STRINGPARSER_NODE_UNKNOWN
 	 */
-	var $_type = STRINGPARSER_NODE_UNKNOWN;
+	public $_type = STRINGPARSER_NODE_UNKNOWN;
 	
 	/**
 	 * The node ID
@@ -865,7 +865,7 @@ class StringParser_Node {
 	 * @var int
 	 * @see StringParser_Node::_children
 	 */
-	var $_id = -1;
+	public $_id = -1;
 	
 	/**
 	 * The parent of this node.
@@ -876,7 +876,7 @@ class StringParser_Node {
 	 * @var mixed
 	 * @see StringParser_Node::_children
 	 */
-	var $_parent = null;
+	public $_parent = null;
 	
 	/**
 	 * The children of this node.
@@ -888,7 +888,7 @@ class StringParser_Node {
 	 * @var array
 	 * @see StringParser_Node::_parent
 	 */
-	var $_children = array ();
+	public $_children = array ();
 	
 	/**
 	 * Occured at
@@ -899,7 +899,7 @@ class StringParser_Node {
 	 * @access public
 	 * @var int
 	 */
-	var $occurredAt = -1;
+	public $occurredAt = -1;
 	
 	/**
 	 * Constructor
@@ -1444,7 +1444,7 @@ class StringParser_Node_Root extends StringParser_Node {
 	 * @var int
 	 * @see STRINGPARSER_NODE_ROOT
 	 */
-	var $_type = STRINGPARSER_NODE_ROOT;
+	public $_type = STRINGPARSER_NODE_ROOT;
 }
 
 /**
@@ -1462,7 +1462,7 @@ class StringParser_Node_Text extends StringParser_Node {
 	 * @var int
 	 * @see STRINGPARSER_NODE_TEXT
 	 */
-	var $_type = STRINGPARSER_NODE_TEXT;
+	public $_type = STRINGPARSER_NODE_TEXT;
 	
 	/**
 	 * Node flags
@@ -1470,14 +1470,14 @@ class StringParser_Node_Text extends StringParser_Node {
 	 * @access protected
 	 * @var array
 	 */
-	var $_flags = array ();
+	public $_flags = array ();
 	
 	/**
 	 * The content of this node
 	 * @access public
 	 * @var string
 	 */
-	var $content = '';
+	public $content = '';
 	
 	/**
 	 * Constructor
