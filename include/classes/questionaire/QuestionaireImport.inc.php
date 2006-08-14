@@ -61,6 +61,15 @@ class QuestionaireImport extends AbstractClass {
 	function verify($vars) {
 		global $HTTP_POST_FILES;
 		if (isset ($HTTP_POST_FILES['importfile']['error']) && $HTTP_POST_FILES['importfile']['error'] == 0) {
+			?>
+				<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+				<html xmlns="http://www.w3.org/1999/xhtml">
+					<head>
+						<title>smallCMS Admin</title>
+						<link href="?admin/show/css" rel="stylesheet" type="text/css"/>
+					</head>
+			<?
 			$csv = file($HTTP_POST_FILES['importfile']['tmp_name']);
 			$result[] = array ('Semantische ID', 'Fragetext', 'Block', 'Gruppen', 'TYPE');
 			foreach ($csv as $item)
@@ -85,6 +94,15 @@ class QuestionaireImport extends AbstractClass {
 	}
 
 	public function start($vars) {
+		?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+			<html xmlns="http://www.w3.org/1999/xhtml">
+				<head>
+					<title>smallCMS Admin</title>
+					<link href="?admin/show/css" rel="stylesheet" type="text/css"/>
+				</head>
+		<?
 		Session :: unsetCookie('questionaireimport');
 		$content[] = array ('input' => '<h3>Fragebogenimport Schritt 1/3</h3>');
 		$content[] = array ('descr' => 'Input File (csv)', 'input' => HTML :: input('file', 'importfile', ''));
