@@ -33,9 +33,7 @@ if (isset ($_REQUEST['class']) || isset ($_REQUEST['method']) || isset ($_REQUES
 	$qs = $_SERVER['QUERY_STRING'];
 	decodeURI($qs, $class, $method, $id, $vars);
 }
-
-if (!empty($HTTP_POST_FILES['filename']['tmp_name']))	$vars['__files'] = $HTTP_POST_FILES;
-if (!isset ($vars['ref']))
+if (!empty($HTTP_POST_FILES['filename']['tmp_name']))	$vars['__files'] = $HTTP_POST_FILES;if (!isset ($vars['ref']))
 	$vars['ref'] = $_SERVER['HTTP_REFERER'];
 if (empty ($vars['ref']))
 	$vars['ref'] = $_SERVER['REQUEST_URI'];
@@ -60,7 +58,7 @@ if (class_exists($class)) { // is there a class with that name?
 		if (!$newclass->acl($method))
 			error("DENIED", $class, $method); // are you allowed to call?
 		$result = $newclass-> $method ($vars);
-		if (strtolower($class) == "page") { // are you a page
+		if ((strtolower($class) == "page") || (strtolower($class) == "admin")) { // are you a page
 			/* count statistic */
 			$ps = new PageStatistic();
 			$ps->set('template', $id);
