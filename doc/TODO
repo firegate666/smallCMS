@@ -1,0 +1,37 @@
+########
+# TODO #
+########
+* Speichern als Kopie im Backend anlegen
+
+* BBCode einbinden
+
+* Zeilenumbrüche umwandeln \n => <br/>
+
+* Klasse File einführen für abstrakten Zugriff auf alle Uploads
+* entsprechende Klassen, die davon erben (z.B. Image für ausgewählten Zugriff
+
+* Download Tracking von Files (IP, Hitcounter)
+
+* evtl upload für den direkten Zugriff sperren
+* und über Klasse kapseln
+
+* alle Klassenobjekte m?ssen eine ID bekommen (z.B. Rohstoffproduktion)
+
+
+* Abstract Naming of all game class
+SeaWars -> Game etc...
+
+* Beim Löschen und speichern müssen depency checks durchgeführt werden, da mysql keine referentielle Integrität kennt
+
+* Überprüfung der eingegebenen Variablen mit addslashes() und ähnliches für SQL
+
+########
+# DONE #
+########
+* admin, classes, config, include, install
+* per .htaccess schützen, kein direkter Zugriff
+* Sicherheitsabfrage bei delete im CMS
+* Spieler Passwort verschlüsseln
+* Seperate AbstractClasses from module cms (getLayout etc....)
+* Benutzergruppen definieren, z.B. Admin
+* Passwort aus admin.php entfernen, Zugriff über Benutzergruppen regeln.
