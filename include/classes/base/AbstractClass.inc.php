@@ -157,7 +157,10 @@ abstract class AbstractClass {
 			return $this->id;
 		if (!isset($this->data[$key]))
 			return null; 
-		return BBCode::parse($this->data[$key]);
+		if (get_config('bbcode', true))
+			return BBCode::parse($this->data[$key]);
+		else
+			return $this->data[$key];
 	}
 
 	/**

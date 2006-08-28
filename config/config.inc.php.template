@@ -25,6 +25,7 @@
 	$_CONFIG["cms"] = false;
 	$_CONFIG["questionaire"] = false;
 	$_CONFIG["w40k"] = false;	
+	$_CONFIG["bbcode"] = true;	
 
 	// this is where are uploaded files are stored
 	// chmod 777
