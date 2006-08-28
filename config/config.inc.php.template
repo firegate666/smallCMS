@@ -1,11 +1,19 @@
 <?
 	// copy to config.inc.php and replace with valid values
+	
+	// db connection data
 	$dbserver   = "<servername>"; // Datenbankserver
 	$dbuser     = "<username>";	// Datenbankbenutzer
 	$dbpassword = "<password>";	// Benutzerpasswort
 	$dbdatabase = "<database>";	// Datenbank
 
+	// pgsql or mysql
+	$_CONFIG['dbsystem'] = 'mysql';
+
+	// system base url
 	$_CONFIG['system'] = 'http://www.firegate.de';
+
+	// default sender and receiver for system messages
 	$_CONFIG['sender'] = 'marco@firegate.de';
 	$_CONFIG['receiver'] = 'marco@firegate.de';
 	
@@ -22,20 +30,8 @@
 	// chmod 777
 	$_CONFIG["uploadpath"] = 'upload/';
 	
-	/*
-		4: log all
-		3: all but page
-		2: only logins
-		1: only admin
-		0: logger of
-	*/
-	$_CONFIG["loglevel"] = 2;
-
+	// cache templates to session or not
 	$_CONFIG["cache_enabled"] = false;
-	
-	// if true, there are template edit links for each template used
-	// while logged in as admin and browsing the pages
-	$_CONFIG["quickedit"] = false;
 	
 	// if true, there are defaults for class, method and/or id if not set
 	$_CONFIG["usedefaults"] = false;
@@ -48,4 +44,8 @@
 	
 	// if true, debug messages will be printed
 	$_CONFIG["debug"] = false;
+
+	// if true, there are template edit links for each template used
+	// while logged in as admin and browsing the pages
+	$_CONFIG["quickedit"] = false;
 ?>
