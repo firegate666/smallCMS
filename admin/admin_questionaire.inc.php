@@ -1,5 +1,5 @@
 <?
-$adminlogin = (User::hasright('admin') || User::hasright('questionaireadmin'));
+$adminlogin = (User::hasright('admin') || User::hasright('questionaireadmin') || User::hasright('questionairesuperadmin'));
 if(empty($adminlogin)) die("DENIED");
 
 if (isset($_REQUEST['id']) && isset($_REQUEST['field']) && (isset($_REQUEST['value']) || is_array($_REQUEST['field']))) {
@@ -55,8 +55,12 @@ if (isset($_REQUEST['delete'])) {
 <?
 $q = new Questionaire();
 if (!isset($_REQUEST['id'])) {
-	$list = $q->getlist('', true, 'id', array('id'),
-			'', '', array(array('key'=>'deleted', 'value'=>0), array('key'=>'userid', 'value'=>User::loggedIn())));
+	$list = array();
+	if (User::hasright('questionairesuperadmin'))
+		$list = $q->getlist('', true, 'id', array('id'));
+	else
+		$list = $q->getlist('', true, 'id', array('id'),
+				'', '', array(array('key'=>'deleted', 'value'=>0), array('key'=>'userid', 'value'=>User::loggedIn())));
 } else {
 	$list[] = array('id' => $_REQUEST['id']);
 }	
