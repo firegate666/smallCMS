@@ -12,12 +12,11 @@ class Message extends AbstractClass {
 			return true;
 		if ($method=='edit')
 			return $this->get('id') == '';
-		if ($method=='view')
+		if (($method=='view') || ($method=='delete'))
 			return ($this->get('sender') == $this->loggedIn())
 				|| ($this->get('receiver') == $this->loggedIn());
 		return false;
 	}
-	
 
 	public function getFields() {
 		$fields[] = array('name' => 'sender',
@@ -91,10 +90,18 @@ class Message extends AbstractClass {
 				$message->data['receiver'] = $receiver;
 				$message->store();
 			}
-		} else
+		} else {
 			parent::store();
+			$u = new User($this->data['receiver']);
+			if ($u->get('email') != '')
+				Mailer::simplesend('', $u->get('email'), "You've got mail from ".$u->get('login')." ({$this->get('subject')})",
+					"You have received a new message on ".get_config('system'));
+		}
 	}
 	
+	/**
+	 * edit message
+	 */
 	function edit(&$vars) {
 		$array = array();
 		$array['receiver_list'] = "";
@@ -112,14 +119,84 @@ class Message extends AbstractClass {
 		return parent::show($vars, 'edit', $array);
 	}
 	
+	/**
+	 * view message
+	 */
+	function view(&$vars) {
+		if (($this->get('unread') == 1) && ($this->get('receiver') == $this->loggedin())){
+			$this->set('unread', 0);
+			$this->set('read_on', Date::now());
+			$this->store();
+		}
+		$array = array();
+		$u = new User($this->get('receiver'));
+		$array['receivername'] = $u->get('login');		
+		$u = new User($this->get('sender'));
+		$array['sendername'] = $u->get('login');		
+		return parent::show($vars, 'view', $array);
+	}
+	
+	/**
+	 * show message inbox
+	 */
 	function inbox($vars) {
 		$array = array();
+		$limitstart='';
+		$limit='';
+		$where[] = array('key'=>'receiver', 'value'=>$this->loggedin());
+		$where[] = array('key'=>'receiver_deleted', 'value'=>0);
+		$list = $this->getlist('', false, '__createdon', array('id'),
+			$limitstart, $limit, $where);
+		$rows = '';
+		foreach($list as $entry) {
+			$msg = new Message($entry['id']);
+			$entry = $msg->getData();
+			$entry['id'] = $msg->get('id');
+			$u = new User($entry['sender']);
+			$entry['sendername'] = $u->get('login');
+			$rows .= parent::show($vars, 'inbox_row', $entry);
+		}
+		$array['rows'] = $rows;
 		return parent::show($vars, 'inbox', $array);
 	}
 
+	/**
+	 * show message outbox
+	 */
 	function outbox($vars) {
 		$array = array();
+		$limitstart='';
+		$limit='';
+		$where[] = array('key'=>'sender', 'value'=>$this->loggedin());
+		$where[] = array('key'=>'sender_deleted', 'value'=>0);
+		$list = $this->getlist('', false, '__createdon', array('id'),
+			$limitstart, $limit, $where);
+		$rows = '';
+		foreach($list as $entry) {
+			$msg = new Message($entry['id']);
+			$entry = $msg->getData();
+			$entry['id'] = $msg->get('id');
+			$u = new User($entry['receiver']);
+			$entry['receivername'] = $u->get('login');
+			$rows .= parent::show($vars, 'outbox_row', $entry);
+		}
+		$array['rows'] = $rows;
 		return parent::show($vars, 'outbox', $array);
+	}
+	
+	/**
+	 * mark message as deleted for sender or receiver
+	 * if both marked them, remove from database
+	 */
+	function delete($vars) {
+		if ($this->loggedin() == $this->get('sender'))
+			$this->set('sender_deleted', 1);
+		if ($this->loggedin() == $this->get('receiver'))
+			$this->set('receiver_deleted', 1);
+		$this->store();
+		if ($this->get('sender_deleted') && $this->get('receiver_deleted'))
+			parent::delete();
+		return redirect($vars['ref']);
 	}
 }
 ?>

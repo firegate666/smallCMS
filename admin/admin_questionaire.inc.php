@@ -37,40 +37,39 @@ if (isset($_REQUEST['delete'])) {
 ?>
 
 <h3>Questionaire Administration</h3>
-<h4><a href="?questionaireimport/start">Import starten</a></h4>
-<table border="0">
+<div><a href="?questionaireimport/start">- Import starten -</a></div>
+<table class="adminlist" border="0">
 	<tr>
-		<th align="left">ID</th>
-		<th align="left">Titel</th>
-		<th align="left">Autor</th>
-		<th align="left">Email</th>
-		<th align="left">Kurzbeschreibung</th>
-		<th align="left">Erstellt am</th>
-		<th align="left">Fertig</th>
-		<th align="left"><img src="img/shuffle.png" border="0" title="Zufällige Seitenreihenfolge" alt="Shuffle"/></th>
-		<th align="left"><img src="img/publish.jpg" border="0" title="Fragebogen veröffentlichen" alt="Publish"/></th>
-		<th align="left"><img src="img/locked.gif" border="0" title="Fragebogen schließen" alt="Locked"/></th>
-		<th align="left">&nbsp;</th>
+		<th>ID</th>
+		<th>Titel</th>
+		<th>Autor</th>
+		<th>Email</th>
+		<th>Kurzbeschreibung</th>
+		<th>Erstellt am</th>
+		<th>Fertig</th>
+		<th>Ersteller</th>
+		<th><img src="img/shuffle.png" border="0" title="Zufällige Seitenreihenfolge" alt="Shuffle"/></th>
+		<th><img src="img/publish.jpg" border="0" title="Fragebogen veröffentlichen" alt="Publish"/></th>
+		<th><img src="img/locked.gif" border="0" title="Fragebogen schließen" alt="Locked"/></th>
+		<th>&nbsp;</th>
 	</tr>
 <?
 $q = new Questionaire();
 if (!isset($_REQUEST['id'])) {
 	$list = array();
 	if (User::hasright('questionairesuperadmin'))
-		$list = $q->getlist('', true, 'id', array('id'));
+		$list = $q->getlist('', true, 'id', array('id'),
+				'', '', array(array('key'=>'deleted', 'value'=>0)));
 	else
 		$list = $q->getlist('', true, 'id', array('id'),
 				'', '', array(array('key'=>'deleted', 'value'=>0), array('key'=>'userid', 'value'=>User::loggedIn())));
 } else {
 	$list[] = array('id' => $_REQUEST['id']);
 }	
-	$rowclass[0] = "adminrow";
-	$rowclass[1] = "adminrowalt";
-	$count = 0;
 	foreach($list as $id) {
 		$q = new Questionaire($id['id']);
 		?>
-		<tr class="<?=$rowclass[$count]?>">
+		<tr>
 			<td align="right"><a href="?admin&questionaire&id=<?=$q->get('id');?>"><?=$q->get('id');?></a></td>
 			<td><?=$q->get('name');?></td>
 			<td><?=$q->get('author');?></td>
@@ -78,6 +77,10 @@ if (!isset($_REQUEST['id'])) {
 			<td><?=$q->get('shortdesc');?></td>
 			<td><?=$q->get('__createdon');?></td>
 			<td align="right"><?=$q->getAnswerCount();?></td>
+			<?
+				$u = new User($q->get('userid'));
+			?>
+			<td align="right"><?=$u->get('login')?></td>
 			<?
 				$qid = $q->get('id');
 				$qp1 = ($q->get('published')==0)?'1':'0';
@@ -111,7 +114,6 @@ if (!isset($_REQUEST['id'])) {
 			</td>
 		</tr>
 		<?	
-		($count==0)?$count=1:$count=0;	
 	}
 ?></table><?
 	if (isset($_REQUEST['id'])) {
