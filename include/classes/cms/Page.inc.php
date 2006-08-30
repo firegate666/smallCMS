@@ -17,8 +17,6 @@ class Page extends AbstractClass {
 	}
 	
 	function Page($name='') {
-		if(empty($name)) 
-			error("No page name given", $this->class_name(), "Constructor");
 		$this->name = $name;
 	}	
 	
