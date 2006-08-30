@@ -89,14 +89,13 @@ class Message extends AbstractClass {
 				$message->data = $this->data;
 				$message->data['receiver'] = $receiver;
 				$message->store();
+				$u = new User($message->data['receiver']);
+				if ($u->get('email') != '')
+					Mailer::simplesend('', $u->get('email'), "You've got mail from ".$u->get('login')." ({$message->get('subject')})",
+						"You have received a new message on ".get_config('system'));
 			}
-		} else {
+		} else
 			parent::store();
-			$u = new User($this->data['receiver']);
-			if ($u->get('email') != '')
-				Mailer::simplesend('', $u->get('email'), "You've got mail from ".$u->get('login')." ({$this->get('subject')})",
-					"You have received a new message on ".get_config('system'));
-		}
 	}
 	
 	/**
@@ -116,6 +115,10 @@ class Message extends AbstractClass {
 				return $this->outbox($vars);
 			}
 		}
+		if (isset($vars['reply-to']))
+			$array['receiver_list'] = $vars['reply-to'];
+		if (isset($vars['subject']))
+			$this->set('subject', $vars['subject']);
 		return parent::show($vars, 'edit', $array);
 	}
 	
