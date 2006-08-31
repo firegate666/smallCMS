@@ -12,4 +12,5 @@
 	require_once $d.'Link.inc.php';
 	require_once $d.'PLink.inc.php';
 	require_once $d.'Loggedin.inc.php';
+	require_once $d.'UserView.inc.php';
 ?>
