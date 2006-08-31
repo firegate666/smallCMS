@@ -12,10 +12,22 @@ class Message extends AbstractClass {
 			return true;
 		if ($method=='edit')
 			return $this->get('id') == '';
+		if ($method=='delall')
+			return ($this->get('id') == '') && $this->loggedIn();
 		if (($method=='view') || ($method=='delete'))
 			return ($this->get('sender') == $this->loggedIn())
 				|| ($this->get('receiver') == $this->loggedIn());
 		return false;
+	}
+	
+	public function delall($vars) {
+		if (isset($vars['msgid'])) {
+			foreach($vars['msgid'] as $id) {
+				$m = new Message($id);
+				$m->delete($vars);
+			}
+		}
+		return redirect($vars['ref']);
 	}
 
 	public function getFields() {
@@ -90,8 +102,9 @@ class Message extends AbstractClass {
 				$message->data['receiver'] = $receiver;
 				$message->store();
 				$u = new User($message->data['receiver']);
+				$u2 = new User(User::loggedIn());
 				if ($u->get('email') != '')
-					Mailer::simplesend('', $u->get('email'), "You've got mail from ".$u->get('login')." ({$message->get('subject')})",
+					Mailer::simplesend('', $u->get('email'), "You've got mail from ".$u2->get('login')." ({$message->get('subject')})",
 						"You have received a new message on ".get_config('system'));
 			}
 		} else
@@ -112,13 +125,18 @@ class Message extends AbstractClass {
 				$array['error'] = implode (", ", $err);
 			else {
 				$this->store();
-				return $this->inbox($vars);
+				return redirect('?message/inbox');
 			}
 		}
 		if (isset($vars['reply-to']))
 			$array['receiver_list'] = $vars['reply-to'];
 		if (isset($vars['subject']))
 			$this->set('subject', $vars['subject']);
+		if (isset($vars['cite'])) {
+			$m = new Message($vars['cite']);
+			$msg = "\n\nZITAT ANFANG......\n\n".$m->get('body', true)."\n\n........ZITAT ENDE";
+			$array['body'] = $msg;
+		}
 		return parent::show($vars, 'edit', $array);
 	}
 	
