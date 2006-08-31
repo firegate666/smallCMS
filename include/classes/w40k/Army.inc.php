@@ -111,9 +111,9 @@ class Army extends W40K {
 			$array['win'] = $stats[$playerid]['wins'];
 			$array['deuce'] = $stats[$playerid]['deuce'];
 			$array['lost'] = $stats[$playerid]['lost'];
-			$array['winpc'] = round($array['win'] / $array['battlecount'], 2);
-			$array['deucepc'] = round($array['deuce'] / $array['battlecount'], 2);;
-			$array['lostpc'] = round($array['lost'] / $array['battlecount'], 2);;
+			$array['winpc'] = round($array['win'] / $array['battlecount'], 2)*100;
+			$array['deucepc'] = round($array['deuce'] / $array['battlecount'], 2)*100;
+			$array['lostpc'] = round($array['lost'] / $array['battlecount'], 2)*100;
 			$array['vpplus'] = $stats[$playerid]['plus'];
 			$array['vpminus'] = $stats[$playerid]['minus'];
 			$array['vp'] = $stats[$playerid]['punkte'];
