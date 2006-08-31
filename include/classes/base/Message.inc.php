@@ -112,7 +112,7 @@ class Message extends AbstractClass {
 				$array['error'] = implode (", ", $err);
 			else {
 				$this->store();
-				return $this->outbox($vars);
+				return $this->inbox($vars);
 			}
 		}
 		if (isset($vars['reply-to']))
