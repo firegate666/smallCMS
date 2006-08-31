@@ -16,6 +16,22 @@ class UserView extends AbstractClass {
 		$array = $u->getData();
 		$array['id'] = $u->get('id');
 		$array['groupname'] = $ug->get('name');
+		
+		$message = new Message();
+		$where[] = array('key'=>'receiver', 'value'=>$this->loggedin());
+		$where[] = array('key'=>'receiver_deleted', 'value'=>0);
+		$where[] = array('key'=>'unread', 'value'=>1);
+		$list = $message->getlist('', false, '__createdon', array('id'),
+			'', '', $where);
+		$array['unreadmsg'] = count($list);
+		
+		$where = array();
+		$where[] = array('key'=>'receiver', 'value'=>$this->loggedin());
+		$where[] = array('key'=>'receiver_deleted', 'value'=>0);
+		$list = $message->getlist('', false, '__createdon', array('id'),
+			'', '', $where);
+		$array['msgtotal'] = count($list);
+		
 		return parent::show($vars, $this->template, $array);
 	}
 	
