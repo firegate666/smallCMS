@@ -152,12 +152,12 @@ abstract class AbstractClass {
 	 * @param	String	$key	name of attribute
 	 * @return	String	value of attribute
 	 */
-	public function get($key) {
+	public function get($key, $raw = false) {
 		if($key == 'id')
 			return $this->id;
 		if (!isset($this->data[$key]))
 			return null; 
-		if (get_config('bbcode', true))
+		if (!$raw && get_config('bbcode', true))
 			return BBCode::parse($this->data[$key]);
 		else
 			return $this->data[$key];
