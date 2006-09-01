@@ -134,7 +134,7 @@ class Message extends AbstractClass {
 			$this->set('subject', $vars['subject']);
 		if (isset($vars['cite'])) {
 			$m = new Message($vars['cite']);
-			$msg = "\n\nZITAT ANFANG......\n\n".$m->get('body', true)."\n\n........ZITAT ENDE";
+			$msg = "\n[quote]".$m->get('body', true)."[/quote]";
 			$array['body'] = $msg;
 		}
 		return parent::show($vars, 'edit', $array);

@@ -32,7 +32,7 @@ $bbcode = new StringParser_BBCode();$bbcode->addFilter(STRINGPARSER_FILTER_PRE,
 $bbcode->addParser(array ('block', 'inline', 'link', 'listitem'), 'nl2br');
 $bbcode->addParser('list', 'bbcode_stripcontents');
 
-$bbcode->addCode('b', 'simple_replace', null, array ('start_tag' => '<b>', 'end_tag' => '</b>'), 'inline', array ('listitem', 'block', 'inline', 'link'), array ());
+$bbcode->addCode('quote', 'simple_replace', null, array ('start_tag' => '<div class="quote">', 'end_tag' => '</div>'), 'inline', array ('listitem', 'block', 'inline', 'link'), array ());$bbcode->addCode('b', 'simple_replace', null, array ('start_tag' => '<b>', 'end_tag' => '</b>'), 'inline', array ('listitem', 'block', 'inline', 'link'), array ());
 $bbcode->addCode('i', 'simple_replace', null, array ('start_tag' => '<i>', 'end_tag' => '</i>'), 'inline', array ('listitem', 'block', 'inline', 'link'), array ());
 $bbcode->addCode('url', 'usecontent?', 'do_bbcode_url', array ('usecontent_param' => 'default'), 'link', array ('listitem', 'block', 'inline'), array ('link'));
 $bbcode->addCode('link', 'callback_replace_single', 'do_bbcode_url', array (), 'link', array ('listitem', 'block', 'inline'), array ('link'));
