@@ -1,5 +1,6 @@
 <?
 
+Setting::write('message_defaultpagelimit', '', 'Message Default Pagelimit', false);
 $template_classes[]='message';
 
 class Message extends AbstractClass {
@@ -60,7 +61,7 @@ class Message extends AbstractClass {
                           'type' => 'integer',
                           'notnull' => false);
 
-		$fields[] = array('name' => 'readon',
+		$fields[] = array('name' => 'read_on',
                           'type' => 'date',
                           'notnull' => false);
 
@@ -162,11 +163,23 @@ class Message extends AbstractClass {
 	 */
 	function inbox($vars) {
 		$array = array();
-		$limitstart='';
-		$limit='';
+		$orderby = "__createdon";
+		$orderasc = false;
+		if (isset($vars['orderby']))
+			$orderby = $this->escape($vars['orderby']);
+		if (isset($vars['orderasc']))
+			$orderasc = $vars['orderasc'] == 1;
+
+		$limit = Setting::read('message_defaultpagelimit');
+		$limitstart = '';
+		if (isset($vars['limit']) && !empty($vars['limit'])) {
+			$limit = $this->escape($vars['limit']);
+			$limitstart = $this->escape($vars['limitstart']);
+		} else if (isset($vars['limit']))
+			$limit = '';
 		$where[] = array('key'=>'receiver', 'value'=>$this->loggedin());
 		$where[] = array('key'=>'receiver_deleted', 'value'=>0);
-		$list = $this->getlist('', false, '__createdon', array('id'),
+		$list = $this->getlist('', $orderasc, $orderby, array('id'),
 			$limitstart, $limit, $where);
 		$rows = '';
 		foreach($list as $entry) {
@@ -178,6 +191,22 @@ class Message extends AbstractClass {
 			$rows .= parent::show($vars, 'inbox_row', $entry);
 		}
 		$array['rows'] = $rows;
+		$array['orderby'] = $orderby;
+		$array['orderasc'] = ($orderasc) ? 0 : 1;
+		$array['prevlimit'] = '';
+		$array['nextlimit'] = '';
+		$array['limit'] = '';
+		$array['limitstart'] = '';
+		if ($limit != '') {
+			$array['prevlimit'] = $limitstart - $limit;
+			if ($array['prevlimit'] < 0)
+				$array['prevlimit'] = 0;
+			$array['nextlimit'] = '';
+			if (count($list)==$limit)
+				$array['nextlimit'] = $limitstart + $limit;
+			$array['limit'] = $limit;
+			$array['limitstart'] = $limitstart;
+		}
 		return parent::show($vars, 'inbox', $array);
 	}
 
@@ -186,11 +215,23 @@ class Message extends AbstractClass {
 	 */
 	function outbox($vars) {
 		$array = array();
-		$limitstart='';
-		$limit='';
+		$orderby = "__createdon";
+		$orderasc = false;
+		if (isset($vars['orderby']))
+			$orderby = $this->escape($vars['orderby']);
+		if (isset($vars['orderasc']))
+			$orderasc = $vars['orderasc'] == 1;
+
+		$limit = Setting::read('message_defaultpagelimit');
+		$limitstart = '';
+		if (isset($vars['limit']) && !empty($vars['limit'])) {
+			$limit = $this->escape($vars['limit']);
+			$limitstart = $this->escape($vars['limitstart']);
+		} else if (isset($vars['limit']))
+			$limit = '';
 		$where[] = array('key'=>'sender', 'value'=>$this->loggedin());
 		$where[] = array('key'=>'sender_deleted', 'value'=>0);
-		$list = $this->getlist('', false, '__createdon', array('id'),
+		$list = $this->getlist('', $orderasc, $orderby, array('id'),
 			$limitstart, $limit, $where);
 		$rows = '';
 		foreach($list as $entry) {
@@ -202,6 +243,22 @@ class Message extends AbstractClass {
 			$rows .= parent::show($vars, 'outbox_row', $entry);
 		}
 		$array['rows'] = $rows;
+		$array['orderby'] = $orderby;
+		$array['orderasc'] = ($orderasc) ? 0 : 1;
+		$array['prevlimit'] = '';
+		$array['nextlimit'] = '';
+		$array['limit'] = '';
+		$array['limitstart'] = '';
+		if ($limit != '') {
+			$array['prevlimit'] = $limitstart - $limit;
+			if ($array['prevlimit'] < 0)
+				$array['prevlimit'] = 0;
+			$array['nextlimit'] = '';
+			if (count($list)==$limit)
+				$array['nextlimit'] = $limitstart + $limit;
+			$array['limit'] = $limit;
+			$array['limitstart'] = $limitstart;
+		}
 		return parent::show($vars, 'outbox', $array);
 	}
 	
