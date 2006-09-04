@@ -8,6 +8,7 @@ if (isset($_REQUEST['store'])) {
 	if ($err===false) {
 		$obj->store();
 		unset($_REQUEST['id']);
+		unset($_REQUEST['store']);
 	} else
 		echo(implode(",", $err));
 }

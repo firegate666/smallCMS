@@ -8,6 +8,7 @@ if (isset($_REQUEST['store'])) {
 	if ($err===false) {
 		$obj->store();
 		unset($_REQUEST['id']);
+		unset($_REQUEST['store']);
 	} else
 		echo(implode(",", $err));
 }
@@ -24,7 +25,7 @@ if (isset($_REQUEST['store'])) {
 			<select name="gamesystem" onChange="this.form.submit();">
 			<?
 				$gamesystem = new GameSystem();
-				$optionlist = $gamesystem->getOptionList($_REQUEST['gamesystem']); 
+				$optionlist = $gamesystem->getOptionList($_REQUEST['gamesystem'], true); 
 			?>
 				<?=$optionlist?>
 			</select>
