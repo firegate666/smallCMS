@@ -1,4 +1,6 @@
 <?php
+BattleType::addRelation('battletype', 'battletype');
+
 class BattleType extends W40K {
 
 	public function acl($method) {
@@ -47,5 +49,18 @@ class BattleType extends W40K {
                           'join' => array('Anzahl Spiele'=>'anzahl', 'Siegespunkte'=>'punkte', 'Punkte'=>'score'));
 		return $fields;
 	}	
+	
+	function parsefields($vars) {
+		if ($vars['parent'] == $this->get('id')) 
+			return array("Recursion detected, parent can not be itself");
+		
+		if (!empty($vars['parent'])) {
+			$parent = new BattleType($vars['parent']);
+			if ($parent->get('parent') != 0)
+				return array("Only one step deep in parents is allowed. Chosen parent is child too.");
+		}
+		return parent::parsefields($vars);
+	}
+	
 }
 ?>

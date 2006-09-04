@@ -1,4 +1,10 @@
 <?php
+GameSystem::addRelation('battle', 'gamesystem');
+Army::addRelation('battle', 'player1');
+Army::addRelation('battle', 'player2');
+User::addRelation('battle', 'userid');
+BattleType::addRelation('battle', 'battletypeid');
+MultiBattle::addRelation('battle', 'multibattle');
 
 Setting::write('battle_defaultpagelimit', '', 'Battle Default Pagelimit', false);
 
@@ -118,8 +124,21 @@ class Battle extends W40K {
 			$limit = '';
 			
 		$where = array();
-		if(isset($vars['battletype']) && ($vars['battletype'] != ''))
+		
+		if (empty($vars['battletype']))
+			$vars['battletype2'] = '';
+			
+		if(isset($vars['battletype2']) && ($vars['battletype2'] != '')) {
+			$checkbt = new BattleType($vars['battletype2']);
+			if ($checkbt->get('parent') != $vars['battletype'])	
+				$vars['battletype2'] = '';
+		}
+		
+		if(isset($vars['battletype2']) && ($vars['battletype2'] != ''))
+			$where[] = array('key'=>'battletypeid', 'value'=>$vars['battletype2']);
+		else if(isset($vars['battletype']) && ($vars['battletype'] != ''))
 			$where[] = array('key'=>'battletypeid', 'value'=>$vars['battletype']);
+				
 		$list = $this->getlist('', false, $orderby,
 				array('id',
 					'name',
@@ -162,12 +181,25 @@ class Battle extends W40K {
 			$rows .= parent::show($vars, 'battle_list_row', $entry);
 		}
 		$bt = new BattleType($vars['battletype']);
-		$array['battletypeoptionlist'] = $bt->getOptionList($vars['battletype']); 
-		$array['battletype'] = $vars['battletype'];
+		$bt1_where[] = array('key'=>'parent', 'value'=>0);
+		$array['battletypeoptionlist'] = $bt->getOptionList($vars['battletype'], false, 'name',
+											true, 'id', 'id', $bt1_where); 
+
+		if (!empty($vars['battletype'])) {
+			$bt = new BattleType($vars['battletype2']);
+			$bt2_where[] = array('key'=>'parent', 'value'=>$vars['battletype']);
+			$array['battletypeoptionlist2'] = $bt->getOptionList($vars['battletype2'], false, 'name',
+												true, 'id', 'id', $bt2_where);
+		} 
 		$array['orderby'] = $orderby;
 		$array['rows'] = $rows;
 		$statrows = '';
-		$stats = $this->getStats(null, $array['battletype']);
+		$array['battletype'] = $vars['battletype'];
+		if (!empty($vars['battletype2'])) {
+			$array['battletype2'] = $vars['battletype2'];
+			$stats = $this->getStats(null, $array['battletype2']);
+		} else
+			$stats = $this->getStats(null, $array['battletype']);
         $punkte = array();
         $score = array();
         $anzahl = array();

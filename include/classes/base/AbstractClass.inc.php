@@ -10,8 +10,13 @@ abstract class AbstractClass {
     /** auto id of object */
     protected $id;
     
+    protected static $relations = array();
     
 	protected $language;
+	
+	public function addRelation($table, $column) {
+		AbstractClass::$relations[] = array('table'=>$table, 'column'=>$column);
+	}
 	
 	/**
 	 * return input field for objectfield
