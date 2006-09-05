@@ -247,8 +247,12 @@ abstract class AbstractClass {
 		$keys   = array_keys($this->data);
 		$values = array_values($this->data);
 		for($i=0;$i<count($values);$i++) {
-			$nextval = $this->escape($values[$i]);
-			$nextval = "'$nextval'";
+			if ($values[$i] === null)
+				$nextval = 'null';
+			else {
+				$nextval = $this->escape($values[$i]);
+				$nextval = "'$nextval'";
+			}
 			$values[$i] = $nextval;
 		}
 		// CREATE SQL Statement
