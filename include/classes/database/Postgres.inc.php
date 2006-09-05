@@ -48,6 +48,7 @@ class Postgres extends SQL {
 		$this->connect();
 		$this->queries[] = $query;			
 		$result = pg_query($this->dblink, $query) or $this->print_error("insert", $query);
+		flush();
 		$id = 0;
 		if ($seq != null) {
 			$query = "SELECT currval('$seq') as id";
@@ -67,13 +68,14 @@ class Postgres extends SQL {
 		$this->connect();
 		$this->queries[] = $query;			
 		$result = pg_query($this->dblink, $query) or $this->print_error("select", $query);
+		flush();
 		$return = array ();
 		$counter = 0;
 		if ($assoc)
-			while ($line = pg_fetch_array($result, '', PGSQL_ASSOC))
+			while ($line = pg_fetch_array($result, null, PGSQL_ASSOC))
 				$return[$counter ++] = $line;
 		else
-			while ($line = pg_fetch_array($result, '', PGSQL_NUM))
+			while ($line = pg_fetch_array($result, null, PGSQL_NUM))
 				$return[$counter ++] = $line;
 		return $return;
 	}
@@ -87,8 +89,9 @@ class Postgres extends SQL {
 		$this->connect();
 		$this->queries[] = $query;	
 		$result = pg_query($this->dblink, $query) or $this->print_error("executeSql", $query);
-		$result = pg_fetch_array($result, '', PGSQL_ASSOC);
-		return $result;
+		flush();
+		$return = pg_fetch_array($result, null, PGSQL_ASSOC);
+		return $return;
 	}
 
 	/**
@@ -100,7 +103,8 @@ class Postgres extends SQL {
 		$this->connect();
 		$this->queries[] = $query;			
 		$result = pg_query($this->dblink, $query) or $this->print_error("update", $query);
-		$rows = pg_affected_rows();
+		flush();
+		$rows = pg_affected_rows($result);
 		return $rows;
 	}
 
