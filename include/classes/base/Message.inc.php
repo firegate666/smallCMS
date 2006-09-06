@@ -21,6 +21,11 @@ class Message extends AbstractClass {
 		return false;
 	}
 	
+	/**
+	 * delete all commited messages
+	 * 
+	 * @param	Array	$vars['msgid']	message ids to delete
+	 */
 	public function delall($vars) {
 		if (isset($vars['msgid'])) {
 			foreach($vars['msgid'] as $id) {
@@ -79,6 +84,9 @@ class Message extends AbstractClass {
 		return $err;
 	}
 
+	/**
+	 * check submitted receivers and set receiverlist
+	 */
 	function receivercheck($receiver, &$err) {
 		$receiverlist = explode(',', $receiver);
 		if (empty($receiverlist))
@@ -95,6 +103,9 @@ class Message extends AbstractClass {
 		
 	}
 	
+	/**
+	 * store message and send email notification to receiver
+	 */
 	function store() {
 		if (!empty($this->receiverlist)) {
 			foreach ($this->receiverlist as $receiver) {
