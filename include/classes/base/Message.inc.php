@@ -10,9 +10,9 @@ class Message extends AbstractClass {
 	
 	public function acl($method) {
 		if (($method=='inbox') || ($method=='outbox')) 
-			return true;
+			return User::loggedIn();
 		if ($method=='edit')
-			return $this->get('id') == '';
+			return ($this->get('id') == '') && User::loggedIn();
 		if ($method=='delall')
 			return ($this->get('id') == '') && $this->loggedIn();
 		if (($method=='view') || ($method=='delete'))
