@@ -2,6 +2,10 @@
 class Session extends AbstractClass {
 	protected $sid;
 
+	public function sequence_name() {
+		return strtolower(get_class($this)).'_sid_seq';
+	}
+
 	/**
 	* Return value from session, if not set return default
 	*
