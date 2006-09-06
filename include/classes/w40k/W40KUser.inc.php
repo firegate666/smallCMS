@@ -57,9 +57,7 @@ class W40KUser extends W40K {
 		} else if (isset($vars['limit']))
 			$limit = '';
 		$list = $this->user->getlist('', true, $orderby,
-				array('id',
-					'login',
-					'groupid',
+				array('*',
 				), $limitstart, $limit);
 		$array['orderby'] = $orderby;
 		$array['prevlimit'] = '';
