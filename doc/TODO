@@ -1,18 +1,16 @@
 ########
 # TODO #
 ########
+* Logfile wird benötigt
+
 * Speichern als Kopie im Backend anlegen (Templates)
 
-* Zeilenumbrüche umwandeln \n => <br/>
-
-* entsprechende Klassen, die davon erben (z.B. Image für ausgewählten Zugriff
+* entsprechende Klassen, die davon erben (z.B. Image für ausgewählten Zugriff)
 
 * Download Tracking von Files (IP, Hitcounter)
 
 * evtl upload für den direkten Zugriff sperren
 * und über Klasse kapseln
-
-* alle Klassenobjekte muessen eine ID bekommen
 
 * Beim Löschen und speichern müssen depency checks durchgeführt werden, da mysql keine referentielle Integrität kennt
 
@@ -30,3 +28,5 @@
 * Passwort aus admin.php entfernen, Zugriff über Benutzergruppen regeln.
 * BBCode einbinden
 * Klasse File einführen für abstrakten Zugriff auf alle Uploads
+* Zeilenumbrüche umwandeln \n => <br/> => BBCODE
+* alle Klassenobjekte muessen eine ID bekommen
