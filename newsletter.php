@@ -2,8 +2,12 @@
 
 // TODO better handling in newsletter class
 require_once dirname(__FILE__).'/config/All.inc.php';
+
+session_save_path('cache');
+session_start();
+
 require_once dirname(__FILE__).'/include/All.inc.php';
-require_once dirname(__FILE__).'/classes/All.inc.php';
+$s = new Session();
 
 if (!empty ($email)) {
 	global $mysql;
