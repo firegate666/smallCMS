@@ -1,29 +1,21 @@
-<?/**
-* one file to rule them all
-*/
-require_once dirname(__FILE__).'/config/All.inc.php';
+<?/** * index.php, one file to rule them all *  * load all needed classes, start session * decode input handle class & action */ // load configrequire_once dirname(__FILE__).'/config/All.inc.php';
 
 // start/restore session
 session_save_path('cache');
 session_start();
 
-require_once dirname(__FILE__).'/include/All.inc.php';
+// load classbaserequire_once dirname(__FILE__).'/include/All.inc.php';
 
-$s = new Session(User::loggedIn());
+// store session$s = new Session(User::loggedIn());
 
-/**
- * Admincall?
- */
-if (isset ($_REQUEST["admin"])) {
-	include ('admin/admin.php');	$mysql->disconnect(); // remember to close connection
+// if admincall load admin sceneif (isset ($_REQUEST["admin"])) {
+	include ('admin/admin.php');	$mysql->disconnect();
 	die();
 }
 
-/**
- * decode query string
- */
+// decode query string
 $vars = array ();
-if (isset ($_REQUEST['class']) || isset ($_REQUEST['method']) || isset ($_REQUEST['id'])) {
+if (isset ($_REQUEST['class']) || isset ($_REQUEST['method']) || isset ($_REQUEST['id'])) {	// old style, used in HTML forms
 	$class = $_REQUEST["class"];
 	$method = $_REQUEST["method"];
 	$id = $_REQUEST["id"];
@@ -33,15 +25,12 @@ if (isset ($_REQUEST['class']) || isset ($_REQUEST['method']) || isset ($_REQUES
 	$qs = $_SERVER['QUERY_STRING'];
 	decodeURI($qs, $class, $method, $id, $vars);
 }
-if (!empty($HTTP_POST_FILES['filename']['tmp_name']))	$vars['__files'] = $HTTP_POST_FILES;if (!isset ($vars['ref']))
+// decode file upload in query stringif (!empty($HTTP_POST_FILES['filename']['tmp_name']))	$vars['__files'] = $HTTP_POST_FILES;if (!isset ($vars['ref']))
 	$vars['ref'] = $_SERVER['HTTP_REFERER'];
 if (empty ($vars['ref']))
 	$vars['ref'] = $_SERVER['REQUEST_URI'];
 
-/**
- * Default handling
- */
-if (get_config('usedefaults', true)) {
+// default handlingif (get_config('usedefaults', true)) {
 	if (empty ($class) or ($class == ''))
 		$class = get_config("default_class");
 	if (empty ($method) or ($method == ''))
@@ -49,14 +38,12 @@ if (get_config('usedefaults', true)) {
 	if (empty ($id))
 		$id = get_config("default_id");
 }
-/**
-* Class and method invoking
-*/
+// Class and method invoking
 if (class_exists($class)) { // is there a class with that name?
 	$newclass = new $class ($id);
 	if (method_exists($newclass, $method)) { // is there a method with that name for that class
-		if (!$newclass->acl($method))
-			error("DENIED", $class, $method); // are you allowed to call?
+		if (!$newclass->acl($method))  // are you allowed to call?
+			error("DENIED", $class, $method);
 		$result = $newclass-> $method ($vars);
 		if ((strtolower($class) == "page") || (strtolower($class) == "admin")) { // are you a page
 			/* count statistic */
@@ -64,7 +51,7 @@ if (class_exists($class)) { // is there a class with that name?
 			$ps->set('template', $id);
 			$ps->store();			// output				$ct = $newclass->contenttype();			header("Content-Type: $ct;");		
 			print $result;
-		} else
+		} else // no page? who are you?
 			if (is_string($result)) // results a string?
 				print $result;
 			else
@@ -88,7 +75,7 @@ if (class_exists($class)) { // is there a class with that name?
 } else {
 	error("Class not found", $class, $method);
 }
-if (get_config('debug', false)) {
+// debug output, this one has to be moved to parseTags in template as it destroys layoutif (get_config('debug', false)) {
 	print "<hr><b>Queries executed:</b> ". ($mysql->getQuerycount());
 	print " - ";
 	print '<a href="?class=template&method=clearcache">Clear Cache</a>';
