@@ -14,6 +14,11 @@ abstract class AbstractClass {
     
 	protected $language;
 	
+	/**
+	 * register foreign key, this is for mysql only
+	 * @param	String	$table	table who references
+	 * @param	String	$column	column that contains reference
+	 */
 	public function addRelation($table, $column) {
 		AbstractClass::$relations[] = array('table'=>$table, 'column'=>$column);
 	}
@@ -60,6 +65,9 @@ abstract class AbstractClass {
 		return strtolower(get_class($this));
 	}
 	
+	/**
+	 * return sequence name, postgres only
+	 */
 	public function sequence_name() {
 		return strtolower(get_class($this)).'_id_seq';
 	}
@@ -106,9 +114,15 @@ abstract class AbstractClass {
 	
 	/**
 	 * returns all rows for class $classname
-	 *
-	 * @param	String	$classname	if not set, $classname = name of actual
-	 * class
+	 * 
+	 * @param	String	$classname	name of table to select from
+	 * @param	bool	$ascending	order directiion ascending
+	 * @param	String	$orderby	field to order by
+	 * @param	Array	$fields	fields to select
+	 * @param	integer	$limitstart	
+	 * @param	integer	$limit
+	 * @param	Array	$wherea	array of where conditions key, value
+	 * @param	String	$boolop	bool operator for where clause
 	 * @return	String[][]	complete result
 	 */
 	function getlist($classname='', $ascending=true, $orderby = 'id',
@@ -155,6 +169,7 @@ abstract class AbstractClass {
 	 * Getter for instance attributes
 	 *
 	 * @param	String	$key	name of attribute
+	 * @param	bool	$raw	return without conversion (bbcode f.e)
 	 * @return	String	value of attribute
 	 */
 	public function get($key, $raw = false) {
@@ -174,6 +189,15 @@ abstract class AbstractClass {
 	public function getData() {
 		return $this->data;
 	}
+	
+	/**
+	 * copy data from source to this
+	 */
+	public function copy($source) {
+		if (get_class($this) != get_class($source))
+			error("Source (".get_class($source).") and destination (".get_class($this).") must be from same class for copy", get_class($this), "copy");
+		$this->data = $source->getData();
+	}
 
 	/**
 	 * not used yet
@@ -185,22 +209,20 @@ abstract class AbstractClass {
 	/**
 	 * does this object exists?
 	 *
-	 * @param	boolean	true, if $this->id exists
+	 * @return	boolean	true, if $this->id exists
 	 */
 	function exists() {
 	   return !empty($this->id);
 	}
 
 	/**
-	 * loader routine... not ready yet
-	 * still error if class has no id field, that is why every
-	 * class has to have one
-	 * all data is fetched from table and stored into $this->data
+	 * load object from database
 	 */
 	function load() {
 		global $mysql;
-        //if(!$this->exists()) return;
     	$id 		= $mysql->escape($this->id);
+    	if (empty($id))
+    		return;
     	$tablename 	= $this->class_name();
     	$this->data = $mysql->executeSql("SELECT * FROM ".$tablename." WHERE id=$id;");
     	$this->id	= $this->data['id'];
@@ -325,10 +347,6 @@ abstract class AbstractClass {
 			return $t->getLayout($this->class_name(),$layout,$array,false,$vars);
 	}
 	
-	function getNavigation(&$vars) {
-		return "&nbsp;";
-	}
-
 	/**
 	 * generic show using template page
 	 * 
@@ -336,19 +354,22 @@ abstract class AbstractClass {
 	 * @return	String	output
 	 */
 	function show(&$vars, $layout = 'page', $array = array()) {
-//		if (!empty($array)) {
-			foreach($this->data as $key=>$value) {
-				if (!isset($array[$key]))
-					$array[$key] = $this->get($key);
-			}
-//		}
-//		else
-//			$array = $this->data;
+		foreach($this->data as $key=>$value) {
+			if (!isset($array[$key]))
+				$array[$key] = $this->get($key);
+		}
 		if (!isset($array['id']))
 			$array['id'] = $this->id;
 		return $this->getLayout($array, $layout, $vars);
 	}
 
+	/**
+	 * parse data from $vars using $this->getfields() to check input data
+	 * and store into $this->data
+	 * 
+	 * @param	Array	$vars	input data
+	 * @return	Array/boolean	false if no error or array with error msg	
+	 */
 	function parsefields($vars) {
 		$err = false;
 		if (!$this->getFields()) {
@@ -455,6 +476,10 @@ abstract class AbstractClass {
 		error($msg, get_class($this), $action);
 	}
 
+	/**
+	 * preload data from $vars and store into $this->data
+	 * works only with $this->getFields()
+	 */
 	protected function preloaddata($vars) {
 		$fields = $this->getFields();
 		if (!$fields)
@@ -466,12 +491,24 @@ abstract class AbstractClass {
 		}
 	}
 
+	/**
+	 * return html option list
+	 * 
+	 * @param	String	$default	default value to select
+	 * @param	boolean	$cannull	if true adds empty option
+	 * @param	String	$field		Object field to use as description in option
+	 * @param	boolean	$asc		if true order ascending
+	 * @param	String	$orderby	order by field
+	 * @param	String	$value		field to use as value in option	
+	 * @param	Array	$where		where array @see getlist()
+	 * @return	String	HTML-optionlist
+	 */
 	public function getOptionList($default = 0, $cannull = false, $field = 'name', $asc= true,
 			$orderby='id', $value = 'id', $where = array()) {
 		$list = $this->getlist('', $asc, $orderby, array('id'), '', '', $where);
 		$options = "";
 		if ($cannull)
-			$options = "<option></option>";
+			$options = "<option value=''></option>";
 		foreach($list as $item) {
 			$obj = new $this($item['id']);
 			$selected = "";
@@ -486,6 +523,9 @@ abstract class AbstractClass {
 		return $options;
 	}
 
+	/**
+	 * dbescape String, depends on DB System
+	 */
 	function escape($string) {
 		global $mysql;
 		return $mysql->escape($string);
