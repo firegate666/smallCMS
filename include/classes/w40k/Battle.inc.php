@@ -382,15 +382,15 @@ class Battle extends W40K {
 		}
 
 		switch($this->get('multibattle')) {
-			case 0: $array['multibattleno']="CHECKED='CHECKED'"; break;
-			default: $array['multibattleyes']="CHECKED='CHECKED'"; break;
+			case 0: $array['multibattleno']="checked='checked'"; break;
+			default: $array['multibattleyes']="checked='checked'"; break;
 		}
 
 		switch($this->get('winner')) {
-			case 0: $array['deuce']="CHECKED='CHECKED'"; break;
-			case 1: $array['win1']="CHECKED='CHECKED'"; break;
-			case 2: $array['win2']="CHECKED='CHECKED'"; break;
-			default: $array['deuce']="CHECKED='CHECKED'"; break;
+			case 0: $array['deuce']="checked='checked'"; break;
+			case 1: $array['win1']="checked='checked'"; break;
+			case 2: $array['win2']="checked='checked'"; break;
+			default: $array['deuce']="checked='checked'"; break;
 		}
 		$image = new Image();
 		$ilist = $image->getlist('', true, 'prio', array('*'));

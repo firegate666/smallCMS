@@ -5,10 +5,10 @@ if (isset ($tpl_content)) {
 	$mysql->update($tpl_query);
 	if (!isset($_REQUEST['submitandstay']))		unset ($tpl_layout);
 }
-if (isset ($tpl_addlayout)) {
+if (isset ($tpl_addlayout)) {
 	if ($tpl_layoutname != "") {		Template::createTemplate($tpl_class, $tpl_layoutname);		$tpl_layout = $tpl_layoutname;	}
 }
-if (isset ($tpl_delete)) {
+if (isset ($tpl_delete)) {
 	Template::deleteTemplate($tpl_class, $tpl_layout);
 	unset ($tpl_delete);
 	unset ($tpl_layout);
@@ -31,19 +31,9 @@ foreach ($array as $items) {
     	</form>    </td>
 <? if (isset ($tpl_class) && !empty($tpl_class)) { ?>    <td>Template</td>    <td>		<form name="showtemplate" action="index.php" method="get">			<input type="hidden" name="admin"/>			<input type="hidden" name="template"/>			<input type="hidden" name="tpl_class" value="<?=$tpl_class?>"/>			<input type="hidden" name="admin"/>			<select name="tpl_layout" size="1" onChange="this.form.submit()">				<option value=""></option><?
 $array = Template::getLayouts($tpl_class);
-foreach ($array as $items) {	$selected = '';	if($items[0] == $tpl_layout)		$selected ='selected="selected"';	?><option <?=$selected?>><?=$items[0]?></option><?
-}?>
-			</select>			<input type='submit' value='Bearbeiten'/>			<input type='submit' value='Löschen' name='tpl_delete'/>		</form>	</td></tr><tr>	<td>Neues Template</td>    <td>    	<form action="index.php" method="get">       		<input type="hidden" name="tpl_addlayout"/>			<input type="hidden" name="admin"/>			<input type="hidden" name="template"/>			<input type="hidden" name="tpl_class" value="<?=$tpl_class?>"/>			<input type="text"   name="tpl_layoutname"/>			<input type="submit" value="Add Layout"/>		</form>    </td>    <td colspan="2"></td></tr><?} else
-	//echo ("<td colspan='2'></td></tr>");
-?></table><?
-
-if (isset ($tpl_layout)) {
-?>
-  <script type="text/javascript">
-    function insertTag(tagname) {
-       name = prompt('Referenzname','hier Inhalte/Name eingeben');
-       if(tagname == 'image') myValue = '<img src="${'+tagname+':'+name+'}" alt=""/>';       else if(tagname == 'plink') myValue = '<a href="${'+tagname+':'+name+'}">linktext</a>';       else if(tagname == 'page')  myValue = '${'+tagname+':'+name+'}';       else myValue = '<'+tagname+'>'+name+'</'+tagname+'>';		if (document.selection) {			document.edittpl.tpl_content.focus();			sel = document.selection.createRange();			sel.text = myValue;		} //MOZILLA/NETSCAPE support		else if (document.edittpl.tpl_content.selectionStart || document.edittpl.tpl_content.selectionStart == '0') {			var startPos = document.edittpl.tpl_content.selectionStart;			var endPos = document.edittpl.tpl_content.selectionEnd;			document.edittpl.tpl_content.value = document.edittpl.tpl_content.value.substring(0, startPos)			+ myValue			+ document.edittpl.tpl_content.value.substring(endPos, document.edittpl.tpl_content.value.length);		} else {			document.edittpl.tpl_content.value += myValue;		}    }
-  </script>
+foreach ($array as $items) {	$selected = '';	if($items[0] == $tpl_layout)		$selected ='selected="selected"';	echo "\t\t\t\t<option $selected value='{$items[0]}'>{$items[0]}</option>\n";}?>
+			</select>			<input type='submit' value='Bearbeiten'/>			<input type='submit' value='Löschen' name='tpl_delete'/>		</form>	</td></tr><tr>	<td>Neues Template</td>    <td>    	<form action="index.php" method="get">       		<input type="hidden" name="tpl_addlayout"/>			<input type="hidden" name="admin"/>			<input type="hidden" name="template"/>			<input type="hidden" name="tpl_class" value="<?=$tpl_class?>"/>			<input type="text"   name="tpl_layoutname"/>			<input type="submit" value="Add Layout"/>		</form>    </td>    <td colspan="2"></td></tr><?}?></table><? if (isset ($tpl_layout)) { ?>
+  <script type="text/javascript" src="?admin/show/javascript"></script>
   <form action="index.php" method="post" name="edittpl">
     <p>Template '<?=$tpl_layout?>' bearbeiten</p>    <input type="submit" name="submit" value="Speichern und schließen"/>    <input type="submit" name="submitandstay" value="Nur Speichern"/>    <table>
       <tr>

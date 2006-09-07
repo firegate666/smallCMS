@@ -76,6 +76,9 @@ class Army extends W40K {
 			$entry['missionname'] = $mission->get('name');
 			$bt = new BattleType($entry['battletypeid']);
 			$entry['battletypename'] = $bt->get('name');
+			if (!empty($entry['comment']))
+				$entry['hastext'] = "T";
+			$entry['icount'] = "&nbsp;";//$this->numImages($entry['id']);
 			$battlerows .= $b->show($vars, 'battle_list_row', $entry);
 		}
 		$array['battlerows'] = $battlerows;
