@@ -5,7 +5,8 @@
 class HTML {
 
 	public function convert_specialchars($string) {
-		$string = str_replace('&', '&amp;', $string);
+		//removed because of JAVA Script Problems
+		//$string = str_replace('&', '&amp;', $string);
 		$string = str_replace('ä', '&auml;', $string);
 		$string = str_replace('ö', '&ouml;', $string);
 		$string = str_replace('ü', '&uuml;', $string);
