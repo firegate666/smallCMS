@@ -1,3 +1,16 @@
+CREATE TABLE `question` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `__createdon` datetime default NULL,
+  `__changedon` datetime default NULL,
+  `name` text NOT NULL,
+  `sem_id` varchar(100) NOT NULL default '',
+  `blockname` varchar(100) NOT NULL default '',
+  `groupname` varchar(100) NOT NULL default '',
+  `questionaireid` bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `UNIQUE_SEM_QID` (`sem_id`,`questionaireid`)
+);
+
 CREATE TABLE `questionaire` (
   `id` bigint(20) NOT NULL auto_increment,
   `__createdon` datetime default NULL,
