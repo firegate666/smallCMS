@@ -51,7 +51,7 @@ class BattleType extends W40K {
 	}	
 	
 	function parsefields($vars) {
-		if ($vars['parent'] == $this->get('id')) 
+		if (($this->get('id') != '') && ($vars['parent'] == $this->get('id'))) 
 			return array("Recursion detected, parent can not be itself");
 		
 		if (!empty($vars['parent'])) {
