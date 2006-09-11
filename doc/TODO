@@ -16,6 +16,8 @@
 
 * Überprüfung der eingegebenen Variablen mit addslashes() und ähnliches für SQL
 
+* active flag für BattleType, Codex, Mission um diese bei Neuerstellungen zu sperren, aber trotzdem noch anzuzeigen
+
 ########
 # DONE #
 ########
