@@ -1,5 +1,5 @@
 <?
-$adminlogin = (User::hasright('admin') || User::hasright('w40kadmin'));
+$adminlogin = (User::hasright('admin') || User::hasright('w40kadmin') || User::hasright('gamesystemadmin'));
 if(empty($adminlogin)) die("DENIED");
 
 if (isset($_REQUEST['store'])) {
