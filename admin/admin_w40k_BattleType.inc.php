@@ -44,6 +44,7 @@ if (isset($_REQUEST['store'])) {
 		</table>
 	<? } ?>
 	<? if(isset($_REQUEST['id'])) { ?>
+			<div><a href="javascript:history.back()">Zurück</a></div>
 			<form method="post" action="index.php">
 				<?$obj = new $_REQUEST['type']($_REQUEST['id']);?>
 				<input type="hidden" name="admin"/>
