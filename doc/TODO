@@ -1,23 +1,25 @@
 ########
 # TODO #
 ########
+
+GLOBAL:
 * Logfile wird benötigt
-
-* Speichern als Kopie im Backend anlegen (Templates)
-
-* entsprechende Klassen, die davon erben (z.B. Image für ausgewählten Zugriff)
-
-* Download Tracking von Files (IP, Hitcounter)
-
-* evtl upload für den direkten Zugriff sperren
-* und über Klasse kapseln
-
 * Beim Löschen und speichern müssen depency checks durchgeführt werden, da mysql keine referentielle Integrität kennt
-
 * Überprüfung der eingegebenen Variablen mit addslashes() und ähnliches für SQL
 
+CMS:
+* Speichern als Kopie im Backend anlegen (Templates)
+* Download Tracking von Files (IP, Hitcounter)
+* evtl upload für den direkten Zugriff sperren
+* und über Klasse kapseln
+* Benutzergruppen ACL für Templates, BattleTypes um Zugriffe einzuschränken
+* public Flag für Templates, um die Anzeige als eigenständige Seite zu unterbinden, bzw. um Seiten zu sperren
+
+W40K:
 * active flag für BattleType, Codex, Mission um diese bei Neuerstellungen zu sperren, aber trotzdem noch anzuzeigen
 * active Flag bei BattleType ermöglicht dann auch Oberkategorien zu sperren und nur in Unterkategorien einzutragen.
+* Benutzergruppen ACL für Templates, BattleTypes um Zugriffe einzuschränken
+
 
 ########
 # DONE #
@@ -31,5 +33,6 @@
 * Passwort aus admin.php entfernen, Zugriff über Benutzergruppen regeln.
 * BBCode einbinden
 * Klasse File einführen für abstrakten Zugriff auf alle Uploads
+* entsprechende Klassen, die davon erben (z.B. Image für ausgewählten Zugriff)
 * Zeilenumbrüche umwandeln \n => <br/> => BBCODE
 * alle Klassenobjekte muessen eine ID bekommen
