@@ -61,7 +61,7 @@ class Army extends W40K {
 			if (($iobj['parent'] == $this->class_name()) && ($iobj['parentid'] == $this->get('id')))
 				$array['imagelist'] .= $this->show($vars, 'army_edit_image', $iobj); 			
 		}
-		return parent::show($vars, 'army_edit', $array);
+		return parent::show($vars, 'army_edit', $array, true);
 	}
 
 	function view(&$vars) {

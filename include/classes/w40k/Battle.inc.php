@@ -125,8 +125,11 @@ class Battle extends W40K {
 			
 		$where = array();
 		
-		if (empty($vars['battletype']))
-			$vars['battletype2'] = '';
+		if (empty($vars['battletype']) && isset($vars['battletype2']))
+			unset($vars['battletype2']);
+
+		if (empty($vars['battletype2']))
+			unset($vars['battletype2']);
 			
 		if(isset($vars['battletype2']) && ($vars['battletype2'] != '')) {
 			$checkbt = new BattleType($vars['battletype2']);
@@ -186,11 +189,14 @@ class Battle extends W40K {
 											true, 'id', 'id', $bt1_where); 
 
 		if (!empty($vars['battletype'])) {
-			$bt = new BattleType($vars['battletype2']);
+			$bt2 = new BattleType($vars['battletype2']);
 			$bt2_where[] = array('key'=>'parent', 'value'=>$vars['battletype']);
-			$array['battletypeoptionlist2'] = $bt->getOptionList($vars['battletype2'], false, 'name',
+			$array['battletypeoptionlist2'] = $bt2->getOptionList($vars['battletype2'], false, 'name',
 												true, 'id', 'id', $bt2_where);
+			if (!empty($vars['battletype2']))
+				$bt = $bt2;
 		} 
+		
 		$array['orderby'] = $orderby;
 		$array['rows'] = $rows;
 		$statrows = '';
@@ -399,7 +405,7 @@ class Battle extends W40K {
 			if (($iobj['parent'] == $this->class_name()) && ($iobj['parentid'] == $this->get('id')))
 				$array['imagelist'] .= $this->show($vars, 'battle_edit_image', $iobj); 			
 		}
-		return parent::show($vars, 'battle_edit', $array);
+		return parent::show($vars, 'battle_edit', $array, true);
 	}
 
 	protected function loadMultibattles() {

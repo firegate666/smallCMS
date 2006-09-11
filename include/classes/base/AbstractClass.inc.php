@@ -353,10 +353,10 @@ abstract class AbstractClass {
 	 * @param	String[]	$vars	request parameters
 	 * @return	String	output
 	 */
-	function show(&$vars, $layout = 'page', $array = array()) {
+	function show(&$vars, $layout = 'page', $array = array(), $raw = false) {
 		foreach($this->data as $key=>$value) {
 			if (!isset($array[$key]))
-				$array[$key] = $this->get($key);
+				$array[$key] = $this->get($key, $raw);
 		}
 		if (!isset($array['id']))
 			$array['id'] = $this->id;
