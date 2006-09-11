@@ -181,6 +181,8 @@ class Battle extends W40K {
 			if (!empty($entry['comment']))
 				$entry['hastext'] = "T";
 			$entry['icount'] = $this->numImages($entry['id']);
+			$entry['day'] = leadingzero($entry['day']);
+			$entry['month'] = leadingzero($entry['month']);
 			$rows .= parent::show($vars, 'battle_list_row', $entry);
 		}
 		$bt = new BattleType($vars['battletype']);
