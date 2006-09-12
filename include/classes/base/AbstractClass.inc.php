@@ -518,7 +518,15 @@ abstract class AbstractClass {
 			} else 
 				if ($obj->get($value) == $default)
 					$selected = "selected='selected'";
-			$options .= "<option $selected value='".$obj->get($value)."'>".$obj->get($field)."</option>";
+			$opt_desc = "";
+			if (is_array($field)) {
+				foreach($field as $name) {
+					$opt_desc[] = $obj->get($name);
+				}
+				$opt_desc = implode(', ', $opt_desc);
+			} else
+				$opt_desc = $obj->get($field);
+			$options .= "<option $selected value='".$obj->get($value)."'>".$opt_desc."</option>";
 		}
 		return $options;
 	}

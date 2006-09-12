@@ -379,11 +379,11 @@ class Battle extends W40K {
 		if (!empty($this->data['gamesystem'])) {
 			$where[] = array('key'=>'gamesystem', 'value'=>$this->data['gamesystem']);
 			$army = new Army();
-			$array['armylist1'] = $army->getOptionList($this->data['player1'], false, 'name', true, 'name', 'id', $where);
-			$array['armylist2'] = $army->getOptionList($this->data['player2'], false, 'name', true, 'name', 'id', $where);
+			$array['armylist1'] = $army->getOptionList($this->data['player1'], false, array('name', 'commander'), true, 'name', 'id', $where);
+			$array['armylist2'] = $army->getOptionList($this->data['player2'], false, array('name', 'commander'), true, 'name', 'id', $where);
 	
-			$array['mbarmylist1'] = $army->getOptionList($this->mbarmies1, false, 'name', true, 'name', 'id', $where);
-			$array['mbarmylist2'] = $army->getOptionList($this->mbarmies2, false, 'name', true, 'name', 'id', $where);
+			$array['mbarmylist1'] = $army->getOptionList($this->mbarmies1, false, array('name', 'commander'), true, 'name', 'id', $where);
+			$array['mbarmylist2'] = $army->getOptionList($this->mbarmies2, false, array('name', 'commander'), true, 'name', 'id', $where);
 
 			$mission = new Mission();
 			$array['missionlist'] = $mission->getOptionList($this->data['mission'], false, 'name', true, 'name', 'id', $where);
