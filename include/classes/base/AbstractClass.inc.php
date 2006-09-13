@@ -31,9 +31,9 @@ abstract class AbstractClass {
 	public function getInputField($field) {
 		$return = '';
 		switch($field['htmltype']) {
-			case 'input': $return = "<input type='text' name='{$field['name']}' value='"."{$this->get($field['name'])}' size='75'/>";
+			case 'input': $return = "<input type='text' name='{$field['name']}' value='".$this->get($field['name'], true)."' size='75'/>";
 				break; 
-			case 'textarea': $return = "<textarea name='{$field['name']}' cols='75' rows='5'>{$this->get($field['name'])}</textarea>";
+			case 'textarea': $return = "<textarea name='{$field['name']}' cols='75' rows='5'>".$this->get($field['name'], true)."</textarea>";
 				break;
 			case 'select':
 				$return = "<select name='{$field['name']}'>\n";
