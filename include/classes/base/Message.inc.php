@@ -89,12 +89,19 @@ class Message extends AbstractClass {
 	 */
 	function receivercheck($receiver, &$err) {
 		$receiverlist = explode(',', $receiver);
-		if (empty($receiverlist))
+		if (empty($receiverlist)) {
 			$err[] = "No receiver set";
+			return;
+		}
 		
 		$u = new User();
 		foreach($receiverlist as $user) {
-			$result = $u->search(trim($user), 'login');
+			$user = trim($user);
+			if (empty($user))  {
+				$err[] = "No receiver set";
+				return;
+			}
+			$result = $u->search($user, 'login');
 			if (empty($result))
 				$err[] = "User $user not found";
 			else
