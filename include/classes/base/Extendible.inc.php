@@ -9,7 +9,6 @@ class Extendible extends AbstractClass {
 		$class = $this->get('parent');
 		$id = $this->get('parentid');
 		$obj = new $class($id);
-		print_a($obj);
 		if ($obj->exists())
 			return parent::store();
 		return '';
