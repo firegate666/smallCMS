@@ -124,6 +124,7 @@ class Battle extends W40K {
 			$limit = '';
 			
 		$where = array();
+
 		
 		if (empty($vars['battletype']) && isset($vars['battletype2']))
 			unset($vars['battletype2']);
@@ -137,6 +138,9 @@ class Battle extends W40K {
 				$vars['battletype2'] = '';
 		}
 		
+		if(isset($vars['gamesystem']) && ($vars['gamesystem'] != ''))
+			$where[] = array('key'=>'gamesystem', 'value'=>$vars['gamesystem']);
+
 		if(isset($vars['battletype2']) && ($vars['battletype2'] != ''))
 			$where[] = array('key'=>'battletypeid', 'value'=>$vars['battletype2']);
 		else if(isset($vars['battletype']) && ($vars['battletype'] != ''))
@@ -185,6 +189,12 @@ class Battle extends W40K {
 			$entry['month'] = leadingzero($entry['month']);
 			$rows .= parent::show($vars, 'battle_list_row', $entry);
 		}
+
+		$gs = new GameSystem($vars['gamesystem']);
+		$array['gamesystemoptionlist'] = $gs->getOptionList($vars['gamesystem'], false, 'name',
+											true, 'id', 'id');
+		$array['gamesystem'] = $vars['gamesystem'];
+
 		$bt = new BattleType($vars['battletype']);
 		$bt1_where[] = array('key'=>'parent', 'value'=>0);
 		$array['battletypeoptionlist'] = $bt->getOptionList($vars['battletype'], false, 'name',
@@ -205,9 +215,9 @@ class Battle extends W40K {
 		$array['battletype'] = $vars['battletype'];
 		if (!empty($vars['battletype2'])) {
 			$array['battletype2'] = $vars['battletype2'];
-			$stats = $this->getStats(null, $array['battletype2']);
+			$stats = $this->getStats(null, $array['battletype2'], $vars['gamesystem']);
 		} else
-			$stats = $this->getStats(null, $array['battletype']);
+			$stats = $this->getStats(null, $array['battletype'], $vars['gamesystem']);
         $punkte = array();
         $score = array();
         $anzahl = array();
@@ -232,7 +242,7 @@ class Battle extends W40K {
 		return parent::show($vars, 'battle_list', $array);
 	}
 
-	function getStats($playerid=null, $battletype = null) {
+	function getStats($playerid=null, $battletype = null, $gamesystem = null) {
 		global $mysql;
 		$PLAYER = '';
 		if ($playerid != null) {
@@ -244,13 +254,17 @@ class Battle extends W40K {
 			$BATTLETYPE = "AND battletypeid='".$this->escape($battletype)."'";
 		}
 
+		if ($gamesystem != null) {
+			$GAMESYSTEM = "AND a.gamesystem='".$this->escape($gamesystem)."'";
+		}
+
 		$query1 = "SELECT player1, sum(vp1) as plus, sum(vp2) as minus,
 					count(*) as anzahl, a.id as armyid, a.name as army,
 					IF(winner=0, sum(1), sum(0)) as deuce,
 					IF(winner=1, sum(1), sum(0)) as wins,
 					IF(winner=2, sum(1), sum(0)) as lost
 				FROM battle, army a
-				WHERE player1=a.id $BATTLETYPE $PLAYER AND multibattle = 0
+				WHERE player1=a.id $GAMESYSTEM $BATTLETYPE $PLAYER AND multibattle = 0
 				GROUP BY player1, winner;";
 
 		$query2 = "SELECT player2, sum(vp2) as plus, sum(vp1) as minus,
@@ -259,7 +273,7 @@ class Battle extends W40K {
 					IF(winner=1, sum(1), sum(0)) as lost,
 					IF(winner=2, sum(1), sum(0)) as wins
 				FROM battle, army a
-				WHERE player2=a.id $BATTLETYPE $PLAYER AND multibattle = 0
+				WHERE player2=a.id $GAMESYSTEM $BATTLETYPE $PLAYER AND multibattle = 0
 				GROUP BY player2, winner;";
 
 		$result1 = $mysql->select($query1, true);

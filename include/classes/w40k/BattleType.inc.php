@@ -3,6 +3,14 @@ BattleType::addRelation('battletype', 'battletype');
 
 class BattleType extends W40K {
 
+	public function BattleType($id='') {
+		$this->set('sortfirst', 'score');
+		$this->set('sortsecond', 'punkte');
+		$this->set('sortthird', 'anzahl');
+		parent::W40K($id);
+	}
+	
+	
 	public function acl($method) {
 		return false;
 	}
