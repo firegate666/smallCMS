@@ -133,23 +133,23 @@ abstract class AbstractClass {
 		if (!empty($wherea) && is_array($wherea))
 			foreach($wherea as $cond)
 				if (isset($cond['key']) && isset($cond['value']))
-					$where[] = " {$cond['key']} = '{$cond['value']}' ";
+					$where[] = " {$cond['key']} = '".$this->escape($cond['value'])."' ";
 		if(!empty($where))
 			$where = " WHERE ".implode($boolop, $where);
 			
 		if (empty($classname)) $classname = $this->class_name();
-		$orderdir = "ORDER BY ".$orderby." ";
+		$orderdir = "ORDER BY ".$this->escape($orderby)." ";
 		$fields = implode(',', $fields);
 		if ($ascending) $orderdir .= "ASC";
 		else $orderdir .= "DESC";
 		$limits = '';
 		if ($limitstart != '') {
-			$limits = 'LIMIT '.$limitstart;
+			$limits = 'LIMIT '.$this->escape($limitstart);
 			if ($limit != '')
-				$limits .= ', '.$limit;
+				$limits .= ', '.$this->escape($limit);
 		}
 		else if ($limit != '')
-			$limits = 'LIMIT '.$limit;
+			$limits = 'LIMIT '.$this->escape($limit);
 		$query = "SELECT ".$fields." FROM ".$this->escape($classname)." $where $orderdir $limits;";
 		$result = $mysql->select($query, true);
 		return $result;
