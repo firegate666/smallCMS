@@ -6,6 +6,10 @@
  */
 class MySQL extends SQL {
 
+	protected function addlog($msg) {
+		FileLogger::write("QUERY: ".$msg);
+	}
+
 	/**
 	* Connects to MySQL Database using global parameters
 	* $dbserver
@@ -61,7 +65,8 @@ class MySQL extends SQL {
 	*/
 	function select($query, $assoc = false) {
 		$this->connect();
-		$this->queries[] = $query;			
+		$this->queries[] = $query;	
+		$this->addlog($query);		
 		$result = MYSQL_QUERY($query) or $this->print_error("select", $query);
 		$return = array ();
 		$counter = 0;
