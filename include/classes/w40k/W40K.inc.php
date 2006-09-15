@@ -12,6 +12,11 @@ abstract class W40K extends AbstractClass {
 	protected $layoutclass = "w40k";
 	protected $image;
 	
+	public function delete() {
+		// delete images
+		parent::delete();
+	}
+	
 	protected function numImages($id = null) {
 		if ($id == null)
 			$id = $this->get('id');
@@ -23,6 +28,10 @@ abstract class W40K extends AbstractClass {
 	}
 
 	public function acl($method) {
+		if ($method == 'view')
+			return $this->exists();
+		if ($method == 'showlist')
+			return true;
 		if ($method == 'delimage')
 				return ($this->get('userid')==User::loggedIn())
 					|| $this->hasright('admin')

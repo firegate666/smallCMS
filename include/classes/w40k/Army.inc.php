@@ -16,10 +16,6 @@ class Army extends W40K {
 				return $this->hasright('w40kuser_intern')
 					|| $this->hasright('w40kuser_extern')
 					|| $this->hasright('w40kadmin');
-		if ($method == 'view')
-			return true;
-		if ($method == 'showlist')
-			return true;
 		return parent::acl($method);
 	}
 

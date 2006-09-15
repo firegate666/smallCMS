@@ -81,8 +81,6 @@ class Battle extends W40K {
 	}
 
 	public function acl($method) {
-		if ($method == 'view')
-			return true;
 		if ($method == 'edit')
 			if ($this->exists())
 				return ($this->get('userid')==User::loggedIn())
@@ -95,14 +93,12 @@ class Battle extends W40K {
 		if ($method == 'delete')
 			return $this->get('userid')==User::loggedIn()
 				|| $this->hasright('w40kadmin');
-		if ($method == 'showlist')
-			return true;
 		return parent::acl($method);
 	}
 	
 	function delete($vars) {
 		parent::delete();
-		return $this->showlist($vars);
+		return redirect('index.php?battle/showlist//');//$this->showlist($vars);
 	}
 	
 	function getListByArmy($armyid){
@@ -460,6 +456,8 @@ class Battle extends W40K {
 		$array['army2commander'] = $army->get('commander');
 		$array['codex2name'] = $codex->get('name');
 		$array['codex2id'] = $codex->get('id');
+		$array['day'] = leadingzero($this->get('day'));
+		$array['month'] = leadingzero($this->get('month'));
 		$u = new User($this->get('userid'));
 		$array['username'] = $u->get('login');
 		switch($this->get('winner')) {

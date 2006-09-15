@@ -102,10 +102,6 @@ class Codex extends W40K {
 	}
 
 	public function acl($method) {
-		if ($method == 'view')
-			return true;
-		if ($method == 'showlist')
-			return true;
 		return parent::acl($method);
 	}
 
