@@ -220,7 +220,7 @@ abstract class AbstractClass {
 	 */
 	function load() {
 		global $mysql;
-    	$id 		= $mysql->escape($this->id);
+    	$id = $mysql->escape($this->id);
     	if (empty($id))
     		return;
     	$tablename 	= $this->class_name();
