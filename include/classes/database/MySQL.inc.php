@@ -6,8 +6,8 @@
  */
 class MySQL extends SQL {
 
-	protected function addlog($msg) {
-		FileLogger::write("QUERY: ".$msg);
+	protected function addlog($msg, $loglevel) {
+		FileLogger::write("QUERY: ".$msg, $loglevel);
 	}
 
 	/**
@@ -52,6 +52,7 @@ class MySQL extends SQL {
 	function insert($query) {
 		$this->connect();
 		$this->queries[] = $query;			
+		$this->addlog($query, 8);		
 		$result = MYSQL_QUERY($query) or $this->print_error("insert", $query);
 		$id = MYSQL_INSERT_ID();
 		return $id;
@@ -66,7 +67,7 @@ class MySQL extends SQL {
 	function select($query, $assoc = false) {
 		$this->connect();
 		$this->queries[] = $query;	
-		$this->addlog($query);		
+		$this->addlog($query, 9);		
 		$result = MYSQL_QUERY($query) or $this->print_error("select", $query);
 		$return = array ();
 		$counter = 0;
@@ -87,6 +88,7 @@ class MySQL extends SQL {
 	function executeSql($query) {
 		$this->connect();
 		$this->queries[] = $query;			
+		$this->addlog($query, 9);		
 		$result = MYSQL_QUERY($query) or $this->print_error("executeSql", $query);
 		$result = MYSQL_FETCH_ARRAY($result, MYSQL_ASSOC);
 		return $result;
@@ -100,7 +102,8 @@ class MySQL extends SQL {
 	function update($query) {
 		$this->connect();
 		$this->queries[] = $query;			
-		$result = MYSQL_QUERY($query) or $this->print_error("update", $query);
+		$this->addlog($query, 5);		
+		$result = MYSQL_QUERY($query) or $this->print_error("update/delete", $query);
 		$rows = MYSQL_AFFECTED_ROWS();
 		return $rows;
 	}

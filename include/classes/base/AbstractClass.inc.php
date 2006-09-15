@@ -23,6 +23,10 @@ abstract class AbstractClass {
 		AbstractClass::$relations[] = array('table'=>$table, 'column'=>$column);
 	}
 	
+	protected function addlog($msg, $loglevel) {
+		FileLogger::write("QUERY: ".$msg, $loglevel);
+	}
+
 	/**
 	 * return input field for objectfield
 	 * 

@@ -10,6 +10,8 @@ abstract class Logger {
 class FileLogger extends Logger {
 
 	public function write($msg, $loglevel=0) {
+		if ($loglevel > get_config('loglevel', 5)) // no logging
+			return;
 		$timestamp = Date::now();
 		$userid = User::loggedIn();
 		$msg = "$timestamp ($userid): ".$msg."\n";
