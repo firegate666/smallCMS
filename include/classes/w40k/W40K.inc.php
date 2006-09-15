@@ -14,6 +14,13 @@ abstract class W40K extends AbstractClass {
 	
 	public function delete() {
 		// delete images
+		$image = new Image();
+		$ilist = $image->getlist('', true, 'name', array('*'));
+		foreach($ilist as $iobj)
+			if (($iobj['parent'] == $this->class_name()) && ($iobj['parentid'] == $this->get('id'))) {
+				$image = new Image($iobj['id']);
+				$image->delete();
+			}
 		parent::delete();
 	}
 	
