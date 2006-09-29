@@ -1,7 +1,10 @@
 <?php
 	$d = dirname(__FILE__).'/';
 
+	require_once $d.'Logger.inc.php';
+
 	require_once $d.'AbstractClass.inc.php';
+
 	require_once $d.'Extendible.inc.php';
 	require_once $d.'Session.inc.php';
 	require_once $d.'Setting.inc.php';
@@ -16,5 +19,4 @@
 	require_once $d.'User.inc.php';
 	require_once $d.'Usergroup.inc.php';
 
-	require_once $d.'Logger.inc.php';
 ?>
