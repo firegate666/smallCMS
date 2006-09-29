@@ -2,6 +2,16 @@
 $adminlogin = (User::hasright('admin') || User::hasright('useradmin'));
 if(!$adminlogin) die("DENIED");
 
+if(isset($_REQUEST['groupaction']) && isset($_REQUEST['userid'])) {
+	$u = new User($_REQUEST['userid']);
+	if ($_REQUEST['groupaction'] == 'change')
+		$u->changenewgroup();
+	if ($_REQUEST['groupaction'] == 'delete')
+		$u->delnewgroup();
+	unset($_REQUEST['groupaction']);
+	unset($_REQUEST['userid']);
+}
+
 if(isset($_REQUEST['store']) && isset($_REQUEST['userid'])) {
 	$error = false;
 	$u = new User($_REQUEST['userid']);
@@ -57,6 +67,7 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 			<th align="left" width="20%">Login</th>
 			<th align="left" width="30%">Email</th>
 			<th align="left" width="5%">Group</th>
+			<th colspan="2" align="left" width="5%">New Group</th>
 			<th align="left" width="20%">seit</th>
 			<th align="left" width="5%">Fehler</th>
 			<th align="left" width="20%">leztes Login</th>
@@ -70,13 +81,22 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 		$ul = $u->getlist('', true, 'login', array('*'), '', '', $where);
 		foreach($ul as $myuser) { 
 			$ug = new Usergroup($myuser['groupid']);
-			//if (!empty($_REQUEST['usergroupid']) && ($user['groupid']!=$_REQUEST['usergroupid']))
-			//	continue;
+			$ug2 = new Usergroup($myuser['newgroup']);
+			$class = '';
+			if ($myuser['newgroup'] <> 0)
+				$class = 'lightborder';
 		?>
 			<tr>
 				<td><?=$myuser['login']?></td>
 				<td><?=$myuser['email']?></td>
 				<td><?=$ug->get('name')?></td>
+				<td class="<?=$class?>"><?=$ug2->get('name')?></td>
+				<td>
+					<? if (!empty($class)) { ?>
+						<a href="index.php?admin&user&groupaction=delete&userid=<?=$myuser['id']?>"><img src="img/deny.gif" alt="Reject Request"/></a>
+						<a href="index.php?admin&user&groupaction=change&userid=<?=$myuser['id']?>"><img src="img/verified.gif" alt="Acknowledge Request"/></a>
+					<? } ?>
+				</td>
 				<td><?=$myuser['__createdon']?></td>
 				<td><?=$myuser['errorlogins']?></td>
 				<td><?=$myuser['lastlogin']?></td>
@@ -123,5 +143,4 @@ if (isset($_REQUEST['userid'])) {
 			</tr>
 		</table>
 	</form>
-<? }
- ?>
+<? } ?>

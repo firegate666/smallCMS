@@ -15,6 +15,17 @@ class User extends AbstractClass {
 		return Session::getCookie('user', false);
 	}
 	
+	public function changenewgroup() {
+		$this->set('groupid', $this->get('newgroup'));
+		$this->set('newgroup', null);
+		$this->store();
+	}
+	
+	public function delnewgroup() {
+		$this->set('newgroup', null);
+		$this->store();
+	}
+	
 	/**
 	 * test rights for logged in user
 	 */
@@ -97,6 +108,9 @@ class User extends AbstractClass {
                           'notnull' => false);
 		$fields[] = array('name' => 'hash',
                           'type' => 'string',
+                          'notnull' => false);
+		$fields[] = array('name' => 'newgroup',
+                          'type' => 'integer',
                           'notnull' => false);
 
 		return $fields;
@@ -201,6 +215,11 @@ class User extends AbstractClass {
 		$array['show_email'] = '';
 		if ($this->get('show_email') == 1)
 			$array['show_email'] = 'CHECKED="CHECKED"';
+		$ug = new Usergroup($this->get('groupid'));
+		$array['groupname'] = $ug->get('name');
+		
+		$array['newgroup_list'] = $ug->getOptionList($this->get('newgroup'), true);
+		
 		return parent::show($vars, 'edit', $array);
 	}
 	
