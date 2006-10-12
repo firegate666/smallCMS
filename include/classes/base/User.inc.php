@@ -19,11 +19,23 @@ class User extends AbstractClass {
 		$this->set('groupid', $this->get('newgroup'));
 		$this->set('newgroup', null);
 		$this->store();
+		$m = new Mailer();
+		$from = get_config('sender', 'no reply');
+		$to = $this->get('email');
+		$subject = "Gruppenwechsel bestätigt auf  ".get_config('system', 'smallCMS');
+		$body = "Hallo ! Dein Gruppenwechsel wurde so eben bestätigt.";
+		$m->simplesend($from, $to, $subject, $body);
 	}
 	
 	public function delnewgroup() {
 		$this->set('newgroup', null);
 		$this->store();
+		$m = new Mailer();
+		$from = get_config('sender', 'no reply');
+		$to = $this->get('email');
+		$subject = "Gruppenwechsel abgelehnt auf  ".get_config('system', 'smallCMS');
+		$body = "Hallo ! Dein Gruppenwechsel wurde abgelehnt.";
+		$m->simplesend($from, $to, $subject, $body);
 	}
 	
 	/**

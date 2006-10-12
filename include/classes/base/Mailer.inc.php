@@ -1,8 +1,13 @@
 <?php
 /**
  * handle mailsending
+ * 
+ * States:
+ * 0: waiting
+ * 1: send
+ * 2: error
  */
-class Mailer {
+class Mailer extends AbstractClass{
 
 	/**
 	 * send email
@@ -28,7 +33,25 @@ class Mailer {
 				array('from'=>$from, 'to'=>$to, 'subject'=>'subject', 'body'=>$body));
 		} else {
 			$headers = "From: $from";
-			return @mail($to, $subject, $body, $headers);
+			$this->set('mto', $to);
+			$this->set('msubject', $subject);
+			$this->set('mbody', $body);
+			$this->set('mheader', $headers);
+			$this->store();
+			return $this->mail();
+			//return @mail($to, $subject, $body, $headers);
+		}
+	}
+	
+	function mail() {
+		if(@mail($this->get('mto'),$this->get('msubject'),$this->get('mbody'),$this->get('mheader'))) {
+			$this->set('mstate', 1);
+			$this->store();
+			return true;
+		} else {
+			$this->set('mstate', 2);
+			$this->store();
+			return false;
 		}
 	}
 }

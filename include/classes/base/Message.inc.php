@@ -122,9 +122,11 @@ class Message extends AbstractClass {
 				$message->store();
 				$u = new User($message->data['receiver']);
 				$u2 = new User(User::loggedIn());
-				if ($u->get('email') != '')
-					Mailer::simplesend('', $u->get('email'), "You've got mail from ".$u2->get('login')." ({$message->get('subject')})",
+				if ($u->get('email') != '') {
+					$m = new Mailer();
+					$m->simplesend('', $u->get('email'), "You've got mail from ".$u2->get('login')." ({$message->get('subject')})",
 						"You have received a new message on ".get_config('system'));
+				}
 			}
 		} else
 			parent::store();
