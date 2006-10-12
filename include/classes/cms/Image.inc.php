@@ -4,6 +4,14 @@
  */
 class Image extends AbstractClass {
 
+	public function ReplaceEmoticons($string) {
+		global $mysql;
+		$list = $mysql->select("SELECT name, url FROM image WHERE emoticon=1;", true);
+		foreach($list as $item)
+			$string = str_replace('::'.$item['name'].'::', '<img src="'.$item['url'].'" alt="'.$item['name'].'"/>', $string);
+		return $string;
+	}
+
 	public function acl($method){
 		if ($method=='show')
 			return true;
@@ -25,6 +33,25 @@ class Image extends AbstractClass {
 				if ($item['type'] == $default)
 					$selected = "SELECTED='SELECTED'";
 			$options .= "<option $selected value='".$item['type']."'>".$item['type']."</option>";
+		}
+		return $options;
+	}
+
+	public function getEmoOptionList($default = 0, $cannull = false){
+		$list[] = array('value'=>'0', 'name'=>'ohne Emoticons');
+		$list[] = array('value'=>'1', 'name'=>'nur Emoticons');
+		$options = "";
+		if ($cannull)
+			$options = "<option></option>";
+		foreach($list as $item) {
+			$selected = "";
+			if (is_array($default)) {
+				if (in_array($item['value'], $default))
+					$selected = "SELECTED='SELECTED'";
+			} else 
+				if ($item['value'] == $default)
+					$selected = "SELECTED='SELECTED'";
+			$options .= "<option $selected value='".$item['value']."'>".$item['name']."</option>";
 		}
 		return $options;
 	}
@@ -55,6 +82,9 @@ class Image extends AbstractClass {
                           'type' => 'string',
                           'size' => 100,
                           'notnull' => true);
+		$fields[] = array('name' => 'emoticon',
+                          'type' => 'integer',
+                          'notnull' => false);
 
 		return $fields;
 	}

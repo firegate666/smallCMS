@@ -13,6 +13,7 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 	$image = new Image();
 	$result = $image->parsefields($HTTP_POST_FILES['filename']);
 	if ($result === false) {
+		$image->set('emoticon', $_REQUEST['emoticon']);
 		$msg .= "Dateigröße: ".$HTTP_POST_FILES['filename']['size']." bytes<br/>\n";
 		$msg .= "Dateityp: ".$HTTP_POST_FILES['filename']['type']."<br/>\n";
 		if (!empty($_REQUEST['img_name']))
@@ -41,12 +42,14 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 		<input type="hidden" name="img_upload"/>
 		<input type="hidden" name="image"/>
 		<input type="hidden" name="admin"/>
+		<input type="hidden" name="emoticon" value="0"/>
 		<table class="adminedit">
 			<tr>
 				<th colspan="2"><h3>Bild hochladen</h3></th>
 			</tr>
 			<tr><td>Dateiname</td><td><input type="file" name="filename"/></td></tr>
-			<tr><td>Bildname </td><td><input type="text" name="img_name"/></td></tr>
+			<tr><td>Bildname</td><td><input type="text" name="img_name"/></td></tr>
+			<tr><td>Emoticon?</td><td><input type="checkbox" name="emoticon" value="1"/></td></tr>
 			<tr><td><td><input type="button" value="Upload" onclick="upload()"/></td></tr>
        </table>
 	</form></div>
@@ -55,8 +58,8 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
   <? } ?>
   <? if(isset($img_show)) {
   		$image = new Image();
-  		$default = $_REQUEST['filter_type'];
-		$optionlist = $image->getTypeOptionList($default, false);
+		$optionlist = $image->getTypeOptionList($_REQUEST['filter_type']);
+		$optionlist_emo = $image->getEmoOptionList($_REQUEST['filter_emoticon']);
 ?>
 <form action="index.php" method="get">
 	<input type="hidden" name="admin"/>
@@ -65,6 +68,7 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 	<table class="adminlist">
 		<tr>
 			<th>Bildname</th>
+			<th><select name="filter_emoticon" onChange="this.form.submit();"><option value="">Alle</option><?=$optionlist_emo?></select></th>
 			<th>Größe</th>
 			<th><select name="filter_type" onChange="this.form.submit();"><option value="">Dateityp</option><?=$optionlist?></select></th>
 			<th>URL</th>
@@ -74,11 +78,14 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 $where[] = 'parentid=0';
 if (!empty($_REQUEST['filter_type']))
 	$where[] = "type='{$_REQUEST['filter_type']}'";
+if (isset($_REQUEST['filter_emoticon']) && ($_REQUEST['filter_emoticon'] != ''))
+	$where[] = "emoticon='{$_REQUEST['filter_emoticon']}'";
 $array = Image::getImageList($where);
 foreach ($array as $item) {
 ?>
 		<tr>
 			<td><a href="<?=$item['url']?>" target="_blank"><?=$item['name']?></a></td>
+			<td><?=($item['emoticon'])? "<img src='{$item['url']}' alt='{$item['name']}'/>" : ""; ?></td>
 			<td><?=$item['size']?></td>
 			<td><?=$item['type']?></td>
 			<td><?=$item['url']?></td>

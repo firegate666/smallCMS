@@ -181,9 +181,11 @@ abstract class AbstractClass {
 			return $this->id;
 		if (!isset($this->data[$key]))
 			return null; 
-		if (!$raw && get_config('bbcode', true))
-			return BBCode::parse($this->data[$key]);
-		else
+		if (!$raw && get_config('bbcode', true)) {
+			$value = $this->data[$key];
+			$value = Image::ReplaceEmoticons($value);
+			return BBCode::parse($value);
+		} else
 			return $this->data[$key];
 	}
 
