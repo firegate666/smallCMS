@@ -29,7 +29,7 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 <h3>Dateiverwaltung</h3>
 <div id="myform"><a href="index.php?admin&image&img_upload">Upload</a> /
 <a href="index.php?admin&image&img_show">Anzeigen</a>
-  <? if(isset($img_upload)) { ?>
+  <? if(isset($_REQUEST['img_upload'])) { ?>
 	<form action="index.php" enctype="multipart/form-data" method="post" name="fupload">
 		<script type="text/javascript">
 			function upload() {
@@ -56,7 +56,7 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 	<div id="bar" style="display:none"><img src="img/progressbar.gif" alt="uploadbar"/></div>
 	<div id="msg"><?=$msg?></div>
   <? } ?>
-  <? if(isset($img_show)) {
+  <? if(isset($_REQUEST['img_show'])) {
   		$image = new Image();
 		$optionlist = $image->getTypeOptionList($_REQUEST['filter_type']);
 		$optionlist_emo = $image->getEmoOptionList($_REQUEST['filter_emoticon']);
