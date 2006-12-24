@@ -25,7 +25,7 @@ class Filecategory extends AbstractClass {
                           'notnull' => false,
                           'htmltype' => 'select',
                           'desc'=>'Parent',
-                          'join' => 'battletype');
+                          'join' => 'filecategory');
 		return $fields;
 	}	
 	
