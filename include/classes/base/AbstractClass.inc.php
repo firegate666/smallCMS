@@ -136,8 +136,10 @@ abstract class AbstractClass {
 		$where = null;
 		if (!empty($wherea) && is_array($wherea))
 			foreach($wherea as $cond)
-				if (isset($cond['key']) && isset($cond['value']))
+				if (isset($cond['key']) && isset($cond['value'])) {
+					$value = $this->escape($cond['value']);					
 					$where[] = " {$cond['key']} = '".$this->escape($cond['value'])."' ";
+				}
 		if(!empty($where))
 			$where = " WHERE ".implode($boolop, $where);
 			
