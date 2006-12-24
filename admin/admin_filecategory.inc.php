@@ -17,7 +17,7 @@ if (isset($_REQUEST['store'])) {
 
 <h3>Filecatregory <?=@$_REQUEST['parentname']?></h3>
 	<? if(!isset($_REQUEST['id'])) { ?>
-		<a href="index.php?admin&filecategory&id=">Neue Filecategory anlegen</a>
+		<a href="index.php?admin&filecategory&id=&parent=<?=@$_REQUEST['parent']?>">Neue Filecategory anlegen</a>
 		<table class="adminlist" width="100%">
 			<tr>
 				<th width="80%">Name</th>
