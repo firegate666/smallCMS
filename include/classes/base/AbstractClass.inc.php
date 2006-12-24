@@ -379,7 +379,7 @@ abstract class AbstractClass {
 	function parsefields($vars) {
 		$err = false;
 		if (!$this->getFields()) {
-			$this->data = $var;
+			$this->data = $vars;
 			return true;
 		}
 		foreach($this->getFields() as $field) {
@@ -388,6 +388,8 @@ abstract class AbstractClass {
 			if (!isset($field['notnull'])) $field['notnull'] = false;
 			if (isset($vars[$field['name']])) {
 				$value = $vars[$field['name']];
+				if ($value === null)
+					$value = 'null';
 				if ($field['notnull'] && empty($value))
 					$err[] = "{$field['name']} is null";
 				if ($field['type'] == 'date') {
