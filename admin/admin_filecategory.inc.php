@@ -24,9 +24,9 @@ if (isset($_REQUEST['store'])) {
 				<th width="20%">&nbsp;</th>
 			</tr>
 		<? $t = new Filecategory();
-		   $where = array();
+		   $where = array(array('key'=>'parent', 'value'=>'null'));
 			if (isset($_REQUEST['parent']) && ($_REQUEST['parent'] != ''))
-				$where[] = array('key'=>'parent', 'value'=>$_REQUEST['parent']);
+				$where = array(array('key'=>'parent', 'value'=>$_REQUEST['parent']));
 		   $list = $t->getlist('', true, 'name', array('id', 'name'), '', '', $where);
 		   foreach($list as $item) {
 		   ?>
