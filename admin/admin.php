@@ -36,6 +36,7 @@
       <br/><a href="index.php?admin&template">Templates</a>
       <? if(get_config("cms", false)) { ?>
 	      <br/><a href="index.php?admin&image">Dateien</a>
+	      <br/><a href="index.php?admin&filecategory">Dateikategorien</a>
       <? } ?>
       <? if(get_config("questionaire", false)) { ?>
       	<br/><a href="index.php?admin&questionaire">Questionaire</a>
@@ -73,6 +74,8 @@
 			include ('admin/admin_template.inc.php');
 		} else if (isset ($_REQUEST['image'])) {
 			include ('admin/admin_image.inc.php');
+		} else if (isset ($_REQUEST['filecategory'])) {
+			include ('admin/admin_filecategory.inc.php');
 		} else if (isset ($_REQUEST['techtree'])) {
 			include ('admin/admin_techtree.inc.php');
 		} else if (isset ($_REQUEST['settings'])) {
