@@ -131,14 +131,18 @@ abstract class AbstractClass {
 	 */
 	function getlist($classname='', $ascending=true, $orderby = 'id',
 				 $fields = array('id'), $limitstart='', $limit='',
-				 $wherea=array(), $boolop = 'AND') {
+				 $wherea=array(), $boolop = 'AND', $comp = "=") {
 		global $mysql;
 		$where = null;
 		if (!empty($wherea) && is_array($wherea))
 			foreach($wherea as $cond)
 				if (isset($cond['key'])) {
-					$value = $this->escape($cond['value']);					
-					$where[] = " {$cond['key']} = '".$this->escape($cond['value'])."' ";
+					$value = "'".$this->escape($cond['value'])."'";					
+					if ($cond['value'] == null)
+						$value = "null";
+					if (!empty($cond['comp']))
+						$comp = $cond['comp'];
+					$where[] = " {$cond['key']} $comp $value ";
 				}
 		if(!empty($where))
 			$where = " WHERE ".implode($boolop, $where);

@@ -24,6 +24,7 @@ if (isset($_REQUEST['store'])) {
 				<th width="20%">&nbsp;</th>
 			</tr>
 		<? $t = new Filecategory();
+		   $t->preloaddata($_REQUEST);
 		   $where = array(array('key'=>'parent', 'value'=>null, 'comp'=>' is '));
 			if (isset($_REQUEST['parent']) && ($_REQUEST['parent'] != ''))
 				$where = array(array('key'=>'parent', 'value'=>$_REQUEST['parent']));
