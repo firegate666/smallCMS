@@ -492,7 +492,7 @@ abstract class AbstractClass {
 	 * preload data from $vars and store into $this->data
 	 * works only with $this->getFields()
 	 */
-	protected function preloaddata($vars) {
+	public function preloaddata($vars) {
 		$fields = $this->getFields();
 		if (!$fields)
 			return;

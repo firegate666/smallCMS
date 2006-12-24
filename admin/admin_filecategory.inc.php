@@ -47,7 +47,7 @@ if (isset($_REQUEST['store'])) {
 			<div><a href="javascript:history.back()">Zurück</a></div>
 			<form method="post" action="index.php">
 				<?$obj = new Filecategory($_REQUEST['id']);
-					$t->preloaddata($_REQUEST);
+					$obj->preloaddata($_REQUEST);
 				?>
 				<input type="hidden" name="admin"/>
 				<input type="hidden" name="id" value="<?=$obj->get('id')?>"/>
