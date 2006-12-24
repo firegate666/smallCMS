@@ -30,6 +30,8 @@ class Filecategory extends AbstractClass {
 	}	
 	
 	function parsefields($vars) {
+		if ($vars['parent'] == '')
+			$vars['parent'] = null;
 		if (($this->get('id') != '') && ($vars['parent'] == $this->get('id'))) 
 			return array("Recursion detected, parent can not be itself");
 		
