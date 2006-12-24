@@ -17,7 +17,7 @@ if (isset($_REQUEST['store'])) {
 
 <h3>Filecatregory Configuration</h3>
 	<? if(!isset($_REQUEST['id'])) { ?>
-		<a href="index.php?admin&w40k&type=filecategory&id=">Neue Filecategory anlegen</a>
+		<a href="index.php?admin&type=filecategory&id=">Neue Filecategory anlegen</a>
 		<table class="adminlist" width="100%">
 			<tr>
 				<th width="40%">Name</th>
@@ -32,7 +32,7 @@ if (isset($_REQUEST['store'])) {
 					<td width="40%"><?=$item['name']?></td>
 					<td width="40%"><?=$item['parent']?></td>
 					<td width="20%">
-						<a href='?admin&w40k&type=filecategory&id=<?=$item['id']?>'>
+						<a href='?admin&type=filecategory&id=<?=$item['id']?>'>
 							<img src='img/edit.gif' border='0' alt='Edit'/>
 						</a>
 						<img src='img/delete.gif' border='0' alt='Delete'/>
@@ -47,7 +47,6 @@ if (isset($_REQUEST['store'])) {
 			<form method="post" action="index.php">
 				<?$obj = new Filecategory($_REQUEST['id']);?>
 				<input type="hidden" name="admin"/>
-				<input type="hidden" name="w40k"/>
 				<input type="hidden" name="id" value="<?=$obj->get('id')?>"/>
 				<input type="hidden" name="type" value="filecategory"/>
 				<table class="adminedit" width="100%">
