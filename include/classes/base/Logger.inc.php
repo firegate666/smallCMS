@@ -13,7 +13,7 @@ class FileLogger extends Logger {
 		if ($loglevel > get_config('loglevel', 5)) // no logging
 			return;
 		$timestamp = Date::now();
-		$userid = User::loggedIn();
+		$userid = 0;
 		$msg = "$timestamp ($userid): ".$msg."\n";
 		$filename = 'cache/log.txt';
 		file_put_contents($filename, $msg, FILE_APPEND);
