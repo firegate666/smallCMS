@@ -24,7 +24,6 @@ if (isset($_REQUEST['store'])) {
 				<th width="20%">&nbsp;</th>
 			</tr>
 		<? $t = new Filecategory();
-		   $t->preloaddata($_REQUEST);
 		   $where = array(array('key'=>'parent', 'value'=>null, 'comp'=>' is '));
 			if (isset($_REQUEST['parent']) && ($_REQUEST['parent'] != ''))
 				$where = array(array('key'=>'parent', 'value'=>$_REQUEST['parent']));
@@ -47,7 +46,9 @@ if (isset($_REQUEST['store'])) {
 	<? if(isset($_REQUEST['id'])) { ?>
 			<div><a href="javascript:history.back()">Zurück</a></div>
 			<form method="post" action="index.php">
-				<?$obj = new Filecategory($_REQUEST['id']);?>
+				<?$obj = new Filecategory($_REQUEST['id']);
+					$t->preloaddata($_REQUEST);
+				?>
 				<input type="hidden" name="admin"/>
 				<input type="hidden" name="id" value="<?=$obj->get('id')?>"/>
 				<input type="hidden" name="filecategory"/>
