@@ -15,22 +15,23 @@ if (isset($_REQUEST['store'])) {
 
 ?>
 
-<h3>Filecatregory Configuration</h3>
+<h3>Filecatregory <?=@$_REQUEST['parentname']?></h3>
 	<? if(!isset($_REQUEST['id'])) { ?>
 		<a href="index.php?admin&filecategory&id=">Neue Filecategory anlegen</a>
 		<table class="adminlist" width="100%">
 			<tr>
-				<th width="40%">Name</th>
-				<th width="40%">Parent</th>
+				<th width="80%">Name</th>
 				<th width="20%">&nbsp;</th>
 			</tr>
 		<? $t = new Filecategory();
-			$where = array();
+		   $where = array();
+			if (isset($_REQUEST['parent']) && ($_REQUEST['parent'] != ''))
+				$where[] = array('key'=>'parent', 'value'=>$_REQUEST['parent']);
 		   $list = $t->getlist('', true, 'name', array('id', 'name'), '', '', $where);
-		   foreach($list as $item) { ?>
+		   foreach($list as $item) {
+		   ?>
 				<tr>
-					<td width="40%"><?=$item['name']?></td>
-					<td width="40%"><?=$item['parent']?></td>
+					<td width="80%"><a href="?admin&filecategory&parent=<?=$item['id']?>&parentname=<?=$item['name']?>"><?=$item['name']?></a></td>
 					<td width="20%">
 						<a href='?admin&filecategory&id=<?=$item['id']?>'>
 							<img src='img/edit.gif' border='0' alt='Edit'/>
