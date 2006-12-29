@@ -192,13 +192,16 @@ class Battle extends W40K {
 		$array['gamesystem'] = $vars['gamesystem'];
 
 		$bt = new BattleType($vars['battletype']);
-		$bt1_where[] = array('key'=>'parent', 'value'=>0);
+		$bt1_where[] = array('key'=>'parent', 'value'=>null, 'comp'=>' is ');
 		$array['battletypeoptionlist'] = $bt->getOptionList($vars['battletype'], false, 'name',
 											true, 'id', 'id', $bt1_where); 
 
 		if (!empty($vars['battletype'])) {
 			$bt2 = new BattleType($vars['battletype2']);
-			$bt2_where[] = array('key'=>'parent', 'value'=>$vars['battletype']);
+			$comp = '=';
+			if (empty($vars['battletype']))
+				$comp = ' is ';
+			$bt2_where[] = array('key'=>'parent', 'value'=>$vars['battletype'], 'comp'=>$comp);
 			$array['battletypeoptionlist2'] = $bt2->getOptionList($vars['battletype2'], false, 'name',
 												true, 'id', 'id', $bt2_where);
 			if (!empty($vars['battletype2']))
