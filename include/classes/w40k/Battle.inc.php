@@ -260,7 +260,7 @@ class Battle extends W40K {
 					IF(winner=1, sum(1), sum(0)) as wins,
 					IF(winner=2, sum(1), sum(0)) as lost
 				FROM battle, army a
-				WHERE player1=a.id $GAMESYSTEM $BATTLETYPE $PLAYER AND multibattle = 0
+				WHERE player1=a.id $GAMESYSTEM $BATTLETYPE $PLAYER AND multibattle is null
 				GROUP BY player1, winner;";
 
 		$query2 = "SELECT player2, sum(vp2) as plus, sum(vp1) as minus,
@@ -269,7 +269,7 @@ class Battle extends W40K {
 					IF(winner=1, sum(1), sum(0)) as lost,
 					IF(winner=2, sum(1), sum(0)) as wins
 				FROM battle, army a
-				WHERE player2=a.id $GAMESYSTEM $BATTLETYPE $PLAYER AND multibattle = 0
+				WHERE player2=a.id $GAMESYSTEM $BATTLETYPE $PLAYER AND multibattle is null
 				GROUP BY player2, winner;";
 
 		$result1 = $mysql->select($query1, true);
