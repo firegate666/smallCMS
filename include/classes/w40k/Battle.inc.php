@@ -356,8 +356,8 @@ class Battle extends W40K {
 			}
 		}
 		
-		if ($vars['multibattle'] == 0)
-			$vars['multibattle'] = null;
+		if ($this->data['multibattle'] == 0)
+			$this->data['multibattle'] = null;
 		
 		return $return;
 	}
