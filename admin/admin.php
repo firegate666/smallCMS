@@ -10,22 +10,10 @@
 		header("Location: ?admin/show/login");
 	}
 	
-	print '<?xml version="1.0" ?>';
+   	$admin = new Admin('head');
+   	$vars = array();
+   	echo $admin->show($vars);
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-  	<title>smallCMS Admin</title>
-    <link href="?admin/show/css" rel="stylesheet" type="text/css"/>
-	<script type="text/javascript">
-		function dialog_confirm(question, dest) 
-		{
-  			if (confirm(question)) location = dest;
-		}
-	</script>
-  </head>
-<body>
 <table width="100%">
   <tr>
     <td rowspan="2" id="navframe">
