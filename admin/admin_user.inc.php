@@ -111,7 +111,7 @@ if (isset($_REQUEST['userid'])) {
 	$ug = new Usergroup($u->get('groupid'));
 ?>
 	<a name="edit"></a>
-	<div><a href="javascript:history.back()">Zurück</a></div>
+	<div><a href="javascript:history.back()">ZurÃ¼ck</a></div>
 	<form action="index.php" method="post">
 		<input type="hidden" name="admin"/>
 		<input type="hidden" name="user"/>

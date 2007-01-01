@@ -14,7 +14,7 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 	$result = $image->parsefields($HTTP_POST_FILES['filename']);
 	if ($result === false) {
 		$image->set('emoticon', $_REQUEST['emoticon']);
-		$msg .= "Dateigröße: ".$HTTP_POST_FILES['filename']['size']." bytes<br/>\n";
+		$msg .= "Dateigrï¿½ï¿½e: ".$HTTP_POST_FILES['filename']['size']." bytes<br/>\n";
 		$msg .= "Dateityp: ".$HTTP_POST_FILES['filename']['type']."<br/>\n";
 		if (!empty($_REQUEST['img_name']))
 			$image->set('name', $_REQUEST['img_name']);
@@ -69,7 +69,7 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 		<tr>
 			<th>Bildname</th>
 			<th><select name="filter_emoticon" onChange="this.form.submit();"><option value="">Alle</option><?=$optionlist_emo?></select></th>
-			<th>Größe</th>
+			<th>GrÃ¶ÃŸe</th>
 			<th><select name="filter_type" onChange="this.form.submit();"><option value="">Dateityp</option><?=$optionlist?></select></th>
 			<th>URL</th>
 			<th/>
@@ -89,7 +89,7 @@ foreach ($array as $item) {
 			<td><?=$item['size']?></td>
 			<td><?=$item['type']?></td>
 			<td><?=$item['url']?></td>
-		    <td><a href="javascript:dialog_confirm('Wirklich löschen?', 'index.php?admin&image&img_show&img_delete&id=<?=$item['id']?>');"><img src="img/delete.gif" border="0"alt="Delete"/></a></td>
+		    <td><a href="javascript:dialog_confirm('Wirklich lï¿½schen?', 'index.php?admin&image&img_show&img_delete&id=<?=$item['id']?>');"><img src="img/delete.gif" border="0"alt="Delete"/></a></td>
 		</tr>
 <? 
 }

@@ -48,9 +48,9 @@ if (isset($_REQUEST['delete'])) {
 		<th>Erstellt am</th>
 		<th>Fertig</th>
 		<th>Ersteller</th>
-		<th><img src="img/shuffle.png" border="0" title="Zufällige Seitenreihenfolge" alt="Shuffle"/></th>
-		<th><img src="img/publish.jpg" border="0" title="Fragebogen veröffentlichen" alt="Publish"/></th>
-		<th><img src="img/locked.gif" border="0" title="Fragebogen schließen" alt="Locked"/></th>
+		<th><img src="img/shuffle.png" border="0" title="ZufÃ¤llige Seitenreihenfolge" alt="Shuffle"/></th>
+		<th><img src="img/publish.jpg" border="0" title="Fragebogen verÃ¶ffentlichen" alt="Publish"/></th>
+		<th><img src="img/locked.gif" border="0" title="Fragebogen schlieÃŸen" alt="Locked"/></th>
 		<th>&nbsp;</th>
 	</tr>
 <?
@@ -84,11 +84,11 @@ if (!isset($_REQUEST['id'])) {
 			<?
 				$qid = $q->get('id');
 				$qp1 = ($q->get('published')==0)?'1':'0';
-				$qp2 = ($q->get('published')==0)?'<img src="img/notverified.gif" border="0" title="Veröffentlichen?"/>':'<img src="img/verified.gif" border="0" title="Veröffentlichung beenden?"/>';
+				$qp2 = ($q->get('published')==0)?'<img src="img/notverified.gif" border="0" title="Verï¿½ffentlichen?"/>':'<img src="img/verified.gif" border="0" title="Verï¿½ffentlichung beenden?"/>';
 				$qc1 = ($q->get('closed')==0)?'1':'0';
-				$qc2 = ($q->get('closed')==0)?'<img src="img/notverified.gif" border="0" title="Schließen?"/>':'<img src="img/verified.gif" border="0" title="Wiedereröffnen?"/>';
+				$qc2 = ($q->get('closed')==0)?'<img src="img/notverified.gif" border="0" title="Schlieï¿½en?"/>':'<img src="img/verified.gif" border="0" title="Wiedererï¿½ffnen?"/>';
 				$qr1 = ($q->get('randompages')==0)?'1':'0';
-				$qr2 = ($q->get('randompages')==0)?'<img src="img/notverified.gif" border="0" title="Zufällige Seitenreihenfolge?"/>':'<img src="img/verified.gif" border="0" title="keine zufällige Seitenreihenfolge?"/>';
+				$qr2 = ($q->get('randompages')==0)?'<img src="img/notverified.gif" border="0" title="Zufï¿½llige Seitenreihenfolge?"/>':'<img src="img/verified.gif" border="0" title="keine zufï¿½llige Seitenreihenfolge?"/>';
 			?>
 			<td><a href="?admin&questionaire&id=<?=$qid?>&field=randompages&value=<?=$qr1?>">
 					<?=$qr2?>
@@ -105,8 +105,8 @@ if (!isset($_REQUEST['id'])) {
 			<td>
 				<a href="?admin&questionaire&id=<?=$q->get('id');?>"><img src="img/edit.gif" border="0" title="details Bearbeiten"/></a>
 				
-				<a href="javascript:dialog_confirm('Wirklich löschen?', '?admin&questionaire&delete=<?=$q->get('id');?>');">
-					<img src="img/delete.gif" border="0" title="Löschen"/>
+				<a href="javascript:dialog_confirm('Wirklich lÃ¶schen?', '?admin&questionaire&delete=<?=$q->get('id');?>');">
+					<img src="img/delete.gif" border="0" title="LÃ¶schen"/>
 				</a>
 				
 				<a href="?questionaire/csv/<?=$q->get('id');?>"><img src="img/export.png" border="0" title="CSV Export Antworten"/></a>
