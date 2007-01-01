@@ -89,7 +89,7 @@ foreach ($array as $item) {
 			<td><?=$item['size']?></td>
 			<td><?=$item['type']?></td>
 			<td><?=$item['url']?></td>
-		    <td><a href="javascript:dialog_confirm('Wirklich l�schen?', 'index.php?admin&image&img_show&img_delete&id=<?=$item['id']?>');"><img src="img/delete.gif" border="0"alt="Delete"/></a></td>
+		    <td><a href="javascript:dialog_confirm('Wirklich löschen?', 'index.php?admin&image&img_show&img_delete&id=<?=$item['id']?>');"><img src="img/delete.gif" border="0"alt="Delete"/></a></td>
 		</tr>
 <? 
 }
