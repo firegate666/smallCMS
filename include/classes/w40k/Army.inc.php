@@ -27,7 +27,11 @@ class Army extends W40K {
 
 	function edit(&$vars) {
 		$array = array();
-		if (isset($vars['submitted'])) {
+		if (isset($vars['delete'])) {
+			$this->delete();
+			return $this->showlist($vars);
+		}
+		else if (isset($vars['submitted'])) {
 			$err = $this->parsefields($vars);
 			if (!empty($err))
 				$array['error'] = implode (", ", $err);
