@@ -1,5 +1,7 @@
 <?
 
+Setting::write('defaultgroup', '', 'Default Usergroup', false);
+
 class Usergroup extends AbstractClass {
 	
 	public function acl($method) {

@@ -121,6 +121,9 @@ class User extends AbstractClass {
 		$fields[] = array('name' => 'hash',
                           'type' => 'string',
                           'notnull' => false);
+		$fields[] = array('name' => 'groupid',
+                          'type' => 'integer',
+                          'notnull' => false);
 		$fields[] = array('name' => 'newgroup',
                           'type' => 'integer',
                           'notnull' => false);
@@ -195,6 +198,7 @@ class User extends AbstractClass {
 			if (!empty($err))
 				$array['error'] = implode (", ", $err);
 			else {
+				$this->data['groupid'] = Setting::read('defaultgroup', null);
 				$this->store();
 				$m = new Mailer();
 				$from = get_config('sender', 'no reply');
