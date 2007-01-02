@@ -12,16 +12,20 @@ abstract class W40K extends AbstractClass {
 	protected $layoutclass = "w40k";
 	protected $image;
 	
-	public function delete() {
+	public function delete($mayfail = false) {
 		// delete images
-		$image = new Image();
-		$ilist = $image->getlist('', true, 'name', array('*'));
-		foreach($ilist as $iobj)
-			if (($iobj['parent'] == $this->class_name()) && ($iobj['parentid'] == $this->get('id'))) {
-				$image = new Image($iobj['id']);
-				$image->delete();
-			}
-		parent::delete();
+		$obj_id = $this->get('id');
+		$bool = parent::delete($mayfail);
+		if (!$bool) {
+			$image = new Image();
+			$ilist = $image->getlist('', true, 'name', array('*'));
+			foreach($ilist as $iobj)
+				if (($iobj['parent'] == $this->class_name()) && ($iobj['parentid'] == $obj_id)) {
+					$image = new Image($iobj['id']);
+					$image->delete();
+				}
+		}
+		return $bool;
 	}
 	
 	protected function numImages($id = null) {
