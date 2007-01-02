@@ -6,6 +6,7 @@ abstract class AbstractClass {
 	
     /** main data array */
     protected $data = array();
+    protected $viewname = null;
     
     /** auto id of object */
     protected $id;
@@ -56,7 +57,9 @@ abstract class AbstractClass {
 	 * 
 	 * @return	String	lowercase class name
 	 */
-	public function class_name() {
+	public function class_name($prefer_view=false) {
+		if ($prefer_view && !empty($this->viewname))
+			return $this->viewname;
 		return strtolower(get_class($this));
 	}
 	
@@ -138,7 +141,7 @@ abstract class AbstractClass {
 		if(!empty($where))
 			$where = " WHERE ".implode($boolop, $where);
 			
-		if (empty($classname)) $classname = $this->class_name();
+		if (empty($classname)) $classname = $this->class_name(true);
 		$orderdir = "ORDER BY ".$this->escape($orderby)." ";
 		$fields = implode(',', $fields);
 		if ($ascending) $orderdir .= "ASC";

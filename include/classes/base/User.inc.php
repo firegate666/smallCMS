@@ -6,6 +6,8 @@ $__userrights[] = array('name'=>'disabled', 'desc'=>'denied login');
 
 class User extends AbstractClass {
 	
+	protected $viewname = 'user_view';
+	
 	/**
 	* returns id of logged in user, 0 if no one is logged in
 	*

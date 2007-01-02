@@ -76,8 +76,8 @@ class W40KUser extends W40K {
 		}
 		$rows = '';
 		foreach($list as $entry) {
-			$ug = new Usergroup($entry['groupid']);
-			$entry['groupname'] = $ug->get('name');
+			//$ug = new Usergroup($entry['groupid']);
+			//$entry['groupname'] = $ug->get('name');
 			$rows .= parent::show($vars, 'user_list_row', $entry);
 		}
 		$array['rows'] = $rows;
