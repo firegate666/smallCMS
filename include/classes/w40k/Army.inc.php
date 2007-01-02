@@ -3,6 +3,8 @@ Setting::write('army_defaultpagelimit', '', 'Army Default Pagelimit', false);
 
 class Army extends W40K {
 
+	protected $viewname = 'army_view';
+
 	public function acl($method) {
 		if ($method == 'edit')
 			if ($this->exists())
@@ -141,13 +143,7 @@ class Army extends W40K {
 			$where[] = array('key'=>'gamesystem', 'value'=>$vars['gamesystem']);
 		
 		$list = $this->getlist('', true, $orderby,
-				array('id',
-					'name',
-					'commander',
-					'codex',
-					'userid',
-					'comment',
-				), $limitstart, $limit, $where);
+				array('*'), $limitstart, $limit, $where);
 		$array['orderby'] = $orderby;
 		$array['prevlimit'] = '';
 		$array['nextlimit'] = '';
@@ -170,13 +166,13 @@ class Army extends W40K {
 		$array['gamesystem'] = $vars['gamesystem'];
 		
 		foreach($list as $entry) {
-			$codex = new Codex($entry['codex']);
-			$entry['codexname'] = $codex->get('name');
-			$u = new User($entry['userid']);
-			$entry['username'] = $u->get('login');
+			//$codex = new Codex($entry['codex']);
+			//$entry['codexname'] = $codex->get('name');
+			//$u = new User($entry['userid']);
+			//$entry['username'] = $u->get('login');
 			if (!empty($entry['comment']))
 				$entry['hastext'] = "T";
-			$entry['icount'] = $this->numImages($entry['id']);
+			//$entry['icount'] = $this->numImages($entry['id']);
 			$rows .= parent::show($vars, 'army_list_row', $entry);
 		}
 		$array['rows'] = $rows;
