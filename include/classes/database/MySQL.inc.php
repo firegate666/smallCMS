@@ -110,7 +110,7 @@ class MySQL extends SQL {
 		$this->queries[] = $query;			
 		$this->addlog($query, 5);
 		if ($mayfail)		
-			$result = MYSQL_QUERY($query) or $this->failed();
+			@$result = MYSQL_QUERY($query) or $this->failed();
 		else
 			$result = MYSQL_QUERY($query) or $this->print_error("update/delete", $query);
 		if ($this->failed)
