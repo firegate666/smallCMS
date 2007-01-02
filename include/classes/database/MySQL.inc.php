@@ -6,6 +6,8 @@
  */
 class MySQL extends SQL {
 
+	protected $failed = false;
+
 	protected function addlog($msg, $loglevel) {
 		FileLogger::write("QUERY: ".$msg, $loglevel);
 	}
@@ -94,16 +96,25 @@ class MySQL extends SQL {
 		return $result;
 	}
 
+	function failed() {
+		$this->failed = true;
+	}
+
 	/**
 	* Executes SQL update statement
 	* @param	String	$query	update statement
 	* @return	int	number of affected rows
 	*/
-	function update($query) {
+	function update($query, $mayfail = false) {
 		$this->connect();
 		$this->queries[] = $query;			
-		$this->addlog($query, 5);		
-		$result = MYSQL_QUERY($query) or $this->print_error("update/delete", $query);
+		$this->addlog($query, 5);
+		if ($mayfail)		
+			$result = MYSQL_QUERY($query) or $this->failed();
+		else
+			$result = MYSQL_QUERY($query) or $this->print_error("update/delete", $query);
+		if ($this->failed)
+			return false;
 		$rows = MYSQL_AFFECTED_ROWS();
 		return $rows;
 	}

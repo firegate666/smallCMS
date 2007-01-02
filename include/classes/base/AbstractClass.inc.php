@@ -235,13 +235,13 @@ abstract class AbstractClass {
     /**
      * delete me, remove record from database
      */
-    function delete() {
+    function delete($mayfail = false) {
     	global $mysql;
     	if(empty($this->id)) return;
     	$tablename = $this->class_name();
     	$id = $this->id;
     	$query = "DELETE FROM $tablename WHERE id=$id";
-    	$mysql->update($query);
+    	return $mysql->update($query, $mayfail);
     }
     
 	/**

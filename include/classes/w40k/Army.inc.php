@@ -28,8 +28,9 @@ class Army extends W40K {
 	function edit(&$vars) {
 		$array = array();
 		if (isset($vars['delete'])) {
-			$this->delete();
-			return $this->showlist($vars);
+			$bool = $this->delete(true);
+			if ($bool) return $this->showlist($vars);
+			else $array['error'] = 'Delete failed, there might be references on this object, e.g. battles'; 
 		}
 		else if (isset($vars['submitted'])) {
 			$err = $this->parsefields($vars);
