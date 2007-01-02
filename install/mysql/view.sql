@@ -27,7 +27,7 @@ ORDER BY a.id ASC;
 CREATE OR REPLACE VIEW userrights_view AS
 SELECT
 	ur.*,
-	ug.name as usergroupname
+	ug.name as usergroupname 
 FROM userrights ur, usergroup ug
 WHERE
 	ur.usergroupid = ug.id
@@ -37,7 +37,9 @@ CREATE OR REPLACE VIEW user_view AS
 SELECT
 	u.*,
 	ug1.name as groupname,
-	ug2.name AS newgroupname
+	ug2.name aS newgroupname,
+	(SELECT count(*) FROM army WHERE userid = u.id) as armycount,
+	(SELECT count(*) FROM battle WHERE userid = u.id) as battlecount
 FROM `user` u
 LEFT JOIN usergroup ug1 ON u.groupid = ug1.id
 LEFT JOIN usergroup ug2 ON u.newgroup = ug2.id
