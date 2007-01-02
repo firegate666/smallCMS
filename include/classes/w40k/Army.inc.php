@@ -29,7 +29,7 @@ class Army extends W40K {
 		$array = array();
 		if (isset($vars['delete'])) {
 			$bool = $this->delete(true);
-			if ($bool) return $this->showlist($vars);
+			if (!$bool) return $this->showlist($vars);
 			else $array['error'] = 'Delete failed, there might be references on this object, e.g. battles'; 
 		}
 		else if (isset($vars['submitted'])) {
