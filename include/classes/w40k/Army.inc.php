@@ -1,7 +1,4 @@
 <?php
-GameSystem::addRelation('army', 'gamesystem');
-User::addRelation('army', 'userid');
-
 Setting::write('army_defaultpagelimit', '', 'Army Default Pagelimit', false);
 
 class Army extends W40K {
@@ -210,9 +207,6 @@ class Army extends W40K {
                           'type' => 'string',
                           'size' => 100000,
                           'notnull' => false);
-
-		GameSystem::addRelation('army', 'gamesystem');
-		User::addRelation('army', 'userid');
 
 		return $fields;
 	}

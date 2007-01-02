@@ -1,11 +1,4 @@
 <?php
-GameSystem::addRelation('battle', 'gamesystem');
-Army::addRelation('battle', 'player1');
-Army::addRelation('battle', 'player2');
-User::addRelation('battle', 'userid');
-BattleType::addRelation('battle', 'battletypeid');
-MultiBattle::addRelation('battle', 'multibattle');
-
 Setting::write('battle_defaultpagelimit', '', 'Battle Default Pagelimit', false);
 
 class Battle extends W40K {

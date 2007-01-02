@@ -1,6 +1,4 @@
 <?php
-BattleType::addRelation('battletype', 'battletype');
-
 class BattleType extends W40K {
 
 	public function BattleType($id='') {

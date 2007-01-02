@@ -14,15 +14,6 @@ abstract class AbstractClass {
     
 	protected $language;
 	
-	/**
-	 * register foreign key, this is for mysql only
-	 * @param	String	$table	table who references
-	 * @param	String	$column	column that contains reference
-	 */
-	public function addRelation($table, $column) {
-		AbstractClass::$relations[] = array('table'=>$table, 'column'=>$column);
-	}
-	
 	protected function addlog($msg, $loglevel) {
 		FileLogger::write("QUERY: ".$msg, $loglevel);
 	}
