@@ -3,6 +3,8 @@ Setting::write('battle_defaultpagelimit', '', 'Battle Default Pagelimit', false)
 
 class Battle extends W40K {
 
+	protected $viewnam = 'battle_view';
+
 	protected $mbarmies1 = array();
 	protected $mbarmies2 = array();
 
