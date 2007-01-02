@@ -166,13 +166,8 @@ class Army extends W40K {
 		$array['gamesystem'] = $vars['gamesystem'];
 		
 		foreach($list as $entry) {
-			//$codex = new Codex($entry['codex']);
-			//$entry['codexname'] = $codex->get('name');
-			//$u = new User($entry['userid']);
-			//$entry['username'] = $u->get('login');
 			if (!empty($entry['comment']))
 				$entry['hastext'] = "T";
-			//$entry['icount'] = $this->numImages($entry['id']);
 			$rows .= parent::show($vars, 'army_list_row', $entry);
 		}
 		$array['rows'] = $rows;
