@@ -132,7 +132,7 @@ abstract class AbstractClass {
 			foreach($wherea as $cond)
 				if (isset($cond['key'])) {
 					$value = "'".$this->escape($cond['value'])."'";					
-					if ($cond['value'] == null)
+					if (($cond['value'] == null) && ($cond['value'] != 0))
 						$value = "null";
 					if (!empty($cond['comp']))
 						$comp = $cond['comp'];
