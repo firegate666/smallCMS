@@ -160,7 +160,7 @@ class Image extends AbstractClass {
 		//header("Content-Disposition: attachment; filename=\"".basename($url)."\";");
 		//header('Content-Length: ' . filesize($url));
 		header('Content-Type: '.$this->get('type'));
-		header("Content-Disposition: attachment; filename=\"".basename($this->get('url'))."\";");
+		header("Content-Disposition: inline; filename=\"".basename($this->get('url'))."\";");
 		header('Content-Length: '.filesize($this->get('url')));
 		@readfile($this->get('url')) or die("Error while downloading webfile");
 	}
