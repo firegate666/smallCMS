@@ -14,7 +14,7 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 	$result = $image->parsefields($HTTP_POST_FILES['filename']);
 	if ($result === false) {
 		$image->set('emoticon', $_REQUEST['emoticon']);
-		$msg .= "Dateigr��e: ".$HTTP_POST_FILES['filename']['size']." bytes<br/>\n";
+		$msg .= "Dateigr&ouml;&szlig;e: ".$HTTP_POST_FILES['filename']['size']." bytes<br/>\n";
 		$msg .= "Dateityp: ".$HTTP_POST_FILES['filename']['type']."<br/>\n";
 		if (!empty($_REQUEST['img_name']))
 			$image->set('name', $_REQUEST['img_name']);
@@ -84,8 +84,8 @@ $array = Image::getImageList($where);
 foreach ($array as $item) {
 ?>
 		<tr>
-			<td><a href="<?=$item['url']?>" target="_blank"><?=$item['name']?></a></td>
-			<td><img src="<?=$item['url']?>" alt="<?=$item['name']?>" height="20" width="20"/></td>
+			<td><a href="?image/show/<?=$item['name']?>" target="_blank"><?=$item['name']?></a></td>
+			<td><img src="?image/show/<?=$item['name']?>" alt="<?=$item['name']?>" height="20" width="20"/></td>
 			<td><?=$item['size']?></td>
 			<td><?=$item['type']?></td>
 			<td><?=$item['url']?></td>
