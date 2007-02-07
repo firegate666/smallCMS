@@ -189,8 +189,12 @@ class Template extends AbstractClass {
 		$this->parseTags($string);
 		foreach ($this->tags as $key => $item) {
 			$type = $mysql->escape($item['type']);			$value= $mysql->escape($item['value']);
-			$obj = new $type ($value);
-			$array[$key] = $obj->show($vars);
+			if ($type == 'image')
+				$array[$key] = '?image/show/'.$value;
+			else {
+				$obj = new $type ($value);
+				$array[$key] = $obj->show($vars);
+			}
 		}
 		$keys = array_keys($array);
 		foreach ($keys as $key) {
