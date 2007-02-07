@@ -153,7 +153,7 @@ class Image extends AbstractClass {
 	}
 
 	function getExtension() {
-		$ext = substr(strrchr($this->get('url'), "."), 1)
+		$ext = substr(strrchr($this->get('url'), "."), 1);
 		return $ext;
 	}
 	
