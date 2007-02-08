@@ -147,9 +147,10 @@ class Image extends AbstractClass {
     function loadbyname($name) {
 		global $mysql;
 		$name = $mysql->escape($name);
-		$query = "SELECT id, name, url FROM image WHERE name='$name';";
+		$query = "SELECT id FROM image WHERE name='$name';";
 		$array = $mysql->executeSql($query);
-		$this->data = $array;
+		$this->id = $array['id'];
+		$this->load();
 	}
 
 	function getExtension() {
@@ -189,10 +190,10 @@ class Image extends AbstractClass {
 		if (($this->get('type') == 'image/jpeg')&& function_exists('imagecreatefromjpeg')) {
 			print_a('jpg');
 			$src_im = imagecreatefromjpeg($imgname);
-		} else if (($this->get('type') == 'image/gif') && function_exists('imagecreatefromjpeg')) {
+		} else if (($this->get('type') == 'image/gif') && function_exists('imagecreatefromgif')) {
 			print_a('gif');
 			$src_im = imagecreatefromgif($imgname);
-		} else if (($this->get('type') == 'image/png') && function_exists('imagecreatefromjpeg')) {
+		} else if (($this->get('type') == 'image/png') && function_exists('imagecreatefrompng')) {
 			print_a('png');
 			$src_im = imagecreatefrompng($imgname);
 		}
