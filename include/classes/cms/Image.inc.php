@@ -180,19 +180,20 @@ class Image extends AbstractClass {
 			$x = $vars['x'];
 		if (!empty($vars['y']))
 			$y = $vars['y'];
+		
 		$imgname = $this->get('url');
 		
 		$src_im = null;
-		if (($this->data['header'] == 'image/jpeg')&& function_exists('imagecreatefromjpeg')) {
+		if (($this->get('type') == 'image/jpeg')&& function_exists('imagecreatefromjpeg')) {
 			$src_im = @imagecreatefromjpeg($imgname);
-		} else if (($this->data['header'] == 'image/gif') && function_exists('imagecreatefromjpeg')) {
+		} else if (($this->get('type') == 'image/gif') && function_exists('imagecreatefromjpeg')) {
 			$src_im = @imagecreatefromgif($imgname);
-		} else if (($this->data['header'] == 'image/png') && function_exists('imagecreatefromjpeg')) {
+		} else if (($this->get('type') == 'image/png') && function_exists('imagecreatefromjpeg')) {
 			$src_im = @imagecreatefrompng($imgname);
 		}
 		
 		if ($src_im == null) // image not supported or not recognized
-			return $this->get();
+			die("Image not supported");
 		
 		$newwidth=imagesx($src_im);
 		$newheight=imagesy($src_im);
@@ -219,7 +220,7 @@ class Image extends AbstractClass {
 			header("Content-type: image/gif");
 			imagegif($dest_im,'',100);
 		} else // image not supported or not recognized
-			return $this->get(); 
+			die("Image not supported"); 
 
 		imagedestroy($dest_im);
 	}
