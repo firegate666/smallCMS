@@ -208,9 +208,6 @@ class Image extends AbstractClass {
 			$newwidth=$x;
 		}
 
-		print_a($newwidth);
-		print_a($newheight);
-
    		$dest_im = imagecreatetruecolor($newwidth,$newheight);
 		imagecopyresized ($dest_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, imagesx($src_im), imagesy($src_im));
 
