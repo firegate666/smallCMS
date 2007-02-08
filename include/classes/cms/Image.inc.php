@@ -183,7 +183,7 @@ class Image extends AbstractClass {
 		
 		$imgname = $this->get('url');
 		
-		print_a($imgname);
+		print_a($this, $imgname);
 		
 		$src_im = null;
 		if (($this->get('type') == 'image/jpeg')&& function_exists('imagecreatefromjpeg')) {
