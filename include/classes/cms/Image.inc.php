@@ -199,9 +199,6 @@ class Image extends AbstractClass {
 		$newwidth=imagesx($src_im);
 		$newheight=imagesy($src_im);
 
-		print_a($newwidth);
-		print_a($newheight);
-
 		if (($y!=-1)&&($y<$newheight)) {
 			$newwidth=round($newwidth/$newheight*$y);
 			$newheight=$y;
@@ -210,9 +207,6 @@ class Image extends AbstractClass {
 			$newheight=round($newheight/$newwidth*$x);
 			$newwidth=$x;
 		}
-
-		print_a($newwidth);
-		print_a($newheight);
 
    		$dest_im = imagecreatetruecolor($newwidth,$newheight);
 		imagecopyresized ($dest_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, imagesx($src_im), imagesy($src_im));
