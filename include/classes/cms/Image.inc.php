@@ -183,13 +183,15 @@ class Image extends AbstractClass {
 		
 		$imgname = $this->get('url');
 		
+		print_a($imgname);
+		
 		$src_im = null;
 		if (($this->get('type') == 'image/jpeg')&& function_exists('imagecreatefromjpeg')) {
-			$src_im = @imagecreatefromjpeg($imgname);
+			$src_im = imagecreatefromjpeg($imgname);
 		} else if (($this->get('type') == 'image/gif') && function_exists('imagecreatefromjpeg')) {
-			$src_im = @imagecreatefromgif($imgname);
+			$src_im = imagecreatefromgif($imgname);
 		} else if (($this->get('type') == 'image/png') && function_exists('imagecreatefromjpeg')) {
-			$src_im = @imagecreatefrompng($imgname);
+			$src_im = imagecreatefrompng($imgname);
 		}
 		
 		if ($src_im == null) // image not supported or not recognized
