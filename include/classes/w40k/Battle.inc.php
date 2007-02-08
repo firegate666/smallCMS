@@ -156,13 +156,8 @@ class Battle extends W40K {
 		}
 		$rows = '';
 		foreach($list as $entry) {
-			//$mission = new Mission($entry['mission']);
-			//$entry['missionname'] = $mission->get('name');
-			//$bt = new BattleType($entry['battletypeid']);
-			//$entry['battletypename'] = $bt->get('name');
 			if (!empty($entry['comment']))
 				$entry['hastext'] = "T";
-			//$entry['icount'] = $this->numImages($entry['id']);
 			$entry['day'] = leadingzero($entry['day']);
 			$entry['month'] = leadingzero($entry['month']);
 			$rows .= parent::show($vars, 'battle_list_row', $entry);
