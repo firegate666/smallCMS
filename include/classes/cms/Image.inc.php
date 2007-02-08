@@ -199,6 +199,9 @@ class Image extends AbstractClass {
 		$newwidth=imagesx($src_im);
 		$newheight=imagesy($src_im);
 
+		print_a($newwidth);
+		print_a($newheight);
+
 		if (($y!=-1)&&($y<$newheight)) {
 			$newwidth=round($newwidth/$newheight*$y);
 			$newheight=$y;
