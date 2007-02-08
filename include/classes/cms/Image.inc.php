@@ -167,9 +167,62 @@ class Image extends AbstractClass {
 		header('Content-Type: '.$this->get('type'));
 		header("Content-Disposition: inline; filename=\"".$this->get('name').$this->getExtension."\";");
 		header('Content-Length: '.filesize($this->get('url')));
-		@readfile($this->get('url')) or die("Error while downloading webfile");
+		if (isset($vars['x']) || isset($vars['y']))
+			$this->resize($vars);
+		else
+			@readfile($this->get('url')) or die("Error while downloading webfile");
 	}
 
+	function resize($vars) {
+		$x=-1;
+		$y=-1;
+		if (!empty($vars['x']))
+			$x = $vars['x'];
+		if (!empty($vars['y']))
+			$y = $vars['y'];
+		$imgname = $this->get('url');
+		
+		$src_im = null;
+		if (($this->data['header'] == 'image/jpeg')&& function_exists('imagecreatefromjpeg')) {
+			$src_im = @imagecreatefromjpeg($imgname);
+		} else if (($this->data['header'] == 'image/gif') && function_exists('imagecreatefromjpeg')) {
+			$src_im = @imagecreatefromgif($imgname);
+		} else if (($this->data['header'] == 'image/png') && function_exists('imagecreatefromjpeg')) {
+			$src_im = @imagecreatefrompng($imgname);
+		}
+		
+		if ($src_im == null) // image not supported or not recognized
+			return $this->get();
+		
+		$newwidth=imagesx($src_im);
+		$newheight=imagesy($src_im);
+
+		if (($y!=-1)&&($y<$newheight)) {
+			$newwidth=round($newwidth/$newheight*$y);
+			$newheight=$y;
+		}
+		if (($x!=-1)&&($x<$newwidth)) {
+			$newheight=round($newheight/$newwidth*$x);
+			$newwidth=$x;
+		}
+
+   		$dest_im = imagecreatetruecolor($newwidth,$newheight);
+		imagecopyresized ($dest_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, $this->data['imgsizex'], $this->data['imgsizey']);
+
+		if (function_exists('imagejpeg')) {
+			header("Content-type: image/jpeg");
+			imagejpeg($dest_im,'',100);
+		} else if (function_exists('imagepng')) {
+			header("Content-type: image/png");
+			imagepng($dest_im,'',100);
+		} else if (function_exists('imagegif')) {
+			header("Content-type: image/gif");
+			imagegif($dest_im,'',100);
+		} else // image not supported or not recognized
+			return $this->get(); 
+
+		imagedestroy($dest_im);
+	}
 	function Image($nameorid = '') {
 		if (empty ($nameorid))
 			return;
