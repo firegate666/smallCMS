@@ -184,7 +184,7 @@ class Image extends AbstractClass {
 		
 		$src_im = null;
 		$imgname = $this->get('url');
-		$cachekey = md5($x."-".$y"."-".$imgname);
+		$cachekey = md5($x."-".$y."-".$imgname);
 		$cached = Cache::read($cachekey);
 		if ($cached !== false) {
 			header("Content-type: ".$this->get('type'));
