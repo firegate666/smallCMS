@@ -15,7 +15,7 @@ abstract class AbstractClass {
     
 	protected $language;
 	
-	protected function addlog($msg, $loglevel) {
+	protected function addlog($msg, $loglevel=0) {
 		FileLogger::write("QUERY: ".$msg, $loglevel);
 	}
 
