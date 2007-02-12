@@ -182,9 +182,14 @@ class Image extends AbstractClass {
 		if (!empty($vars['y']))
 			$y = $vars['y'];
 		
-		$imgname = $this->get('url');
-		
 		$src_im = null;
+		$imgname = $this->get('url');
+/*		$cachekey = $x."-".$y"."-".$imgname;
+		$cached = Cache::read($cachekey);
+		if ($cached !== false) {
+			$data = unserialize
+		}
+*/		
 		if (($this->get('type') == 'image/jpeg')&& function_exists('imagecreatefromjpeg')) {
 			$src_im = imagecreatefromjpeg($imgname);
 		} else if (($this->get('type') == 'image/gif') && function_exists('imagecreatefromgif')) {
@@ -211,13 +216,13 @@ class Image extends AbstractClass {
    		$dest_im = imagecreatetruecolor($newwidth,$newheight);
 		imagecopyresized ($dest_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, imagesx($src_im), imagesy($src_im));
 
-		if (function_exists('imagejpeg')) {
+		if (($this->get('type') == 'image/jpeg') && function_exists('imagejpeg')) {
 			header("Content-type: image/jpeg");
 			imagejpeg($dest_im,'',100);
-		} else if (function_exists('imagepng')) {
+		} else if (($this->get('type') == 'image/png') && function_exists('imagepng')) {
 			header("Content-type: image/png");
 			imagepng($dest_im,'',100);
-		} else if (function_exists('imagegif')) {
+		} else if (($this->get('type') == 'image/gif') && function_exists('imagegif')) {
 			header("Content-type: image/gif");
 			imagegif($dest_im,'',100);
 		} else // image not supported or not recognized
