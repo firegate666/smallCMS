@@ -187,7 +187,7 @@ class Image extends AbstractClass {
 		$cachekey = md5($x."-".$y."-".$imgname);
 		$cached = Cache::read($cachekey);
 		if ($cached !== false) {
-			$this->addlog("Read image from cache: ".$cachekey);
+			$this->addlog("Read image from cache: ".$cachekey, 10);
 			header("Content-type: ".$this->get('type'));
 			echo Cache::read($cachekey);
 			die;
@@ -230,7 +230,7 @@ class Image extends AbstractClass {
 			imagegif($dest_im, './cache/files/'.$cachekey, 100);
 		} else // image not supported or not recognized
 			die("Image not supported"); 
-		$this->addlog("Write image to cache: ".$cachekey);
+		$this->addlog("Write image to cache: ".$cachekey, 10);
 		echo Cache::read($cachekey);
 		imagedestroy($dest_im);
 	}
