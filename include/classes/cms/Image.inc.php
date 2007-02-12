@@ -188,7 +188,7 @@ class Image extends AbstractClass {
 		$cached = Cache::read($cachekey);
 		if ($cached !== false) {
 			header("Content-type: ".$this->get('type'));
-			echo Cache:read($cachekey);
+			echo Cache::read($cachekey);
 			die;
 		}
 		
@@ -229,7 +229,7 @@ class Image extends AbstractClass {
 			imagegif($dest_im, './cache/files/'.$cachekey, 100);
 		} else // image not supported or not recognized
 			die("Image not supported"); 
-		echo Cache:read($cachekey);
+		echo Cache::read($cachekey);
 		imagedestroy($dest_im);
 	}
 	function Image($nameorid = '') {
