@@ -13,6 +13,13 @@ if (isset($_REQUEST['store'])) {
 		echo(implode(",", $err));
 }
 
+if (isset($_REQUEST['delete'])) {
+	$obj = new $_REQUEST['type']($_REQUEST['id']);
+	$obj->delete(true);
+	unset($_REQUEST['id']);
+	unset($_REQUEST['delete']);
+}
+
 ?>
 
 <h3>GamesDB Configuration: <?=$_REQUEST['type']?></h3>
@@ -33,10 +40,12 @@ if (isset($_REQUEST['store'])) {
 				<tr>
 					<td width="80%"><?=$item['name']?></td>
 					<td width="20%">
-						<a href='?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>'>
+						<a href="?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>">
 							<img src='img/edit.gif' border='0' alt='Edit'/>
 						</a>
-						<img src='img/delete.gif' border='0' alt='Delete'/>
+						<a href="?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>&delete">
+							<img src='img/delete.gif' border='0' alt='Delete'/>
+						</a>
 					</td>
 				</tr>
 		   <?}
