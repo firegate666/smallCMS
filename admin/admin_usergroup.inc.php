@@ -9,18 +9,27 @@ if(isset($_REQUEST['store']) && isset($_REQUEST['userright'])) {
 	$error = $ug->parsefields($_REQUEST);
 	if (!$error) {
 		$ug->store();
-		$ug->setUserrights($_REQUEST['userright']);
+		if (!empty($_REQUEST['userright']))
+			$ug->setUserrights($_REQUEST['userright']);
 		unset($_REQUEST['id']);
 		unset($_REQUEST['usergroup']);
 	}
 	unset($_REQUEST['store']);
-} else if(isset($_REQUEST['store']) && !isset($_REQUEST['userright']))
-	$error[] = "You have to set a userright to create a group!";
+}
 
+if (isset($_REQUEST['delete'])) {
+	$ug = new Usergroup($_REQUEST['id']);
+	if(!$ug->delete(true))
+		$error[] = 'Das L&ouml;schen der Benutzer ist fehlgeschlagen, m&ouml;licherweise wird sie noch verwendet!';
+	unset($_REQUEST['delete']);
+	unset($_REQUEST['id']);
+}
+	
 if (!isset($_REQUEST['id'])) {
 	$ug = new Usergroup();
 ?>
 	<h3>Groups</h3>
+	<div class="error"><?=implode(' ', $error);?></div>
 	<form method="get" action="index.php">
 		<input type="hidden" name="admin"/>
 		<input type="hidden" name="id" value="0"/>
@@ -36,8 +45,13 @@ if (!isset($_REQUEST['id'])) {
 		foreach($u->getlist('', true, 'name', array('*')) as $ug) { ?>
 			<tr>
 				<td><?=$ug['name']?></td>
-				<td><a href="?admin&usergroup&id=<?=$ug['id']?>">
-					<img src="img/edit.gif" border="0" alt="Edit"/></a>
+				<td>
+					<a href="?admin&usergroup&id=<?=$ug['id']?>">
+						<img src="img/edit.gif" border="0" alt="Edit"/>
+					</a>
+					<a href="?admin&usergroup&id=<?=$ug['id']?>&delete">
+						<img src="img/delete.gif" border="0" alt="Edit"/>
+					</a>
 				</td>
 			</tr>
 		<? } ?>
