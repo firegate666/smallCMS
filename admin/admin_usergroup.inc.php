@@ -10,8 +10,7 @@ if(isset($_REQUEST['store'])) {
 	if (!$error) {
 		$error = array();
 		$ug->store();
-		if (!empty($_REQUEST['userright']))
-			$ug->setUserrights($_REQUEST['userright']);
+		$ug->setUserrights($_REQUEST['userright']);
 		unset($_REQUEST['id']);
 	}
 	unset($_REQUEST['store']);

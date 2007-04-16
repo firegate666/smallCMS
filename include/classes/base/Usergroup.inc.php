@@ -20,9 +20,9 @@ class Usergroup extends AbstractClass {
 		global $mysql;
 		if (!$this->exists())
 			return;
+		$mysql->update("DELETE FROM userrights WHERE usergroupid = ".$this->get('id').";");
 		if (!is_array($array))
 			return;
-		$mysql->update("DELETE FROM userrights WHERE usergroupid = ".$this->get('id').";");
 		foreach($array as $priv=>$value) {
 			$ur = new Userrights();
 			$ur->set('userright', $priv);
