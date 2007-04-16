@@ -65,7 +65,7 @@ class Battle extends W40K {
                           'notnull' => true);
 		$fields[] = array('name' => 'battletypeid',
                           'type' => 'integer',
-                          'notnull' => false);
+                          'notnull' => true);
 		$fields[] = array('name' => 'multibattle',
                           'type' => 'integer',
                           'notnull' => false);
@@ -360,9 +360,9 @@ class Battle extends W40K {
 		if ($this->hasright('w40kuser_extern'))
 			$array['battletypelist'] = "<option value='0'></option>";
 		else 
-			$array['battletypelist'] = $bt->getOptionList($this->data['battletypeid'], true, 'name', true, 'name');
+			$array['battletypelist'] = $bt->getOptionList($this->data['battletypeid'], false, 'name', true, 'name');
 		$gamesystem = new GameSystem();
-		$array['gamesystemlist'] = $gamesystem->getOptionList($this->data['gamesystem'], true, 'name', true, 'name');
+		$array['gamesystemlist'] = $gamesystem->getOptionList($this->data['gamesystem'], false, 'name', true, 'name');
 		$where = array();
 		$array['armylist1'] = "";
 		$array['armylist2'] = "";
