@@ -8,6 +8,7 @@ if(isset($_REQUEST['store']) && isset($_REQUEST['userright'])) {
 	$ug = new Usergroup($_REQUEST['id']);
 	$error = $ug->parsefields($_REQUEST);
 	if (!$error) {
+		$error = array();
 		$ug->store();
 		if (!empty($_REQUEST['userright']))
 			$ug->setUserrights($_REQUEST['userright']);
