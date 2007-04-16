@@ -4,7 +4,7 @@ if(!$adminlogin) die("DENIED");
 
 $error = array();
 
-if(isset($_REQUEST['store']) && isset($_REQUEST['userright'])) {
+if(isset($_REQUEST['store'])) {
 	$ug = new Usergroup($_REQUEST['id']);
 	$error = $ug->parsefields($_REQUEST);
 	if (!$error) {
