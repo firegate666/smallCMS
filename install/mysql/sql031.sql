@@ -1,6 +1,10 @@
 ALTER TABLE army ADD FOREIGN KEY (codex) REFERENCES codex(id) ON DELETE RESTRICT;
 ALTER TABLE army ADD FOREIGN KEY (userid) REFERENCES `user`(id) ON DELETE RESTRICT;
 ALTER TABLE army ADD FOREIGN KEY (gamesystem) REFERENCES gamesystem(id) ON DELETE RESTRICT;
+
+ALTER TABLE `battle` CHANGE `multibattle` `multibattle` BIGINT( 20 ) NULL DEFAULT '0';
+UPDATE `battle` SET multibattle = null WHERE parent = 0;
+
 ALTER TABLE battle ADD FOREIGN KEY (player1) REFERENCES army(id) ON DELETE RESTRICT;
 ALTER TABLE battle ADD FOREIGN KEY (player2) REFERENCES army(id) ON DELETE RESTRICT;
 ALTER TABLE battle ADD FOREIGN KEY (mission) REFERENCES mission(id) ON DELETE RESTRICT;
@@ -8,6 +12,10 @@ ALTER TABLE battle ADD FOREIGN KEY (userid) REFERENCES `user`(id) ON DELETE REST
 ALTER TABLE battle ADD FOREIGN KEY (battletypeid) REFERENCES battletype(id) ON DELETE RESTRICT;
 ALTER TABLE battle ADD FOREIGN KEY (multibattle) REFERENCES multibattle(id) ON DELETE RESTRICT;
 ALTER TABLE battle ADD FOREIGN KEY (gamesystem) REFERENCES gamesystem(id) ON DELETE RESTRICT;
+
+ALTER TABLE `battletype` CHANGE `parent` `parent` BIGINT( 20 ) NULL DEFAULT '0';
+UPDATE `battletype` SET parent = null WHERE parent = 0;
+
 ALTER TABLE battletype ADD FOREIGN KEY (parent) REFERENCES battletype(id) ON DELETE RESTRICT;
 ALTER TABLE codex ADD FOREIGN KEY (gamesystem) REFERENCES gamesystem(id) ON DELETE RESTRICT;
 ALTER TABLE mission ADD FOREIGN KEY (gamesystem) REFERENCES gamesystem(id) ON DELETE RESTRICT;
