@@ -2,6 +2,8 @@
 $adminlogin = (User::hasright('admin') || User::hasright('w40kadmin') || User::hasright('missionadmin'));
 if(empty($adminlogin)) die("DENIED");
 
+$error = '';
+
 if (isset($_REQUEST['store'])) {
 	$obj = new $_REQUEST['type']($_REQUEST['id']);
 	$err = $obj->parsefields($_REQUEST);
