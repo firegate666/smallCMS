@@ -300,7 +300,9 @@ class Battle extends W40K {
 			$vars['userid'] = $this->get('userid');
 		if ($this->hasright('w40kuser_extern'))
 			$vars['battletypeid'] = 0;
-		$vars['impdate'] = std2impDate("{$vars['year']}-{$vars['month']}-{$vars['day']}");
+		$vars['impdate'] = '-';
+		if (!empty($vars['year']) && !empty($vars['month']) && !empty($vars['day']))
+			$vars['impdate'] = std2impDate("{$vars['year']}-{$vars['month']}-{$vars['day']}");
 		$vars['realdate'] = "{$vars['year']}-{$vars['month']}-{$vars['day']}";
 		
 		
