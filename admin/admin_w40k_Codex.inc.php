@@ -2,6 +2,8 @@
 $adminlogin = (User::hasright('admin') || User::hasright('w40kadmin')|| User::hasright('codexadmin'));
 if(empty($adminlogin)) die("DENIED");
 
+$error = '';
+
 if (isset($_REQUEST['store'])) {
 	$obj = new $_REQUEST['type']($_REQUEST['id']);
 	$err = $obj->parsefields($_REQUEST);
@@ -15,13 +17,15 @@ if (isset($_REQUEST['store'])) {
 
 if (isset($_REQUEST['delete'])) {
 	$obj = new $_REQUEST['type']($_REQUEST['id']);
-	$obj->delete(true);
+	if (!$obj->delete(true))
+		$error = "L&ouml;schen des Objektes ist fehlgeschlagen. M&ouml;glicherweise wird es noch verwendet.";
 	unset($_REQUEST['id']);
 	unset($_REQUEST['delete']);
 }
 ?>
 
 <h3>GamesDB Configuration: <?=$_REQUEST['type']?></h3>
+<div class="error"><?=$error?></div>
 <? if (isset($_REQUEST['type'])) { ?>
 	<? if(!isset($_REQUEST['id'])) { ?>
 		<form method="get">

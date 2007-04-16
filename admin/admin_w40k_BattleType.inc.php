@@ -15,7 +15,8 @@ if (isset($_REQUEST['store'])) {
 
 if (isset($_REQUEST['delete'])) {
 	$obj = new $_REQUEST['type']($_REQUEST['id']);
-	$obj->delete(true);
+	if (!$obj->delete(true))
+		$error = "L&ouml;schen des Objektes ist fehlgeschlagen. M&ouml;glicherweise wird es noch verwendet.";
 	unset($_REQUEST['id']);
 	unset($_REQUEST['delete']);
 }
@@ -23,6 +24,7 @@ if (isset($_REQUEST['delete'])) {
 ?>
 
 <h3>GamesDB Configuration: <?=$_REQUEST['type']?></h3>
+<div class="error"><?=$error?></div>
 <? if (isset($_REQUEST['type'])) { ?>
 	<? if(!isset($_REQUEST['id'])) { ?>
 		<a href="index.php?admin&w40k&type=<?=$_REQUEST['type']?>&id=">Neuen BattleType anlegen</a>
