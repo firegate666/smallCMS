@@ -13,7 +13,6 @@ if(isset($_REQUEST['store']) && isset($_REQUEST['userright'])) {
 		if (!empty($_REQUEST['userright']))
 			$ug->setUserrights($_REQUEST['userright']);
 		unset($_REQUEST['id']);
-		unset($_REQUEST['usergroup']);
 	}
 	unset($_REQUEST['store']);
 }
