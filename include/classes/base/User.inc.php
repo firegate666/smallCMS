@@ -108,6 +108,7 @@ class User extends AbstractClass {
                           'notnull' => true);
 		$fields[] = array('name' => 'signature',
                           'type' => 'string',
+                          'default' => '',
                           'size' => 100,
                           'notnull' => false);
 		$fields[] = array('name' => 'show_email',
