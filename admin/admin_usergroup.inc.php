@@ -19,7 +19,7 @@ if(isset($_REQUEST['store'])) {
 if (isset($_REQUEST['delete'])) {
 	$ug = new Usergroup($_REQUEST['id']);
 	if(!$ug->delete(true))
-		$error[] = 'Das L&ouml;schen der Benutzer ist fehlgeschlagen, m&ouml;licherweise wird sie noch verwendet!';
+		$error[] = 'Das L&ouml;schen der Benutzergruppe ist fehlgeschlagen, m&ouml;licherweise wird sie noch verwendet!';
 	unset($_REQUEST['delete']);
 	unset($_REQUEST['id']);
 }

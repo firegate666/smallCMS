@@ -111,7 +111,11 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 				<td><?=$myuser['__createdon']?></td>
 				<td><?=$myuser['errorlogins']?></td>
 				<td><?=$myuser['lastlogin']?></td>
-				<td><a href="?admin&user&userid=<?=$myuser['id']?>"><img src="img/edit.gif" border="0" alt="Edit"/></a></td>
+				<td><a href="?admin&user&userid=<?=$myuser['id']?>"><img src="img/edit.gif" border="0" alt="Edit"/></a>
+					<a href="?admin&user&userid=<?=$myuser['id']?>&delete">
+						<img src="img/delete.gif" border="0" alt="Delete"/>
+					</a>
+				</td>
 			</tr>
 		<? }
 	?>
