@@ -67,8 +67,6 @@ class BattleType extends W40K {
 				return array("Only one step deep in parents is allowed. Chosen parent is child too.");
 		} else
 			$vars['parent'] = null;
-		if ($vars['parent'] === null)
-			print_a("PARENT IS NULL");
 		return parent::parsefields($vars);
 	}
 	
