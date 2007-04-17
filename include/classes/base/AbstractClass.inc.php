@@ -415,6 +415,9 @@ abstract class AbstractClass {
 					$err[] = "{$field['name']} is null";
 			}
 		}
+		if ($vars['parent'] === null)
+			print_a("PARENT IS NULL");
+		
 		return $err;
 	}
 
