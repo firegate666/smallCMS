@@ -233,6 +233,7 @@ class Image extends AbstractClass {
 		$this->addlog("Write image to cache: ".$cachekey, 10);
 		@readfile('./cache/files/'.$cachekey);
 		imagedestroy($dest_im);
+		die;
 	}
 	function Image($nameorid = '') {
 		if (empty ($nameorid))
