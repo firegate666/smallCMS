@@ -386,7 +386,7 @@ abstract class AbstractClass {
 			// set some defaults
 			if (!isset($field['type'])) $field['type'] = "string";
 			if (!isset($field['notnull'])) $field['notnull'] = false;
-			if (isset($vars[$field['name']])) {
+			if (isset($vars[$field['name']]) && ($vars[$field['name']] !== null)) {
 				$value = $vars[$field['name']];
 				if ($field['notnull'] && empty($value))
 					$err[] = "{$field['name']} is null";
