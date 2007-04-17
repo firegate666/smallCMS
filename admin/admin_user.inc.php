@@ -57,7 +57,7 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 	$ug = new Usergroup();
 ?>
 	<h3>User</h3>
-	<div class="error"><?=$error.mysql_error()?></div>
+	<div class="error"><?=$error?></div>
 	<form action="index.php" method="post">
 		<input type="hidden" name="admin"/>
 		<input type="hidden" name="user"/>
