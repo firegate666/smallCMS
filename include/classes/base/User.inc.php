@@ -113,6 +113,7 @@ class User extends AbstractClass {
                           'notnull' => false);
 		$fields[] = array('name' => 'show_email',
                           'type' => 'integer',
+                          'default' => '0',
                           'notnull' => false);
 		$fields[] = array('name' => 'password',
                           'type' => 'string',
@@ -121,12 +122,15 @@ class User extends AbstractClass {
                           'password' => true);
 		$fields[] = array('name' => 'errorlogins',
                           'type' => 'integer',
+                          'default' => 0,
                           'notnull' => false);
 		$fields[] = array('name' => 'lastlogin',
                           'type' => 'date',
+                          'default' => Date::now(),
                           'notnull' => false);
 		$fields[] = array('name' => 'hash',
                           'type' => 'string',
+                          'default' => '',
                           'notnull' => false);
 		$fields[] = array('name' => 'groupid',
                           'type' => 'integer',

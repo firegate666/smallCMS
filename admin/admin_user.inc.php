@@ -2,6 +2,8 @@
 $adminlogin = (User::hasright('admin') || User::hasright('useradmin'));
 if(!$adminlogin) die("DENIED");
 
+$error = '';
+
 if(isset($_REQUEST['groupaction']) && isset($_REQUEST['userid'])) {
 	$u = new User($_REQUEST['userid']);
 	if ($_REQUEST['groupaction'] == 'change')
@@ -9,6 +11,14 @@ if(isset($_REQUEST['groupaction']) && isset($_REQUEST['userid'])) {
 	if ($_REQUEST['groupaction'] == 'delete')
 		$u->delnewgroup();
 	unset($_REQUEST['groupaction']);
+	unset($_REQUEST['userid']);
+}
+
+if (isset($_REQUEST['delete'])) {
+	$ug = new Usergroup($_REQUEST['userid']);
+	if(!$ug->delete(true))
+		$error = 'Das L&ouml;schen des Benutzers ist fehlgeschlagen, m&ouml;licherweise wird sie noch verwendet!';
+	unset($_REQUEST['delete']);
 	unset($_REQUEST['userid']);
 }
 
@@ -47,6 +57,7 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 	$ug = new Usergroup();
 ?>
 	<h3>User</h3>
+	<div class="error"><?=implode(' ', $error);?></div>
 	<form action="index.php" method="post">
 		<input type="hidden" name="admin"/>
 		<input type="hidden" name="user"/>
