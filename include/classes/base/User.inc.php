@@ -80,9 +80,7 @@ class User extends AbstractClass {
 			$u->store();
 			return error('Password error', 'user', 'login', $vars);
 		}
-		Session::setCookie('user', $u->get('id'));
-		Session::setCookie('usergroup', $u->get('groupid'));
-		Session::setCookie('userrights', Usergroup::getUserrights($u->get('groupid')));
+		$this->dologin($u);
 		if ($u->hasright('disabled')) {
 			Session::cleanUpCookies();
 			return error('User disabled', 'user', 'login', $vars);
@@ -91,6 +89,12 @@ class User extends AbstractClass {
 		$u->set('lastlogin', Date::now());
 		$u->store();
 		return redirect($vars['ref']);
+	}
+	
+	protected function dologin($u) {
+		Session::setCookie('user', $u->get('id'));
+		Session::setCookie('usergroup', $u->get('groupid'));
+		Session::setCookie('userrights', Usergroup::getUserrights($u->get('groupid')));
 	}
 
 	public function getFields() {
@@ -208,6 +212,7 @@ class User extends AbstractClass {
 				$subject = "User registration at ".get_config('system', 'smallCMS');
 				$body = "User: ".$this->get('login')."\nPassword: ".$vars['password2'];
 				$m->simplesend($from, $to, $subject, $body);
+				$this->dologin($this);
 				return redirect($vars['ref']);
 			}
 		}
