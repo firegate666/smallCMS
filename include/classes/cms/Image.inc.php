@@ -77,6 +77,7 @@ class Image extends AbstractClass {
                           'notnull' => true);
 		$fields[] = array('name' => 'prio',
                           'type' => 'integer',
+                          'default' => 0,
                           'notnull' => false);
 		$fields[] = array('name' => 'type',
                           'type' => 'string',
@@ -98,13 +99,13 @@ class Image extends AbstractClass {
     	if (!is_uploaded_file($vars['tmp_name']))
     		$err[] = "Upload failed";
     	$vars['name'] = str_replace (" ", "_", $vars['name']);
-    	$vars['name'] = str_replace ("ï¿½", "ae", $vars['name']);
-    	$vars['name'] = str_replace ("ï¿½", "oe", $vars['name']);
-    	$vars['name'] = str_replace ("ï¿½", "ue", $vars['name']);
-    	$vars['name'] = str_replace ("ï¿½", "Ae", $vars['name']);
-    	$vars['name'] = str_replace ("ï¿½", "Oe", $vars['name']);
-    	$vars['name'] = str_replace ("ï¿½", "Ue", $vars['name']);
-    	$vars['name'] = str_replace ("ï¿½", "ss", $vars['name']);
+    	$vars['name'] = str_replace ("ä", "ae", $vars['name']);
+    	$vars['name'] = str_replace ("ö", "oe", $vars['name']);
+    	$vars['name'] = str_replace ("u", "ue", $vars['name']);
+    	$vars['name'] = str_replace ("Ä", "Ae", $vars['name']);
+    	$vars['name'] = str_replace ("Ö", "Oe", $vars['name']);
+    	$vars['name'] = str_replace ("Ü", "Ue", $vars['name']);
+    	$vars['name'] = str_replace ("ß", "ss", $vars['name']);
     	$url = get_config("uploadpath").randomstring(25)."-".$parent."-".$parentid."-".$vars['name'];
     	if ($err === false) {
     		$res = copy($vars['tmp_name'], $url);

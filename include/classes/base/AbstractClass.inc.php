@@ -410,8 +410,9 @@ abstract class AbstractClass {
 						$err[] = "{$field['name']} too short. Min.: ".$field['min'];
 				$this->data[$field['name']] = $value;
 			} else {
-				// check not null
-				if (($field['notnull'] || $field['password']))
+				if (isset($field['default']))
+					$this->data[$field['name']] = $field['default'];
+				else if (($field['notnull'] || $field['password']))
 					$err[] = "{$field['name']} is null";
 				else
 					$this->data[$field['name']] = null;
