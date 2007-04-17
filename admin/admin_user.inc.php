@@ -15,9 +15,9 @@ if(isset($_REQUEST['groupaction']) && isset($_REQUEST['userid'])) {
 }
 
 if (isset($_REQUEST['delete'])) {
-	$ug = new Usergroup($_REQUEST['userid']);
+	$ug = new User($_REQUEST['userid']);
 	if(!$ug->delete(true))
-		$error = 'Das L&ouml;schen des Benutzers ist fehlgeschlagen, m&ouml;licherweise wird sie noch verwendet!';
+		$error = 'Das L&ouml;schen des Benutzers ist fehlgeschlagen, m&ouml;licherweise wird er noch verwendet!';
 	unset($_REQUEST['delete']);
 	unset($_REQUEST['userid']);
 }
