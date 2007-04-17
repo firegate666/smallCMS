@@ -57,7 +57,7 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 	$ug = new Usergroup();
 ?>
 	<h3>User</h3>
-	<div class="error"><?=implode(' ', $error);?></div>
+	<div class="error"><?=$error?></div>
 	<form action="index.php" method="post">
 		<input type="hidden" name="admin"/>
 		<input type="hidden" name="user"/>
@@ -75,13 +75,13 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 	
 	<table class="adminlist" width="100%">
 		<tr>
-			<th align="left" width="20%">Login</th>
-			<th align="left" width="30%">Email</th>
-			<th align="left" width="5%">Group</th>
-			<th colspan="2" align="left" width="5%">New Group</th>
-			<th align="left" width="20%">seit</th>
-			<th align="left" width="5%">Fehler</th>
-			<th align="left" width="20%">leztes Login</th>
+			<th align="left">Login</th>
+			<th align="left">Email</th>
+			<th align="left">Group</th>
+			<th colspan="2" align="left">New Group</th>
+			<th align="left">seit</th>
+			<th align="left">Fehler</th>
+			<th align="left">leztes Login</th>
 			<th>&nbsp;</th>
 		</tr>
 	<?
