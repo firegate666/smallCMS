@@ -193,7 +193,7 @@ class Image extends AbstractClass {
 			die;
 		}
 		
-		if (($this->get('type') == 'image/jpeg')&& function_exists('imagecreatefromjpeg')) {
+		if ((($this->get('type') == 'image/jpeg') || ($this->get('type') == 'image/pjpeg'))&& function_exists('imagecreatefromjpeg')) {
 			$src_im = imagecreatefromjpeg($imgname);
 		} else if (($this->get('type') == 'image/gif') && function_exists('imagecreatefromgif')) {
 			$src_im = imagecreatefromgif($imgname);
