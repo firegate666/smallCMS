@@ -20,6 +20,11 @@ class Army extends W40K {
 		return parent::acl($method);
 	}
 
+	function delete($vars) {
+		parent::delete();
+		return redirect('index.php?army/showlist//');//$this->showlist($vars);
+	}
+	
 
 	function parsefields($vars){
 		if ($this->get('userid')==null)
