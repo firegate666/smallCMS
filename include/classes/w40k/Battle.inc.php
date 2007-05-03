@@ -369,12 +369,14 @@ class Battle extends W40K {
 		$array['armylist1'] = "";
 		$array['armylist2'] = "";
 		$w40kuser = new User();
-		$array['playerlist1'] = $w40kuser->getOptionList($vars['playerlist1'], true, 'login', true, 'login');
-		$array['playerlist2'] = $w40kuser->getOptionList($vars['playerlist2'], true, 'login', true, 'login');
+		$array['playerlist1'] = "";
+		$array['playerlist2'] = "";
 		$array['mbarmylist1'] = "";
 		$array['mbarmylist2'] = "";
 		$array['missionlist'] = "";
 		if (!empty($this->data['gamesystem'])) {
+			$array['playerlist1'] = $w40kuser->getOptionList($vars['playerlist1'], true, 'login', true, 'login');
+			$array['playerlist2'] = $w40kuser->getOptionList($vars['playerlist2'], true, 'login', true, 'login');
 			$where[] = array('key'=>'gamesystem', 'value'=>$this->data['gamesystem']);
 			$where1 = array();
 			$where2 = array();
