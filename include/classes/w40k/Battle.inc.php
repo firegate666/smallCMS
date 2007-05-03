@@ -368,6 +368,9 @@ class Battle extends W40K {
 		$where = array();
 		$array['armylist1'] = "";
 		$array['armylist2'] = "";
+		$w40kuser = new User();
+		$array['playerlist1'] = $w40kuser->getOptionList($vars['playerlist1'], true, 'login', true, 'login');
+		$array['playerlist2'] = $w40kuser->getOptionList($vars['playerlist2'], true, 'login', true, 'login');
 		$array['mbarmylist1'] = "";
 		$array['mbarmylist2'] = "";
 		$array['missionlist'] = "";
