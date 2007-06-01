@@ -99,13 +99,13 @@ class Image extends AbstractClass {
     	if (!is_uploaded_file($vars['tmp_name']))
     		$err[] = "Upload failed";
     	$vars['name'] = str_replace (" ", "_", $vars['name']);
-    	$vars['name'] = str_replace ("ä", "ae", $vars['name']);
-    	$vars['name'] = str_replace ("ö", "oe", $vars['name']);
+    	$vars['name'] = str_replace ("ï¿½", "ae", $vars['name']);
+    	$vars['name'] = str_replace ("ï¿½", "oe", $vars['name']);
     	$vars['name'] = str_replace ("u", "ue", $vars['name']);
-    	$vars['name'] = str_replace ("Ä", "Ae", $vars['name']);
-    	$vars['name'] = str_replace ("Ö", "Oe", $vars['name']);
-    	$vars['name'] = str_replace ("Ü", "Ue", $vars['name']);
-    	$vars['name'] = str_replace ("ß", "ss", $vars['name']);
+    	$vars['name'] = str_replace ("ï¿½", "Ae", $vars['name']);
+    	$vars['name'] = str_replace ("ï¿½", "Oe", $vars['name']);
+    	$vars['name'] = str_replace ("ï¿½", "Ue", $vars['name']);
+    	$vars['name'] = str_replace ("ï¿½", "ss", $vars['name']);
     	$url = get_config("uploadpath").randomstring(25)."-".$parent."-".$parentid."-".$vars['name'];
     	if ($err === false) {
     		$res = copy($vars['tmp_name'], $url);
@@ -220,6 +220,9 @@ class Image extends AbstractClass {
 		imagecopyresized ($dest_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, imagesx($src_im), imagesy($src_im));
 
 		if (($this->get('type') == 'image/jpeg') && function_exists('imagejpeg')) {
+			header("Content-type: image/jpeg");
+			imagejpeg($dest_im, './cache/files/'.$cachekey, 100);
+		} else if (($this->get('type') == 'image/pjpeg') && function_exists('imagejpeg')) {
 			header("Content-type: image/jpeg");
 			imagejpeg($dest_im, './cache/files/'.$cachekey, 100);
 		} else if (($this->get('type') == 'image/png') && function_exists('imagepng')) {
