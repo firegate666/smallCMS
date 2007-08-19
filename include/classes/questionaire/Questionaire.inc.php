@@ -70,6 +70,8 @@ class Questionaire extends AbstractClass {
 			$return[0][$answer['sem_id']] = $answer['sem_id'];
 			$return[$answer['quserid']][$answer['sem_id']] = $answer['questionanswervalue'];
 		}
+		foreach($result as $row)
+			print_a("Anzahle Elemente: ".count($row));
 		return $return;
 	}
 
