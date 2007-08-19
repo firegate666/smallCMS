@@ -88,7 +88,7 @@ class Questionaire extends AbstractClass {
 			$content .= "\n";
 		}
 		@header("Content-type: text/comma-separated-values;");
-		@header("Content-disposition: attachment; filename=export_"."questionaire"."_".(Date::now()).".csv");
+		@header("Content-disposition: attachment; filename=export_"."questionaire"."_".(Date::now('%Y-%m-%d_%H:%M:%S')).".csv");
 		print $content;
 	}
 
