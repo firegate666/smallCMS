@@ -75,10 +75,17 @@ class Questionaire extends AbstractClass {
 
 	public function csv($vars) {
 		$result = $this->getAnswerTable();
-		print_a($result);
-		$content = "\"userid\",";
+		$num_questions = count($result[0]);
+		$num_full_qs = -1; // there is a header row!
+		$num_dropped_qs = 0;
+		$content .= "\"userid\",";
 		$firstrow = true;
 		foreach($result as $userid=>$row) {
+			if (count($row != $num_questions)) {
+				$num_dropped_qs++;
+				continue;
+			} else
+				$num_full_qs++;
 			if (!$firstrow)
 				$content .=	"\"$userid\",";
 			else
@@ -90,7 +97,7 @@ class Questionaire extends AbstractClass {
 		}
 		@header("Content-type: text/comma-separated-values;");
 		@header("Content-disposition: attachment; filename=export_"."questionaire"."_".(Date::now('%Y-%m-%d_%H:%M:%S')).".csv");
-		print $content;
+		print "Anzahl Fragen: $num_questions; Vollständige Fragebögen: $num_full_qs; Rest: $num_dropped_qs\n".$content;
 	}
 
 	public function csv_emails($vars) {
