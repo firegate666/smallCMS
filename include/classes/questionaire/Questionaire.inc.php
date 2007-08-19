@@ -72,18 +72,23 @@ class Questionaire extends AbstractClass {
 		}
 		return $return;
 	}
-	
+
 	public function csv($vars) {
 		$result = $this->getAnswerTable();
-		$content = "";
-		foreach($result as $row) {
+		$content = "\"userid\",";
+		$firstrow = true;
+		foreach($result as $userid=>$row) {
+			if (!$firstrow)
+				$content .=	"\"$userid\",";
+			else
+				$firstrow = false;
 			foreach($row as $cell) {
-				$content .= "$cell;";
+				$content .= "\"$cell\",";
 			}
 			$content .= "\n";
 		}
 		@header("Content-type: text/comma-separated-values;");
-		@header("Content-disposition: attachment; filename=export_"."questionaire"."_".time().".csv");
+		@header("Content-disposition: attachment; filename=export_"."questionaire"."_".(Date::now()).".csv");
 		print $content;
 	}
 
@@ -105,7 +110,7 @@ class Questionaire extends AbstractClass {
 		if (!$this->exists())
 			return false;
 		if (($method == 'csv') || ($method == 'csv_emails'))
-			return ($this->hasright('admin') || $this->hasright('questionaireadmin'));		
+			return ($this->hasright('admin') || $this->hasright('questionaireadmin'));
 		if (($this->get('published') == 1) && ($this->get('closed') == 0)) {
 			if ($method == 'show')
 				return true;
@@ -148,12 +153,12 @@ class Questionaire extends AbstractClass {
 		$subject = "Fragebogen abgeschlossen";
 		$body = "Benutzer ".$qu->get('id')." (".$qu->get('email').")".
 			" hat die Beantwortung des Fragebogens ".$this->get('id')." (".$this->get('name').")".
-			" abgeschlossen.";		
+			" abgeschlossen.";
 		$m = new Mailer();
 		$m->simplesend($from, $to, $subject, $body);
-		
+
 	}
-	
+
 	public function show($vars) {
 		$qu = new QuestionaireUser();
 		if (!$qu->loggedin()) {
@@ -241,7 +246,7 @@ class Questionaire extends AbstractClass {
 					break;
 			}
 		}
-		
+
 		$pagecount = count($pagenumbers);
 		$randompage = rand(0,$pagecount - 1);
 		$result = $result[$pagenumbers[$randompage]];
@@ -267,17 +272,17 @@ class Questionaire extends AbstractClass {
 
 	/**
 	 * get all unanswered questions for logged in user but only next page
-	 * 
+	 *
 	 * @param	boolean	$random	if true, return not next page but random page
 	 * from block
 	 */
 	protected function getNextUnanswered($random = false) {
 		$questions = $this->getAllUnanswered();
-		
+
 		Session::setCookie('abs_unanswered', count($questions));
 		Session::setCookie('abs_questions', $this->getQuestioncount());
 		Session::setCookie('abs_answered', Session::getCookie('abs_questions') - Session::getCookie('abs_unanswered'));
-		
+
 		if ($random)
 			return $this->getNextRandomPageFromBlock($questions);
 		$result = array ();
