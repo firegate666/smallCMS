@@ -81,12 +81,11 @@ class Questionaire extends AbstractClass {
 		$content .= "\"userid\",";
 		$firstrow = true;
 		foreach($result as $userid=>$row) {
-			if (count($row != $num_questions)) {
+			if (count($row) != $num_questions) {
 				$num_dropped_qs++;
-				//continue;
+				continue;
 			} else
 				$num_full_qs++;
-				print_a(count($row));
 			if (!$firstrow)
 				$content .=	"\"$userid\",";
 			else
