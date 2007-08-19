@@ -73,6 +73,19 @@ class Questionaire extends AbstractClass {
 		return $return;
 	}
 
+	public function csv_remote($vars) {
+		// check remote login
+		$u = new User();
+		$ids = $u->search($vars['login'], 'login');
+		if (count($ids) == 1) {
+			$u = new User($ids[0]['id']);
+			if (myencrypt($vars['password']) == $u->get('password'))
+				if ($u->hasright('admin') || $u->hasright('questionaireadmin'))
+					$this->csv($vars);
+		}
+		die;
+	}
+
 	public function csv($vars) {
 		$result = $this->getAnswerTable();
 		$num_questions = count($result[0]);
@@ -97,7 +110,7 @@ class Questionaire extends AbstractClass {
 		}
 		@header("Content-type: text/comma-separated-values;");
 		@header("Content-disposition: attachment; filename=export_"."questionaire"."_".(Date::now('%Y-%m-%d_%H:%M:%S')).".csv");
-		print "Anzahl Fragen: $num_questions; Vollständige Fragebögen: $num_full_qs; Rest: $num_dropped_qs\n".$content;
+		print $content;
 	}
 
 	public function csv_emails($vars) {
@@ -117,6 +130,8 @@ class Questionaire extends AbstractClass {
 	public function acl($method) {
 		if (!$this->exists())
 			return false;
+		if ($method == 'csv_remote')
+			return true;
 		if (($method == 'csv') || ($method == 'csv_emails'))
 			return ($this->hasright('admin') || $this->hasright('questionaireadmin'));
 		if (($this->get('published') == 1) && ($this->get('closed') == 0)) {
