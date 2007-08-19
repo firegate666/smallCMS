@@ -79,10 +79,15 @@ class Questionaire extends AbstractClass {
 		$ids = $u->search($vars['login'], 'login');
 		if (count($ids) == 1) {
 			$u = new User($ids[0]['id']);
-			if (myencrypt($vars['password']) == $u->get('password'))
+			if (myencrypt($vars['password']) == $u->get('password')) {
 				if ($u->hasright('admin') || $u->hasright('questionaireadmin'))
 					$this->csv($vars);
-		}
+				else
+					die("Invalid userrights");
+			} else
+				die("Password invalid");
+		} else
+			die("Username invalid");
 		die;
 	}
 
