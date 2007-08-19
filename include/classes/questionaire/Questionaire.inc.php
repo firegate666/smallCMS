@@ -77,7 +77,7 @@ class Questionaire extends AbstractClass {
 		// check remote login
 		$u = new User();
 		$u->login($vars);
-		if ($u->hasright('admin') || $u->hasright('questionaireadmin')) {
+		if ($this->hasright('admin') || $this->hasright('questionaireadmin')) {
 			$this->csv($vars);
 		} else
 			die("Login failed");
