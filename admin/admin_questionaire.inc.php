@@ -194,15 +194,15 @@ if (!isset($_REQUEST['id'])) {
 				echo("<tr><td>Keine Ergebnisse</td></tr>\n");
 			foreach($list as $key=>$row) {
 				echo "<tr>";
-				if ($key == 0)
-					echo "<td>User</td>";
-				else
-					echo "<td>$key</td>";
-				$color = '#00FF00';
+				$color = '';
 				if ($q->getQuestioncount() != count($row))
 					$color = '#FF0000';
+				if ($key == 0)
+					echo "<td style='background-color:$color;'>User</td>";
+				else
+					echo "<td style='background-color:$color;'>$key</td>";
 				foreach($row as $column) {
-					echo "<td align='center' style='background-color:$color;'>$column</td>";
+					echo "<td align='center'>$column</td>";
 				}
 				echo "</tr>\n";
 			}
