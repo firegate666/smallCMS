@@ -108,6 +108,21 @@ class Questionaire extends AbstractClass {
 		print trim($content);
 	}
 
+	public function getFinishedCount() {
+		$result = $this->getAnswerTable();
+		$num_questions = count($result[0]);
+		$num_full_qs = -1; // there is a header row!
+		$num_dropped_qs = 0;
+		$firstrow = true;
+		foreach($result as $userid=>$row) {
+			if (count($row) != $num_questions)
+				$num_dropped_qs++;
+			else
+				$num_full_qs++;
+		}
+		return $num_full_qs;
+	}
+
 	public function csv($vars) {
 		$result = $this->getAnswerTable();
 		$num_questions = count($result[0]);
