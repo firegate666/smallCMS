@@ -139,6 +139,8 @@ class Questionaire extends AbstractClass {
 	}
 
 	public function acl($method) {
+		if ($method == 'list_remote')
+			return true;
 		if (!$this->exists())
 			return false;
 		if ($method == 'csv_remote')
