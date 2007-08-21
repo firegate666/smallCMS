@@ -84,6 +84,19 @@ class Questionaire extends AbstractClass {
 		die;
 	}
 
+	public function list_remote($vars) {
+		$u = new User();
+		$u->login($vars);
+		$list = array();
+		if ($this->hasright('questionairesuperadmin'))
+			$list = $q->getlist('', true, 'id', array('id'),
+					'', '', array(array('key'=>'deleted', 'value'=>0)));
+		else
+			$list = $q->getlist('', true, 'id', array('id'),
+					'', '', array(array('key'=>'deleted', 'value'=>0), array('key'=>'userid', 'value'=>$this->loggedIn())));
+		print_a($list);
+	}
+
 	public function csv($vars) {
 		$result = $this->getAnswerTable();
 		$num_questions = count($result[0]);
