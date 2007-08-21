@@ -65,7 +65,7 @@ if (!isset($_REQUEST['id'])) {
 				'', '', array(array('key'=>'deleted', 'value'=>0), array('key'=>'userid', 'value'=>User::loggedIn())));
 } else {
 	$list[] = array('id' => $_REQUEST['id']);
-}	
+}
 	foreach($list as $id) {
 		$q = new Questionaire($id['id']);
 		?>
@@ -76,7 +76,9 @@ if (!isset($_REQUEST['id'])) {
 			<td><?=$q->get('email');?></td>
 			<td><?=$q->get('shortdesc');?></td>
 			<td><?=$q->get('__createdon');?></td>
-			<td align="right"><?=$q->getAnswerCount();?></td>
+			<td align="right">
+				<?=$q->getFinishedCount();?>/<?=$q->getAnswerCount();?>
+			</td>
 			<?
 				$u = new User($q->get('userid'));
 			?>
@@ -104,16 +106,16 @@ if (!isset($_REQUEST['id'])) {
 			</td>
 			<td>
 				<a href="?admin&questionaire&id=<?=$q->get('id');?>"><img src="img/edit.gif" border="0" title="details Bearbeiten"/></a>
-				
+
 				<a href="javascript:dialog_confirm('Wirklich löschen?', '?admin&questionaire&delete=<?=$q->get('id');?>');">
 					<img src="img/delete.gif" border="0" title="Löschen"/>
 				</a>
-				
+
 				<a href="?questionaire/csv/<?=$q->get('id');?>"><img src="img/export.png" border="0" title="CSV Export Antworten"/></a>
 				<a href="?questionaire/csv_emails/<?=$q->get('id');?>"><img src="img/users.png" border="0" title="CSV Export Benutzer"/></a>
 			</td>
 		</tr>
-		<?	
+		<?
 	}
 ?></table><?
 	if (isset($_REQUEST['id'])) {
@@ -177,13 +179,13 @@ if (!isset($_REQUEST['id'])) {
 				}
 			}
 		</script>
-		<div><b>Fragen</b> <u><span id="questionslabel" onClick="togglevisible('questions');">anzeigen</span></u> 
+		<div><b>Fragen</b> <u><span id="questionslabel" onClick="togglevisible('questions');">anzeigen</span></u>
 			<span id="questions" style="visibility:hidden;display:none;">
 			<?$header = "<tr><th>ID</th><th>SEM_ID</th><th>Frage</th><th>Block</th><th>Gruppe</th></tr>";?>
 			<?=HTML::table($qs->getlistbyquestionaire($_REQUEST['id']), 0, $header);?>
 			</span>
 		</div>
-		<div><b>Antworten</b> <u><span id="answerslabel" onClick="togglevisible('answers');">anzeigen</span></u> 
+		<div><b>Antworten</b> <u><span id="answerslabel" onClick="togglevisible('answers');">anzeigen</span></u>
 			<span id="answers" style="visibility:hidden;display:none;">
 		<table border="1">
 		<?
