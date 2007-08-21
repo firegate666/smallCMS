@@ -202,7 +202,7 @@ if (!isset($_REQUEST['id'])) {
 				if ($q->getQuestioncount() != count($row))
 					$color = '#FF0000';
 				foreach($row as $column) {
-					echo "<td align='center' style='backgrond-color:$color;'>$column</td>";
+					echo "<td align='center' style='background-color:$color;'>$column</td>";
 				}
 				echo "</tr>\n";
 			}

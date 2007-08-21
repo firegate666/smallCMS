@@ -325,12 +325,12 @@ class Questionaire extends AbstractClass {
 	/**
 	 * return number of total questions
 	 */
-	protected function getQuestioncount() {
-		if (Session::getCookie('questionaire_abs_questions', false))
-			return Session::getCookie('questionaire_abs_questions');
+	public function getQuestioncount() {
+		if (Session::getCookie('questionaire_abs_questions_'.$this->get('id'), false))
+			return Session::getCookie('questionaire_abs_questions_'.$this->get('id'));
 		$question = new Question();
 		$count = count($question->getlistbyquestionaire($this->get('id')));
-		Session::setCookie('questionaire_abs_questions', $count);
+		Session::setCookie('questionaire_abs_questions_'.$this->get('id'), $count);
 		return $count;
 	}
 
