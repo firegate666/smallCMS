@@ -89,10 +89,10 @@ class Questionaire extends AbstractClass {
 		$u->login($vars);
 		$list = array();
 		if ($this->hasright('questionairesuperadmin'))
-			$list = $q->getlist('', true, 'id', array('id'),
+			$list = $this->getlist('', true, 'id', array('id'),
 					'', '', array(array('key'=>'deleted', 'value'=>0)));
 		else
-			$list = $q->getlist('', true, 'id', array('id'),
+			$list = $this->getlist('', true, 'id', array('id'),
 					'', '', array(array('key'=>'deleted', 'value'=>0), array('key'=>'userid', 'value'=>$this->loggedIn())));
 		print_a($list);
 	}
