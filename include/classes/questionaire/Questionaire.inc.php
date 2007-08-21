@@ -94,7 +94,18 @@ class Questionaire extends AbstractClass {
 		else
 			$list = $this->getlist('', true, 'id', array('id','name'),
 					'', '', array(array('key'=>'deleted', 'value'=>0), array('key'=>'userid', 'value'=>$this->loggedIn())));
-		print_a($list);
+
+		$content = '';
+		foreach($list as $entry) {
+			foreach($entry as $k=>$v) {
+				$content .= "\"$v\",";
+			}
+			$content .= "\n";
+		}
+
+		@header("Content-type: text/comma-separated-values;");
+		@header("Content-disposition: attachment; filename=export_"."questionaire"."_".(Date::now('%Y-%m-%d_%H:%M:%S')).".csv");
+		print trim($content);
 	}
 
 	public function csv($vars) {
