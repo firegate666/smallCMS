@@ -120,6 +120,8 @@ class Questionaire extends AbstractClass {
 			else
 				$num_full_qs++;
 		}
+		if ($num_full_qs == -1)
+			$num_full_qs = 0;
 		return $num_full_qs;
 	}
 

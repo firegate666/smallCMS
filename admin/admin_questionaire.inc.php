@@ -198,8 +198,11 @@ if (!isset($_REQUEST['id'])) {
 					echo "<td>User</td>";
 				else
 					echo "<td>$key</td>";
+				$color = '#00FF00';
+				if ($q->getQuestioncount() != count($row))
+					$color = '#FF0000';
 				foreach($row as $column) {
-					echo "<td align='center'>$column</td>";
+					echo "<td align='center' style='backgrond-color:$color;'>$column</td>";
 				}
 				echo "</tr>\n";
 			}
