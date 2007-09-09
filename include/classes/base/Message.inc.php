@@ -4,12 +4,12 @@ Setting::write('message_defaultpagelimit', '', 'Message Default Pagelimit', fals
 $template_classes[]='message';
 
 class Message extends AbstractClass {
-	
+
 	protected $receiverlist = array();
 	protected $send = false;
-	
+
 	public function acl($method) {
-		if (($method=='inbox') || ($method=='outbox')) 
+		if (($method=='inbox') || ($method=='outbox'))
 			return User::loggedIn();
 		if ($method=='edit')
 			return ($this->get('id') == '') && User::loggedIn();
@@ -20,10 +20,10 @@ class Message extends AbstractClass {
 				|| ($this->get('receiver') == $this->loggedIn());
 		return false;
 	}
-	
+
 	/**
 	 * delete all commited messages
-	 * 
+	 *
 	 * @param	Array	$vars['msgid']	message ids to delete
 	 */
 	public function delall($vars) {
@@ -56,15 +56,18 @@ class Message extends AbstractClass {
 
 		$fields[] = array('name' => 'unread',
                           'type' => 'integer',
-                          'notnull' => false);
+                          'notnull' => false,
+                          'default' => true);
 
 		$fields[] = array('name' => 'sender_deleted',
                           'type' => 'integer',
-                          'notnull' => false);
+                          'notnull' => false,
+                          'default' => false);
 
 		$fields[] = array('name' => 'receiver_deleted',
                           'type' => 'integer',
-                          'notnull' => false);
+                          'notnull' => false,
+                          'default' => false);
 
 		$fields[] = array('name' => 'read_on',
                           'type' => 'date',
@@ -75,12 +78,12 @@ class Message extends AbstractClass {
 
 	function parsefields($vars) {
 		$err = false;
-			
+
 		$vars['sender'] = $this->loggedIn();
-		
+
 		$err = parent::parsefields($vars);
 		$this->receivercheck($vars['receiver_list'], $err);
-		
+
 		return $err;
 	}
 
@@ -93,7 +96,7 @@ class Message extends AbstractClass {
 			$err[] = "No receiver set";
 			return;
 		}
-		
+
 		$u = new User();
 		foreach($receiverlist as $user) {
 			$user = trim($user);
@@ -107,9 +110,9 @@ class Message extends AbstractClass {
 			else
 				$this->receiverlist[] = $result[0]['id'];
 		}
-		
+
 	}
-	
+
 	/**
 	 * store message and send email notification to receiver
 	 */
@@ -131,7 +134,7 @@ class Message extends AbstractClass {
 		} else
 			parent::store();
 	}
-	
+
 	/**
 	 * edit message
 	 */
@@ -160,7 +163,7 @@ class Message extends AbstractClass {
 		}
 		return parent::show($vars, 'edit', $array);
 	}
-	
+
 	/**
 	 * view message
 	 */
@@ -172,12 +175,12 @@ class Message extends AbstractClass {
 		}
 		$array = array();
 		$u = new User($this->get('receiver'));
-		$array['receivername'] = $u->get('login');		
+		$array['receivername'] = $u->get('login');
 		$u = new User($this->get('sender'));
-		$array['sendername'] = $u->get('login');		
+		$array['sendername'] = $u->get('login');
 		return parent::show($vars, 'view', $array);
 	}
-	
+
 	/**
 	 * show message inbox
 	 */
@@ -281,7 +284,7 @@ class Message extends AbstractClass {
 		}
 		return parent::show($vars, 'outbox', $array);
 	}
-	
+
 	/**
 	 * mark message as deleted for sender or receiver
 	 * if both marked them, remove from database
