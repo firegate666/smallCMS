@@ -29,7 +29,7 @@ class Image extends AbstractClass {
 			if (is_array($default)) {
 				if (in_array($item['type'], $default))
 					$selected = "SELECTED='SELECTED'";
-			} else 
+			} else
 				if ($item['type'] == $default)
 					$selected = "SELECTED='SELECTED'";
 			$options .= "<option $selected value='".$item['type']."'>".$item['type']."</option>";
@@ -48,7 +48,7 @@ class Image extends AbstractClass {
 			if (is_array($default)) {
 				if (in_array($item['value'], $default))
 					$selected = "SELECTED='SELECTED'";
-			} else 
+			} else
 				if ($item['value'] == $default)
 					$selected = "SELECTED='SELECTED'";
 			$options .= "<option $selected value='".$item['value']."'>".$item['name']."</option>";
@@ -85,11 +85,12 @@ class Image extends AbstractClass {
                           'notnull' => true);
 		$fields[] = array('name' => 'emoticon',
                           'type' => 'integer',
-                          'notnull' => false);
+                          'notnull' => false,
+                          'default' => 0);
 
 		return $fields;
 	}
-    
+
     public function parsefields($vars, $parent = '0', $parentid = '0'){
     	$vars['parent'] = $parent;
     	$vars['parentid'] = $parentid;
@@ -118,7 +119,7 @@ class Image extends AbstractClass {
     		return $err;
     	return parent::parsefields($vars);
     }
-    
+
     /**
     * delete Image from database and filesystem
     */
@@ -158,7 +159,7 @@ class Image extends AbstractClass {
 		$ext = substr(strrchr($this->get('url'), "."), 1);
 		return $ext;
 	}
-	
+
 	function show(& $vars, $layout = '', $array = array()) {
 		if ($layout != '')
 			return parent::show($vars, $layout, $array);
@@ -182,7 +183,7 @@ class Image extends AbstractClass {
 			$x = $vars['x'];
 		if (!empty($vars['y']))
 			$y = $vars['y'];
-		
+
 		$src_im = null;
 		$imgname = $this->get('url');
 		$cachekey = md5($x."-".$y."-".$imgname);
@@ -192,7 +193,7 @@ class Image extends AbstractClass {
 			@readfile('./cache/files/'.$cachekey);
 			die;
 		}
-		
+
 		if ((($this->get('type') == 'image/jpeg') || ($this->get('type') == 'image/pjpeg'))&& function_exists('imagecreatefromjpeg')) {
 			$src_im = imagecreatefromjpeg($imgname);
 		} else if (($this->get('type') == 'image/gif') && function_exists('imagecreatefromgif')) {
@@ -200,10 +201,10 @@ class Image extends AbstractClass {
 		} else if (($this->get('type') == 'image/png') && function_exists('imagecreatefrompng')) {
 			$src_im = imagecreatefrompng($imgname);
 		}
-		
+
 		if ($src_im == null) // image not supported or not recognized
 			die("Image not supported");
-		
+
 		$newwidth=imagesx($src_im);
 		$newheight=imagesy($src_im);
 
@@ -232,7 +233,7 @@ class Image extends AbstractClass {
 			header("Content-type: image/gif");
 			imagegif($dest_im, './cache/files/'.$cachekey, 100);
 		} else // image not supported or not recognized
-			die("Image not supported"); 
+			die("Image not supported");
 		$this->addlog("Write image to cache: ".$cachekey, 10);
 		@readfile('./cache/files/'.$cachekey);
 		imagedestroy($dest_im);
