@@ -23,16 +23,16 @@ WHERE
 	a.codex = c.id AND
 	a.gamesystem = g.id
 ORDER BY a.id ASC;
-	
+
 CREATE OR REPLACE VIEW userrights_view AS
 SELECT
 	ur.*,
-	ug.name as usergroupname 
+	ug.name as usergroupname
 FROM userrights ur, usergroup ug
 WHERE
 	ur.usergroupid = ug.id
-ORDER BY ur.id ASC;	
-	
+ORDER BY ur.id ASC;
+
 CREATE OR REPLACE VIEW user_view AS
 SELECT
 	u.*,
@@ -44,3 +44,30 @@ FROM `user` u
 LEFT JOIN usergroup ug1 ON u.groupid = ug1.id
 LEFT JOIN usergroup ug2 ON u.newgroup = ug2.id
 ORDER BY u.id ASC;
+
+CREATE OR REPLACE VIEW questionaire_answercount_view AS
+SELECT
+	q.questionaireid,
+	count(DISTINCT qas.quserid) as anzahl
+FROM question q, questionaireanswers qas, questionanswer qa
+WHERE
+	qas.questionanswerid = qa.id AND
+	qa.questionid = q.id
+GROUP BY q.questionaireid ORDER  BY qas.quserid, q.id;
+
+CREATE OR REPLACE VIEW questionaire_users_view AS
+SELECT
+	DISTINCT qu.email,
+	q.questionaireid
+FROM question q, questionaireanswers qas, questionanswer qa, questionaireuser qu
+WHERE
+	qas.quserid = qu.id AND
+	qas.questionanswerid = qa.id AND
+	qa.questionid = q.id
+ORDER BY qas.quserid, q.id;
+
+CREATE OR REPLACE VIEW questionaire_answertable_view AS
+SELECT q.sem_id, qas.questionanswervalue, qas.quserid, qas.__createdon, q.questionaireid
+FROM question q, questionaireanswers qas, questionanswer qa
+WHERE qas.questionanswerid = qa.id AND qa.questionid = q.id
+ORDER BY q.id, qas.quserid, qas.__createdon;
