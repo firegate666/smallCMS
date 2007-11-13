@@ -34,20 +34,14 @@ class Questionaire extends AbstractClass {
 
 	public function getAnswerCount() {
  		global $mysql;
- 		$query = "SELECT count(DISTINCT qas.quserid) as anzahl
-		FROM question q, questionaireanswers qas, questionanswer qa
-		WHERE qas.questionanswerid = qa.id AND qa.questionid = q.id AND q.questionaireid = ".$this->get('id')."
-		ORDER  BY qas.quserid, q.id;";
+ 		$query = "SELECT anzahl FROM questionaire_answercount_view WHERE questionaireid = ".$this->get('id').";";
 		$result = $mysql->select($query, true);
 		return $result[0]['anzahl'];
 	}
 
 	public function getUsers() {
  		global $mysql;
- 		$query = "SELECT DISTINCT qu.email
-		FROM question q, questionaireanswers qas, questionanswer qa, questionaireuser qu
-		WHERE qas.quserid = qu.id AND qas.questionanswerid = qa.id AND qa.questionid = q.id AND q.questionaireid = ".$this->get('id')."
-		ORDER  BY qas.quserid, q.id;";
+ 		$query = "SELECT email FROM questionaire_users_view WHERE questionaireid = ".$this->get('id').";";
 		$result = $mysql->select($query, true);
 		return $result;
 	}
@@ -57,13 +51,9 @@ class Questionaire extends AbstractClass {
 	 */
 	public function getAnswerTable() {
 		global $mysql;
-		$query = "SELECT q.sem_id, qas.questionanswervalue, qas.quserid, qas.__createdon
-						FROM question q, questionaireanswers qas, questionanswer qa
-						WHERE qas.questionanswerid = qa.id
-						AND qa.questionid = q.id
-						AND q.questionaireid = ". ($this->id)."
-						ORDER BY q.id, qas.quserid;";
-//						--AND qas.verified = 1
+		$query = "SELECT sem_id, questionanswervalue, quserid, .__createdon
+					FROM questionaire_answertable_view
+					WHERE questionaireid = ". ($this->id).";";
 		$result = $mysql->select($query, true);
 		$return = array ();
 		foreach ($result as $answer) {
