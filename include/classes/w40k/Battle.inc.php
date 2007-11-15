@@ -90,12 +90,12 @@ class Battle extends W40K {
 				|| $this->hasright('w40kadmin');
 		return parent::acl($method);
 	}
-	
+
 	function delete($vars) {
 		parent::delete();
 		return redirect('index.php?battle/showlist//');//$this->showlist($vars);
 	}
-	
+
 	function getListByArmy($armyid){
 		global $mysql;
 		$query = "SELECT *, CONCAT(year,'-',month,'-',day) as date FROM battle WHERE player1=$armyid OR player2=$armyid";
@@ -113,22 +113,22 @@ class Battle extends W40K {
 			$limitstart = $this->escape($vars['limitstart']);
 		} else if (isset($vars['limit']))
 			$limit = '';
-			
+
 		$where = array();
 
-		
+
 		if (empty($vars['battletype']) && isset($vars['battletype2']))
 			unset($vars['battletype2']);
 
 		if (empty($vars['battletype2']))
 			unset($vars['battletype2']);
-			
+
 		if(isset($vars['battletype2']) && ($vars['battletype2'] != '')) {
 			$checkbt = new BattleType($vars['battletype2']);
-			if ($checkbt->get('parent') != $vars['battletype'])	
+			if ($checkbt->get('parent') != $vars['battletype'])
 				$vars['battletype2'] = '';
 		}
-		
+
 		if(isset($vars['gamesystem']) && ($vars['gamesystem'] != ''))
 			$where[] = array('key'=>'gamesystem', 'value'=>$vars['gamesystem']);
 
@@ -136,7 +136,7 @@ class Battle extends W40K {
 			$where[] = array('key'=>'battletypeid', 'value'=>$vars['battletype2']);
 		else if(isset($vars['battletype']) && ($vars['battletype'] != ''))
 			$where[] = array('key'=>'battletypeid', 'value'=>$vars['battletype']);
-				
+
 		$list = $this->getlist('', false, $orderby,
 				array('*'), $limitstart, $limit, $where);
 		$array['orderby'] = $orderby;
@@ -171,7 +171,7 @@ class Battle extends W40K {
 		$bt = new BattleType($vars['battletype']);
 		$bt1_where[] = array('key'=>'parent', 'value'=>null, 'comp'=>' is ');
 		$array['battletypeoptionlist'] = $bt->getOptionList($vars['battletype'], false, 'name',
-											true, 'id', 'id', $bt1_where); 
+											true, 'id', 'id', $bt1_where);
 
 		if (!empty($vars['battletype'])) {
 			$bt2 = new BattleType($vars['battletype2']);
@@ -183,8 +183,8 @@ class Battle extends W40K {
 												true, 'id', 'id', $bt2_where);
 			if (!empty($vars['battletype2']))
 				$bt = $bt2;
-		} 
-		
+		}
+
 		$array['orderby'] = $orderby;
 		$array['rows'] = $rows;
 		$statrows = '';
@@ -304,20 +304,20 @@ class Battle extends W40K {
 		if (!empty($vars['year']) && !empty($vars['month']) && !empty($vars['day']))
 			$vars['impdate'] = std2impDate("{$vars['year']}-{$vars['month']}-{$vars['day']}");
 		$vars['realdate'] = "{$vars['year']}-{$vars['month']}-{$vars['day']}";
-		
-		
+
+
 		$return = parent::parsefields($vars);
 
 		// store multibattle
 		if (($return === false) && ($vars['multibattle'] == 1)) {
-			
+
 			if (!is_array($vars['multibattle1']) || !is_array($vars['multibattle2']))
 				$return[] = "No armies for multibattle selected";
 			else {
 				$mb = new MultiBattle();
 				$mb->store();
 				$this->set('multibattle', $mb->get('id'));
-				
+
 				$this->mbarmies1 = $vars['multibattle1'];
 				foreach($vars['multibattle1'] as $army1) {
 					$mba = new MultiBattleArmy();
@@ -326,7 +326,7 @@ class Battle extends W40K {
 					$mba->set('multibattle', $mb->get('id'));
 					$mba->store();
 				}
-	
+
 				$this->mbarmies2 = $vars['multibattle2'];
 				foreach($vars['multibattle2'] as $army2) {
 					$mba = new MultiBattleArmy();
@@ -337,10 +337,10 @@ class Battle extends W40K {
 				}
 			}
 		}
-		
+
 		if ($this->data['multibattle'] == 0)
 			$this->data['multibattle'] = null;
-		
+
 		return $return;
 	}
 
@@ -361,7 +361,7 @@ class Battle extends W40K {
 		$bt = new BattleType();
 		if ($this->hasright('w40kuser_extern'))
 			$array['battletypelist'] = "<option value='0'></option>";
-		else 
+		else
 			$array['battletypelist'] = $bt->getOptionList($this->data['battletypeid'], false, 'name', true, 'name');
 		$gamesystem = new GameSystem();
 		$array['gamesystemlist'] = $gamesystem->getOptionList($this->data['gamesystem'], false, 'name', true, 'name');
@@ -375,6 +375,14 @@ class Battle extends W40K {
 		$array['mbarmylist2'] = "";
 		$array['missionlist'] = "";
 		if (!empty($this->data['gamesystem'])) {
+			if (!empty($this->data['player1'])) {
+				$ta = new Army($this->data['player1']);
+				$vars['playerlist1'] = $ta->data['userid'];
+			}
+			if (!empty($this->data['player2'])) {
+				$ta = new Army($this->data['player2']);
+				$vars['playerlist2'] = $ta->data['userid'];
+			}
 			$array['playerlist1'] = $w40kuser->getOptionList($vars['playerlist1'], true, 'login', true, 'login');
 			$array['playerlist2'] = $w40kuser->getOptionList($vars['playerlist2'], true, 'login', true, 'login');
 			$where[] = array('key'=>'gamesystem', 'value'=>$this->data['gamesystem']);
@@ -387,7 +395,7 @@ class Battle extends W40K {
 			$army = new Army();
 			$array['armylist1'] = $army->getOptionList($this->data['player1'], false, 'name', true, 'name', 'id', array_merge($where, $where1));
 			$array['armylist2'] = $army->getOptionList($this->data['player2'], false, 'name', true, 'name', 'id', array_merge($where, $where2));
-	
+
 			$array['mbarmylist1'] = $army->getOptionList($this->mbarmies1, false, 'name', true, 'name', 'id', $where);
 			$array['mbarmylist2'] = $army->getOptionList($this->mbarmies2, false, 'name', true, 'name', 'id', $where);
 
@@ -411,7 +419,7 @@ class Battle extends W40K {
 		$array['imagelist'] = "";
 		foreach($ilist as $iobj) {
 			if (($iobj['parent'] == $this->class_name()) && ($iobj['parentid'] == $this->get('id')))
-				$array['imagelist'] .= $this->show($vars, 'battle_edit_image', $iobj); 			
+				$array['imagelist'] .= $this->show($vars, 'battle_edit_image', $iobj);
 		}
 		return parent::show($vars, 'battle_edit', $array, true);
 	}
@@ -430,7 +438,7 @@ class Battle extends W40K {
 				$this->mbarmies2[] = $entry['army_id'];
 		}
 	}
-	
+
 	public function Battle($id='') {
 		parent::W40K($id);
 		$this->loadMultibattles();
@@ -480,7 +488,7 @@ class Battle extends W40K {
 		$array['imagelist'] = "";
 		foreach($ilist as $iobj) {
 			if (($iobj['parent'] == $this->class_name()) && ($iobj['parentid'] == $this->get('id')))
-				$array['imagelist'] .= $this->show($vars, 'battle_view_image', $iobj); 			
+				$array['imagelist'] .= $this->show($vars, 'battle_view_image', $iobj);
 		}
 		return parent::show($vars, 'battle_view', $array);
 	}
