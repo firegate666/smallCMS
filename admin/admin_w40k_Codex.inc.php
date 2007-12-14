@@ -73,7 +73,7 @@ if (isset($_REQUEST['delete'])) {
 				<?
 					$obj = new $_REQUEST['type']($_REQUEST['id']);
 					if (!$obj->exists() && !empty($_REQUEST['gamesystem']))
-						$obj->data['gamesystem'] = $_REQUEST['gamesystem'];
+						$obj->set('gamesystem', $_REQUEST['gamesystem']);
 				?>
 				<input type="hidden" name="admin"/>
 				<input type="hidden" name="w40k"/>
