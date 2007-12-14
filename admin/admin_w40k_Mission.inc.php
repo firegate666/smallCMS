@@ -35,11 +35,11 @@ if (isset($_REQUEST['delete'])) {
 			<select name="gamesystem" onChange="this.form.submit();">
 			<?
 				$gamesystem = new GameSystem();
-				$optionlist = $gamesystem->getOptionList($_REQUEST['gamesystem'], true); 
+				$optionlist = $gamesystem->getOptionList($_REQUEST['gamesystem'], true);
 			?>
 				<?=$optionlist?>
 			</select>
-			<a href="index.php?admin&w40k&type=<?=$_REQUEST['type']?>&id=">Neue Mission anlegen</a>
+			<a href="index.php?admin&w40k&type=<?=$_REQUEST['type']?>&id=&gamesystem=<?=$_REQUEST['gamesystem']?>">Neue Mission anlegen</a>
 		</form>
 		<table class="adminlist" width="100%">
 			<tr>
@@ -55,10 +55,10 @@ if (isset($_REQUEST['delete'])) {
 				<tr>
 					<td width="80%"><?=$item['name']?></td>
 					<td width="20%">
-						<a href='?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>#edit'>
+						<a href='?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>&gamesystem=<?=$_REQUEST['gamesystem']?>#edit'>
 							<img src='img/edit.gif' border='0' alt='Edit'/>
 						</a>
-						<a href="?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>&delete">
+						<a href="?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>&delete&gamesystem=<?=$_REQUEST['gamesystem']?>">
 							<img src='img/delete.gif' border='0' alt='Delete'/>
 						</a>
 					</td>
@@ -70,7 +70,11 @@ if (isset($_REQUEST['delete'])) {
 	<? if(isset($_REQUEST['id'])) { ?>
 			<div><a href="javascript:history.back()">Zurück</a></div>
 			<form method="post" action="index.php">
-				<?$obj = new $_REQUEST['type']($_REQUEST['id']);?>
+				<?
+					$obj = new $_REQUEST['type']($_REQUEST['id']);
+					if (!$obj->exists() && !empty($_REQUEST['gamesystem']))
+						$obj->set('gamesystem', $_REQUEST['gamesystem']);
+				?>
 				<input type="hidden" name="admin"/>
 				<input type="hidden" name="w40k"/>
 				<input type="hidden" name="id" value="<?=$obj->get('id')?>"/>

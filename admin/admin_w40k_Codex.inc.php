@@ -17,7 +17,6 @@ if (isset($_REQUEST['store'])) {
 
 if (isset($_REQUEST['delete'])) {
 	$obj = new $_REQUEST['type']($_REQUEST['id']);
-	$_REQUEST['gamesystem'] = $obj->get('gamesystem');
 	if (!$obj->delete(true))
 		$error = "L&ouml;schen des Objektes ist fehlgeschlagen. M&ouml;glicherweise wird es noch verwendet.";
 	unset($_REQUEST['id']);
@@ -56,10 +55,10 @@ if (isset($_REQUEST['delete'])) {
 				<tr>
 					<td width="80%"><?=$item['name']?></td>
 					<td width="20%">
-						<a href='?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>'>
+						<a href='?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>&gamesystem=<?=$_REQUEST['gamesystem']?>'>
 							<img src='img/edit.gif' border='0' alt='Edit'/>
 						</a>
-						<a href="?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>&delete">
+						<a href="?admin&w40k&type=<?=$_REQUEST['type']?>&id=<?=$item['id']?>&delete&gamesystem=<?=$_REQUEST['gamesystem']?>">
 							<img src='img/delete.gif' border='0' alt='Delete'/>
 						</a>
 					</td>
