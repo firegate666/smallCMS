@@ -35,11 +35,11 @@ if (isset($_REQUEST['delete'])) {
 			<select name="gamesystem" onChange="this.form.submit();">
 			<?
 				$gamesystem = new GameSystem();
-				$optionlist = $gamesystem->getOptionList($_REQUEST['gamesystem'], true); 
+				$optionlist = $gamesystem->getOptionList($_REQUEST['gamesystem'], true);
 			?>
 				<?=$optionlist?>
 			</select>
-			<a href="index.php?admin&w40k&type=<?=$_REQUEST['type']?>&id=">Neuen Codex anlegen</a>
+			<a href="index.php?admin&w40k&type=<?=$_REQUEST['type']?>&id=&gamesystem=<?=$_REQUEST['gamesystem']?>">Neuen Codex anlegen</a>
 		</form>
 		<table class="adminlist" width="100%">
 			<tr>
@@ -70,7 +70,11 @@ if (isset($_REQUEST['delete'])) {
 	<? if(isset($_REQUEST['id'])) { ?>
 			<div><a href="javascript:history.back()">Zurück</a></div>
 			<form method="post" action="index.php">
-				<?$obj = new $_REQUEST['type']($_REQUEST['id']);?>
+				<?
+					$obj = new $_REQUEST['type']($_REQUEST['id']);
+					if (!$obj->exists() && !empty($_REQUEST['gamesystem']))
+						$obj->data['gamesystem'] = $_REQUEST['gamesystem'];
+				?>
 				<input type="hidden" name="admin"/>
 				<input type="hidden" name="w40k"/>
 				<input type="hidden" name="id" value="<?=$obj->get('id')?>"/>
