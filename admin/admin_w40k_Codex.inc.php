@@ -17,6 +17,7 @@ if (isset($_REQUEST['store'])) {
 
 if (isset($_REQUEST['delete'])) {
 	$obj = new $_REQUEST['type']($_REQUEST['id']);
+	$_REQUEST['gamesystem'] = $obj->get('gamesystem');
 	if (!$obj->delete(true))
 		$error = "L&ouml;schen des Objektes ist fehlgeschlagen. M&ouml;glicherweise wird es noch verwendet.";
 	unset($_REQUEST['id']);
