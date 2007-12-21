@@ -56,7 +56,7 @@ class Army extends W40K {
 		$w40kuser = new User();
 		$user_me = array();
 		if (!$this->hasright('w40kadmin'))
-			$user_me = array('key'=>'id', 'value'=>User::loggedIn());
+			$user_me[] = array('key'=>'id', 'value'=>User::loggedIn());
 		$array['playerlist'] = $w40kuser->getOptionList($this->data['userid'], false, 'login', true, 'login', 'id', $user_me);
 
 		$gamesystem = new GameSystem();
