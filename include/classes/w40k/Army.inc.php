@@ -53,6 +53,8 @@ class Army extends W40K {
 		}
 		$this->preloaddata($vars);
 
+		if (empty($this->data['userid']))
+			$this->data['userid'] = User::loggedIn();
 		$w40kuser = new User();
 		$user_me = array();
 		if (!$this->hasright('w40kadmin'))
