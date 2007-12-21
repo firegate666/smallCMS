@@ -24,11 +24,12 @@ class Army extends W40K {
 		parent::delete();
 		return redirect('index.php?army/showlist//');//$this->showlist($vars);
 	}
-	
 
 	function parsefields($vars){
 		if ($this->get('userid')==null)
 			$vars['userid'] = User::loggedIn();
+		else if ($this->hasright('w40kadmin') && (!empty($vars['userid'])))
+			$vars['userid'] = $vars['userid'];
 		else
 			$vars['userid'] = $this->get('userid');
 		return parent::parsefields($vars);
@@ -39,7 +40,7 @@ class Army extends W40K {
 		if (isset($vars['delete'])) {
 			$bool = $this->delete(true);
 			if ($bool) return $this->showlist($vars);
-			else $array['error'] = 'Delete failed, there might be references on this object, e.g. battles'; 
+			else $array['error'] = 'Delete failed, there might be references on this object, e.g. battles';
 		}
 		else if (isset($vars['submitted'])) {
 			$err = $this->parsefields($vars);
@@ -51,7 +52,13 @@ class Army extends W40K {
 			}
 		}
 		$this->preloaddata($vars);
-		
+
+		$w40kuser = new User();
+		$user_me = array();
+		if (!$this->hasright('w40kadmin'))
+			$user_me = array('key'=>'id', 'value'=>User::loggedIn());
+		$array['playerlist'] = $w40kuser->getOptionList($this->data['userid'], false, 'login', true, 'login', 'id', $user_me);
+
 		$gamesystem = new GameSystem();
 		$array['gamesystemlist'] = $gamesystem->getOptionList($this->data['gamesystem'], true, 'name', true, 'name');
 		$where = array();
@@ -66,7 +73,7 @@ class Army extends W40K {
 		$array['imagelist'] = "";
 		foreach($ilist as $iobj) {
 			if (($iobj['parent'] == $this->class_name()) && ($iobj['parentid'] == $this->get('id')))
-				$array['imagelist'] .= $this->show($vars, 'army_edit_image', $iobj); 			
+				$array['imagelist'] .= $this->show($vars, 'army_edit_image', $iobj);
 		}
 		return parent::show($vars, 'army_edit', $array, true);
 	}
@@ -89,7 +96,7 @@ class Army extends W40K {
 			$battlerows .= $b->show($vars, 'battle_list_row', $entry);
 		}
 		$array['battlerows'] = $battlerows;
-		
+
 		$array = array_merge($array, $this->getPlayerStats());
 
 		$image = new Image();
@@ -97,7 +104,7 @@ class Army extends W40K {
 		$array['imagelist'] = "";
 		foreach($ilist as $iobj) {
 			if (($iobj['parent'] == $this->class_name()) && ($iobj['parentid'] == $this->get('id')))
-				$array['imagelist'] .= $this->show($vars, 'army_view_image', $iobj); 			
+				$array['imagelist'] .= $this->show($vars, 'army_view_image', $iobj);
 		}
 		$u = new User($this->get('userid'));
 		$array['username'] = $u->get('login');
@@ -148,7 +155,7 @@ class Army extends W40K {
 		$where = array();
 		if (isset($vars['gamesystem']) && ($vars['gamesystem'] != ''))
 			$where[] = array('key'=>'gamesystem', 'value'=>$vars['gamesystem']);
-		
+
 		$list = $this->getlist('', true, $orderby,
 				array('*'), $limitstart, $limit, $where);
 		$array['orderby'] = $orderby;
@@ -169,9 +176,9 @@ class Army extends W40K {
 		$rows = '';
 
 		$gs = new GameSystem($vars['gamesystem']);
-		$array['gamesystemoptionlist'] = $gs->getOptionList($vars['gamesystem']); 
+		$array['gamesystemoptionlist'] = $gs->getOptionList($vars['gamesystem']);
 		$array['gamesystem'] = $vars['gamesystem'];
-		
+
 		foreach($list as $entry) {
 			if (!empty($entry['comment']))
 				$entry['hastext'] = "T";
