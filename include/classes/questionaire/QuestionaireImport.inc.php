@@ -68,6 +68,7 @@ class QuestionaireImport extends AbstractClass {
 					<head>
 						<title>smallCMS Admin</title>
 						<link href="?admin/show/css" rel="stylesheet" type="text/css"/>
+						<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 					</head>
 			<?
 			$csv = file($HTTP_POST_FILES['importfile']['tmp_name']);
@@ -75,7 +76,7 @@ class QuestionaireImport extends AbstractClass {
 			foreach ($csv as $item)
 				$result[] = explode(";", $item);
 			Session :: setCookie('questionaireimport', $result);
-			$content[] = array ('input' => '<h3>Fragebogenimport Schritt 2/3</h3>');
+			$content[] = array ('input' => '<h3>Fragebogenimport Schritt 2/2</h3>');
 			$content[] = array ('input' => '<p>Daten vervollständigen:</p>');
 			$content[] = array ('descr' => 'Name', 'input' => HTML :: input('text', 'name', '', 100));
 			$content[] = array ('descr' => 'Autor', 'input' => HTML :: input('text', 'author', '', 100));
@@ -101,10 +102,11 @@ class QuestionaireImport extends AbstractClass {
 				<head>
 					<title>smallCMS Admin</title>
 					<link href="?admin/show/css" rel="stylesheet" type="text/css"/>
+					<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 				</head>
 		<?
 		Session :: unsetCookie('questionaireimport');
-		$content[] = array ('input' => '<h3>Fragebogenimport Schritt 1/3</h3>');
+		$content[] = array ('input' => '<h3>Fragebogenimport Schritt 1/2</h3>');
 		$content[] = array ('descr' => 'Input File (csv)', 'input' => HTML :: input('file', 'importfile', ''));
 		$content[] = array ('descr' => 'Trennzeichen', 'input' => HTML :: input('text', 'importseperator', ';'));
 		$content[] = array ('descr' => '&nbsp;', 'input' => HTML :: input('submit', 'submit', 'Import starten'));
