@@ -83,7 +83,7 @@ class QuestionaireImport extends AbstractClass {
 			$content[] = array ('descr' => 'Email', 'input' => HTML :: input('text', 'email', '', 100));
 			$content[] = array ('descr' => 'Kurzbeschreibung', 'input' => HTML :: input('text', 'shortdesc', '', 100));
 			$content[] = array ('descr' => 'Beschreibung', 'input' => HTML :: textarea('desc', ''));
-			$content[] = array ('descr' => '&nbsp;', 'input' => HTML :: input('submit', 'submit', 'Import abschließen'));
+			$content[] = array ('descr' => '&nbsp;', 'input' => HTML :: input('submit', 'submit', 'Import abschlie&szlig;en'));
 			$form1 = $this->getForm($content, '', 'finish', 'createquestionaire', $vars, '');
 			$content2[] = array ('descr' => '&nbsp;', 'input' => HTML :: input('submit', 'submit', 'Import abbrechen'));
 			$form2 = $this->getForm($content2, '', 'start', 'stopimport', $vars, '');
