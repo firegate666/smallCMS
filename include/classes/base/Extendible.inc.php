@@ -1,4 +1,7 @@
 <?php
+/**
+ * expand object with unlimited number of extra fields
+ */
 class Extendible extends AbstractClass {
 
 	public function acl($method) {
