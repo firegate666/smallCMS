@@ -51,7 +51,7 @@ class Questionaire extends AbstractClass {
 	 */
 	public function getAnswerTable() {
 		global $mysql;
-		$query = "SELECT sem_id, questionanswervalue, quserid, .__createdon
+		$query = "SELECT sem_id, questionanswervalue, quserid, __createdon
 					FROM questionaire_answertable_view
 					WHERE questionaireid = ". ($this->id).";";
 		$result = $mysql->select($query, true);
@@ -181,11 +181,11 @@ class Questionaire extends AbstractClass {
 		if (!QuestionaireUser :: LoggedIn())
 			error('Um an Umfragen teilzunehmen, muss man eingelogged sein', 'questionaire', 'submit', $vars);
 		if (!isset ($vars['question']) || !isset ($vars['questionanswer']))
-			return $this->show(array ('err' => 'Es müssen alle Fragen beantwortet werden, bevor die Seite abgeschickt werden kann.'));
+			return $this->show(array ('err' => 'Es m&uuml;ssen alle Fragen beantwortet werden, bevor die Seite abgeschickt werden kann.'));
 		// TODO überprüfen, ob dieser User diese Frage schon beantwortet hat
 		$lastcc = Session::getCookie('questionaire_last_questioncount', null);
 		if ($lastcc != count($vars['questionanswer']))
-			return $this->show(array ('err' => 'Es müssen alle Fragen beantwortet werden, bevor die Seite abgeschickt werden kann.'));
+			return $this->show(array ('err' => 'Es m&uuml;ssen alle Fragen beantwortet werden, bevor die Seite abgeschickt werden kann.'));
 		foreach ($vars['question'] as $qid) {
 			if (isset ($vars['questionanswer'][$qid])) { // there are questions with no answers
 				foreach ($vars['questionanswer'][$qid] as $qaid => $value) {
