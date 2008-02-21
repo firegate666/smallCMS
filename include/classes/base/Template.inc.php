@@ -29,8 +29,8 @@ class Template extends AbstractClass {
 	}
 
 	function idbyname($name) {
-	} 
-	
+	}
+
 	/**
 	* checks whether it is allowed to call method from outside 	or	 who is
 	* allowed to call.
@@ -193,7 +193,10 @@ class Template extends AbstractClass {
 				$array[$key] = '?image/show/'.$value;
 			else {
 				$obj = new $type ($value);
-				$array[$key] = $obj->show($vars);
+				$temp = $obj->show($vars);
+				if ($this->loggedIn()) // debuginfo
+					$temp = "<!-- start $type/$value -->".$temp."<!-- end $type/$value -->";
+				$array[$key] = $temp;
 			}
 		}
 		$keys = array_keys($array);
@@ -201,8 +204,10 @@ class Template extends AbstractClass {
 			$string = str_replace('${'.$key.'}', $array[$key], $string);
 		}
 		$this->removeLostTags($string);
+		if ($this->loggedIn()) // debuginfo
+			$string = "<!-- start $class/$layout -->".$string."<!-- end $class/$layout -->";
 		return $string;
 	}
-	
+
 }
 ?>
