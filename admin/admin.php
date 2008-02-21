@@ -9,7 +9,7 @@
 	if(empty($adminlogin)) {
 		header("Location: ?admin/show/login");
 	}
-	
+
    	$admin = new Admin('head');
    	$vars = array();
    	echo $admin->show($vars);
@@ -58,26 +58,27 @@
   </tr>
   <tr>
     <td id="mainframe">
-    <?		if (isset ($_REQUEST['template'])) {
-			include ('admin/admin_template.inc.php');
+    <?
+    	$actdir = dirname(__FILE__).'/';		if (isset ($_REQUEST['template'])) {
+			require_once $actdir.'admin_template.inc.php';
 		} else if (isset ($_REQUEST['image'])) {
-			include ('admin/admin_image.inc.php');
+			require_once $actdir.'admin_image.inc.php';
 		} else if (isset ($_REQUEST['filecategory'])) {
-			include ('admin/admin_filecategory.inc.php');
+			require_once $actdir.'admin_filecategory.inc.php';
 		} else if (isset ($_REQUEST['techtree'])) {
-			include ('admin/admin_techtree.inc.php');
+			require_once $actdir.'admin_techtree.inc.php';
 		} else if (isset ($_REQUEST['settings'])) {
-			include ('admin/admin_settings.inc.php');
+			require_once $actdir.'admin_settings.inc.php';
 		} else if (isset ($_REQUEST['config'])) {
-			include ('admin/admin_config.inc.php');
+			require_once $actdir.'admin_config.inc.php';
 		} else if (isset ($_REQUEST['questionaire'])) {
-			include ('admin/admin_questionaire.inc.php');
+			require_once $actdir.'admin_questionaire.inc.php';
 		} else if (isset ($_REQUEST['user'])) {
-			include ('admin/admin_user.inc.php');
+			require_once $actdir.'admin_user.inc.php';
 		} else if (isset ($_REQUEST['usergroup'])) {
-			include ('admin/admin_usergroup.inc.php');
+			require_once $actdir.'admin_usergroup.inc.php';
 		} else if (isset ($_REQUEST['w40k']) && isset($_REQUEST['type'])) {
-			include ('admin/admin_w40k_'.$_REQUEST['type'].'.inc.php');
+			require_once $actdir.'admin_w40k_'.$_REQUEST['type'].'.inc.php';
 		} else {
 	    	$admin = new Admin('index');
 	    	$vars = array();
