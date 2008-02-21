@@ -1,0 +1,66 @@
+#################
+# AbstractClass #
+#################
+
+AbstractClass provides load() and store() to get objects from databse and store
+them as well. AbstractClass provides additional feature for automatic form creation,
+search, list etc...
+
+Libraries will not extend AbstractClass.
+
+##################
+# Database Layer #
+##################
+
+Every object has a corresponding database table. $this->load() and $this->store()
+give access to them. The tablecells fro every object are stored in $this->data['fieldname'].
+Acces them with $this->get('fieldname') and $this->set('fieldname').
+
+$this->getFields() will return database definition for all fields (hopefully). They are
+used for automatic value validation.
+
+$this->parsefields($formdata) automatically can parse form submitted data.
+
+##############
+# Styleguide #
+##############
+
+- all class names are ucfirst, all tablenames lower case
+- instance methods begin with a lower case character
+- instance variables begin with a lower case character
+- static method begin with an upper case charater
+
+#######
+# Doc #
+#######
+
+Comment every method with php doc style
+
+/**
+* Description
+*
+* @param	type	name	comment
+* @param	type	name	comment
+* @return	type	comment
+*/
+
+kommentiert.
+
+#######
+# ACL #
+#######
+
+All access from outside goes through index.php.
+
+Use: index.php?class=classname&method=methodname&id=objectid&param1=value1&...
+Alt. use: index.php?classname/methodname/objectid/param1=value1/...
+
+Every callable class has $this->acl() which returns treu or false. Use is restrictive.
+
+Example:
+
+	function acl($method) {
+		if ($method == 'show')
+			return (Login :: isLoggedIn()) && ($this->data['player'] == Session :: getCookie('player'));
+		return parent::acl($method);
+	}

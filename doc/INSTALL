@@ -1,10 +1,22 @@
-##########################
-# Installationsanleitung #
-##########################
+1. unzip
+2. exceute sql dumps in order to databse
+3. copy and customize config/config.inc.php.template to config/config.inc.php
 
-1. ZIP entpacken und auf den Server laden
-//2. install/install.php ausführen
-2. sql Dumps aus install der Reihe nach in die Datenbank bringen
-3. config/config.inc.php.template nach config/config.inc.php umbennenen und anpassen
+automatic installer will follow
 
-Folgt sp?ter...
+file permissions
+
+555 admin
+777 cache
+555 config
+500 doc
+500 feature
+555 img
+555 include
+555 install
+777 upload
+444 .htaccess
+444 admin.php
+444 contact.php
+444 index.php
+444 newsletter.php

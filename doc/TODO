@@ -3,8 +3,6 @@
 ########
 
 GLOBAL:
-* Logfile wird benötigt
-* Beim Löschen und speichern müssen depency checks durchgeführt werden, da mysql keine referentielle Integrität kennt
 * Überprüfung der eingegebenen Variablen mit addslashes() und ähnliches für SQL
 
 CMS:
@@ -36,3 +34,5 @@ W40K:
 * entsprechende Klassen, die davon erben (z.B. Image für ausgewählten Zugriff)
 * Zeilenumbrüche umwandeln \n => <br/> => BBCODE
 * alle Klassenobjekte muessen eine ID bekommen
+* Logfile wird benötigt
+* Beim Löschen und speichern müssen depency checks durchgeführt werden, da mysql keine referentielle Integrität kennt
