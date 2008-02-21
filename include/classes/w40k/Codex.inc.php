@@ -31,7 +31,7 @@ class Codex extends W40K {
                           'size' => 100,
                           'notnull' => false,
                           'htmltype' => 'input',
-                          'desc'=>'Anführer');
+                          'desc'=>'Anf&uuml;hrer');
 		$fields[] = array('name' => 'followers',
                           'type' => 'string',
                           'size' => 1000000,
@@ -43,7 +43,7 @@ class Codex extends W40K {
                           'size' => 100,
                           'notnull' => false,
                           'htmltype' => 'input',
-                          'desc'=>'Gründung');
+                          'desc'=>'Gr&uuml;ndung');
 		$fields[] = array('name' => 'homeplanet',
                           'type' => 'string',
                           'size' => 100,
@@ -85,7 +85,7 @@ class Codex extends W40K {
                           'size' => 1000000,
                           'notnull' => false,
                           'htmltype' => 'textarea',
-                          'desc'=>'Aktuelle Stärke');
+                          'desc'=>'Aktuelle St&auml;rke');
 		$fields[] = array('name' => 'archenemy',
                           'type' => 'string',
                           'size' => 100,
@@ -108,12 +108,12 @@ class Codex extends W40K {
 	function view(&$vars) {
 		return parent::show($vars, 'codex_view', array());
 	}
-	
+
 	function showlist(&$vars) {
 		$orderby = "name";
 		if (isset($vars['orderby']) && !empty($vars['orderby']))
 			$orderby = $this->escape($vars['orderby']);
-		
+
 		$limit = Setting::read('codex_defaultpagelimit');
 		$limitstart = '';
 		if (isset($vars['limit']) && !empty($vars['limit'])) {
@@ -147,9 +147,9 @@ class Codex extends W40K {
 		$rows = '';
 
 		$gs = new GameSystem($vars['gamesystem']);
-		$array['gamesystemoptionlist'] = $gs->getOptionList($vars['gamesystem']); 
+		$array['gamesystemoptionlist'] = $gs->getOptionList($vars['gamesystem']);
 		$array['gamesystem'] = $vars['gamesystem'];
-		
+
 		foreach($list as $entry) {
 			if (strlen($entry['comment']) > 50)
 				$entry['comment'] = substr(strip_tags($entry['comment']), 0, 50)." [...]";
@@ -159,7 +159,7 @@ class Codex extends W40K {
 		return parent::show($vars, 'codex_list', $array);
 	}
 
-	
+
 
 }
 ?>

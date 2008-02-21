@@ -56,7 +56,7 @@ if (isset($_REQUEST['delete'])) {
 		</table>
 	<? } ?>
 	<? if(isset($_REQUEST['id'])) { ?>
-			<div><a href="javascript:history.back()">Zurück</a></div>
+			<div><a href="javascript:history.back()">Zur&uuml;ck</a></div>
 			<form method="post" action="index.php">
 				<?$obj = new $_REQUEST['type']($_REQUEST['id']);?>
 				<input type="hidden" name="admin"/>

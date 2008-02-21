@@ -1,7 +1,7 @@
 Es gibt eine abstrakte Klasse, von der alle anderen Klassen erben sollten.
 
 #################
-# AbstractClass # 
+# AbstractClass #
 #################
 
 AbstractClass stell mit load() und store() die Abbildung der Objekte in der
@@ -10,9 +10,9 @@ gekapselt.
 
 Bibliotheksklassen erben nicht von AbstractClass.
 
-###########################
-# Datenbankrepräsentation #
-###########################
+############################
+# Datenbankrepraesentation #
+############################
 
 Zu jeder Klasse gibt es eine passende Tabelle in der Datenbank.
 Die load() und store() Methoden verwalten den Zugriff darauf.
@@ -78,7 +78,7 @@ eingeloggte Spieler die selbe ID hat, wie die, die in der Instanzvariable gespei
 # Verschlüsselung #
 ###################
 
-Wenn es vom Gesamtsystem abhängig ist, ob Verschlüsselung verwendet
+Wenn es vom Gesamtsystem abhaengig ist, ob Verschlüsselung verwendet
 wird oder nicht, sollte die Funktion myencrypt(String) benutzt werden.
 Je nachdem ob in der config.inc.php Verschlüsselung aktiviert ist,
 wird hiermit ein Passwort verschlüsselt oder nicht.

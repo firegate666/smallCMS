@@ -30,9 +30,9 @@ if(isset($_REQUEST['store']) && isset($_REQUEST['userid'])) {
 			$error = "Passwords do not match. ";
 		else
 			$u->set('password', myencrypt($_REQUEST['password']));
-	$u->set('login', $_REQUEST['login']);	
-	$u->set('email', $_REQUEST['email']);	
-	$u->set('groupid', $_REQUEST['groupid']);	
+	$u->set('login', $_REQUEST['login']);
+	$u->set('email', $_REQUEST['email']);
+	$u->set('groupid', $_REQUEST['groupid']);
 	if ($error === false) {
 		$u->store();
 		unset($_REQUEST['userid']);
@@ -72,7 +72,7 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 		<input type="hidden" name="user"/>
 		<input type="submit" name="userid" value="Neuen User anlegen"/>
 	</form>
-	
+
 	<table class="adminlist" width="100%">
 		<tr>
 			<th align="left">Login</th>
@@ -90,7 +90,7 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 		if (!empty($_REQUEST['usergroupid']))
 			$where[] = array('key'=>'groupid', 'value'=>$_REQUEST['usergroupid']);
 		$ul = $u->getlist('', true, 'login', array('*'), '', '', $where);
-		foreach($ul as $myuser) { 
+		foreach($ul as $myuser) {
 			$ug = new Usergroup($myuser['groupid']);
 			$ug2 = new Usergroup($myuser['newgroup']);
 			$class = '';
@@ -126,7 +126,7 @@ if (isset($_REQUEST['userid'])) {
 	$ug = new Usergroup($u->get('groupid'));
 ?>
 	<a name="edit"></a>
-	<div><a href="javascript:history.back()">Zurück</a></div>
+	<div><a href="javascript:history.back()">Zur&uuml;ck</a></div>
 	<form action="index.php" method="post">
 		<input type="hidden" name="admin"/>
 		<input type="hidden" name="user"/>

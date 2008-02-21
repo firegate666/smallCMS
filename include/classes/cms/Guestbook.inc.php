@@ -1,24 +1,24 @@
 <?php
 $template_classes[] = 'guestbook';
-$__userrights[] = array('name'=>'guestbookadmin', 'desc'=>'can edit guestbook'); 
+$__userrights[] = array('name'=>'guestbookadmin', 'desc'=>'can edit guestbook');
 
 	Setting::write('moderated_guestbook',
 		'1',
 		'Moderated Guestbook? (1=true, 2=false)',
 		false);
-	
+
 	Setting::write('email_guestbookadmin',
 		'false',
 		'Email Guestbookadmin',
 		false);
 
 class Guestbook extends AbstractClass {
-	
+
 	function Guestbook($id='') {
 		$this->layout = $id;
 		parent::AbstractClass($id);
 	}
-	
+
 	function togglestate($vars) {
 		if ($this->get('deleted'))
 			$this->set('deleted', 0);
@@ -29,9 +29,9 @@ class Guestbook extends AbstractClass {
 			return redirect($vars['destination']);
 		else
 			return redirect($_SERVER['HTTP_REFERER']);
-		
+
 	}
-	
+
 	function acl($action) {
 		if ($action == 'newentry')
 			return true;
@@ -40,7 +40,7 @@ class Guestbook extends AbstractClass {
 		else
 			return parent::acl($action);
 	}
-	
+
 	function del($vars) {
 		if ($this->exists()) {
 			$this->delete();
@@ -50,7 +50,7 @@ class Guestbook extends AbstractClass {
 		else
 			return redirect($_SERVER['HTTP_REFERER']);
 	}
-	
+
 	function newentry($vars) {
 		// error handling
 		if (!isset($vars['name']))
@@ -65,7 +65,7 @@ class Guestbook extends AbstractClass {
 			$error = implode(" / ", $error);
 			$this->error($error, 'newentry');
 		}
-		
+
 		$gb = new Guestbook();
 		$gb->set('name', $vars['name']);
 		$gb->set('subject', $vars['subject']);
@@ -79,8 +79,8 @@ class Guestbook extends AbstractClass {
 			$m = new Mailer();
 			$from = Setting::read('email_guestbookadmin');
 			$to = Setting::read('email_guestbookadmin');
-			$subject = 'Neuer Gästebucheintrag';
-			$body = 'Ein neuer Gästebucheintrag von "'.$gb->get('name'). '" wurde erstellt.';
+			$subject = 'Neuer G&auml;stebucheintrag';
+			$body = 'Ein neuer G&auml;stebucheintrag von "'.$gb->get('name'). '" wurde erstellt.';
 			$body .= "\n\n".$gb->get('content');
 			$m->simplesend($from, $to, $subject, $body);
 		}
@@ -90,7 +90,7 @@ class Guestbook extends AbstractClass {
 		else
 			return redirect('index.php');
 	}
-	
+
 	function show($vars) {
 		$result = $this->getlist('guestbook', false);
 		$output = '';

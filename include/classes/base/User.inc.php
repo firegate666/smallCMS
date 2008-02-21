@@ -5,9 +5,9 @@ $__userrights[] = array('name'=>'useradmin', 'desc'=>'can edit users');
 $__userrights[] = array('name'=>'disabled', 'desc'=>'denied login');
 
 class User extends AbstractClass {
-	
+
 	protected $viewname = 'user_view';
-	
+
 	/**
 	* returns id of logged in user, 0 if no one is logged in
 	*
@@ -16,7 +16,7 @@ class User extends AbstractClass {
 	public function loggedIn() {
 		return Session::getCookie('user', false);
 	}
-	
+
 	public function changenewgroup() {
 		$this->set('groupid', $this->get('newgroup'));
 		$this->set('newgroup', null);
@@ -24,11 +24,11 @@ class User extends AbstractClass {
 		$m = new Mailer();
 		$from = get_config('sender', 'no reply');
 		$to = $this->get('email');
-		$subject = "Gruppenwechsel bestätigt auf  ".get_config('system', 'smallCMS');
-		$body = "Hallo ! Dein Gruppenwechsel wurde so eben bestätigt.";
+		$subject = "Gruppenwechsel best&auml;tigt auf  ".get_config('system', 'smallCMS');
+		$body = "Hallo ! Dein Gruppenwechsel wurde so eben best&auml;tigt.";
 		$m->simplesend($from, $to, $subject, $body);
 	}
-	
+
 	public function delnewgroup() {
 		$this->set('newgroup', null);
 		$this->store();
@@ -39,7 +39,7 @@ class User extends AbstractClass {
 		$body = "Hallo ! Dein Gruppenwechsel wurde abgelehnt.";
 		$m->simplesend($from, $to, $subject, $body);
 	}
-	
+
 	/**
 	 * test rights for logged in user
 	 */
@@ -47,7 +47,7 @@ class User extends AbstractClass {
 		$rights = Session::getCookie('userrights', array());
 		return in_array($right, $rights);
 	}
-	
+
 	public function acl($method) {
 		if (($method=='logout')
 				|| ($method == 'passwordreminder')
@@ -62,12 +62,12 @@ class User extends AbstractClass {
 			return true;
 		return false;
 	}
-	
+
 	public function logout($vars){
 		Session::cleanUpCookies();
 		return redirect($vars['ref']);
 	}
-	
+
 	public function login($vars) {
 		if (empty($vars['login']) || empty($vars['password']))
 			return error('Login or password not send', 'user', 'login', $vars);
@@ -90,7 +90,7 @@ class User extends AbstractClass {
 		$u->store();
 		return redirect($vars['ref']);
 	}
-	
+
 	protected function dologin($u) {
 		Session::setCookie('user', $u->get('id'));
 		Session::setCookie('usergroup', $u->get('groupid'));
@@ -163,7 +163,7 @@ class User extends AbstractClass {
 			return $err;
 		return false;
 	}
-	
+
 	public function resetpassword($vars) {
 		if (isset($vars['hash'])) {
 			if($this->get('hash') == $vars['hash']) {
@@ -182,7 +182,7 @@ class User extends AbstractClass {
 			return redirect($vars['destination']);
 		return '';
 	}
-	
+
 	public function passwordreminder($vars) {
 		if (isset($vars['login'])) {
 			$ids = $this->search($vars['login'], 'login');
@@ -201,7 +201,7 @@ class User extends AbstractClass {
 			return redirect($vars['destination']);
 		return '';
 	}
-	
+
 	public function register($vars){
 		$array = array();
 		if (isset($vars['submit'])) {
@@ -223,7 +223,7 @@ class User extends AbstractClass {
 		}
 		return parent::show($vars, 'register', $array);
 	}
-	
+
 	function edit(&$vars) {
 		$array = array();
 		if (isset($vars['submit'])) {
@@ -245,12 +245,12 @@ class User extends AbstractClass {
 			$array['show_email'] = 'CHECKED="CHECKED"';
 		$ug = new Usergroup($this->get('groupid'));
 		$array['groupname'] = $ug->get('name');
-		
+
 		$array['newgroup_list'] = $ug->getOptionList($this->get('newgroup'), true);
-		
+
 		return parent::show($vars, 'edit', $array);
 	}
-	
-	
+
+
 }
 ?>

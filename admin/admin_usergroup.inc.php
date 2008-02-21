@@ -23,7 +23,7 @@ if (isset($_REQUEST['delete'])) {
 	unset($_REQUEST['delete']);
 	unset($_REQUEST['id']);
 }
-	
+
 if (!isset($_REQUEST['id'])) {
 	$ug = new Usergroup();
 ?>
@@ -60,7 +60,7 @@ if (!isset($_REQUEST['id'])) {
 		global $__userrights;
 		$ug = new Usergroup($_REQUEST['id']); ?>
 		<a name="edit"></a>
-		<div><a href="javascript:history.back()">Zurück</a></div>
+		<div><a href="javascript:history.back()">Zur&uuml;ck</a></div>
 		<form action="index.php" method="post">
 			<input type="hidden" name="admin"/>
 			<input type="hidden" name="usergroup"/>
@@ -82,15 +82,15 @@ if (!isset($_REQUEST['id'])) {
 						  foreach ($__userrights as $priv) {
 							$checked="";
 							if (in_array($priv['name'], $rights))
-								$checked = 'CHECKED="CHECKED"'; 
-							?><input <?=$checked?> type="checkbox" name="userright[<?=$priv['name']?>]"/> <?=$priv['name']?>, <?=$priv['desc']?><br/><? 
+								$checked = 'CHECKED="CHECKED"';
+							?><input <?=$checked?> type="checkbox" name="userright[<?=$priv['name']?>]"/> <?=$priv['name']?>, <?=$priv['desc']?><br/><?
 						}?>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2"><input type="submit" name="store" value="Speichern"/>
 				</tr>
-			</table>	
+			</table>
 		</form>
 	<?}
 ?>

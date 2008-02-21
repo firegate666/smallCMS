@@ -44,7 +44,7 @@ if (isset($_REQUEST['store'])) {
 		</table>
 	<? } ?>
 	<? if(isset($_REQUEST['id'])) { ?>
-			<div><a href="javascript:history.back()">Zurück</a></div>
+			<div><a href="javascript:history.back()">Zur&uuml;ck</a></div>
 			<form method="post" action="index.php">
 				<?$obj = new Filecategory($_REQUEST['id']);
 					$obj->preloaddata($_REQUEST);

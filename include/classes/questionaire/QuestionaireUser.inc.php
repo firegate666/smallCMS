@@ -41,10 +41,10 @@ class QuestionaireUser extends AbstractClass {
 			$from = $this->get('email');
 		$to = $this->get('email');
 		$subject = "Benutzerdaten";
-		$body = "Ihre Daten für das Fragebogensystem lauten:\n\nEmail: $email\nPassort: $password";		
+		$body = "Ihre Daten f&uuml;r das Fragebogensystem lauten:\n\nEmail: $email\nPassort: $password";
 		$m = new Mailer();
 		$m->simplesend($from, $to, $subject, $body);
-		
+
 	}
 
 	public function register($vars) {
@@ -57,7 +57,7 @@ class QuestionaireUser extends AbstractClass {
 			$err[] = "Diese Email ist bereits vergeben";
 
 		if ($vars['password'] != $vars['password2'])
-			$err[] = "Die Passwörter müssen übereinstimmen";
+			$err[] = "Die Passw&ouml;rter m&uuml;ssen &uuml;bereinstimmen";
 
 		if (!$err) {
 			$this->set('email', $vars['email']);

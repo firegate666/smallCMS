@@ -48,9 +48,9 @@ if (isset($_REQUEST['delete'])) {
 		<th>Erstellt am</th>
 		<th>Fertig</th>
 		<th>Ersteller</th>
-		<th><img src="img/shuffle.png" border="0" title="Zufällige Seitenreihenfolge" alt="Shuffle"/></th>
-		<th><img src="img/publish.jpg" border="0" title="Fragebogen veröffentlichen" alt="Publish"/></th>
-		<th><img src="img/locked.gif" border="0" title="Fragebogen schließen" alt="Locked"/></th>
+		<th><img src="img/shuffle.png" border="0" title="Zuf&auml;llige Seitenreihenfolge" alt="Shuffle"/></th>
+		<th><img src="img/publish.jpg" border="0" title="Fragebogen ver&ouml;ffentlichen" alt="Publish"/></th>
+		<th><img src="img/locked.gif" border="0" title="Fragebogen schlie&szlig;en" alt="Locked"/></th>
 		<th>&nbsp;</th>
 	</tr>
 <?
@@ -107,8 +107,8 @@ if (!isset($_REQUEST['id'])) {
 			<td>
 				<a href="?admin&questionaire&id=<?=$q->get('id');?>"><img src="img/edit.gif" border="0" title="details Bearbeiten"/></a>
 
-				<a href="javascript:dialog_confirm('Wirklich löschen?', '?admin&questionaire&delete=<?=$q->get('id');?>');">
-					<img src="img/delete.gif" border="0" title="Löschen"/>
+				<a href="javascript:dialog_confirm('Wirklich l&ouml;schen?', '?admin&questionaire&delete=<?=$q->get('id');?>');">
+					<img src="img/delete.gif" border="0" title="L&ouml;schen"/>
 				</a>
 
 				<a href="?questionaire/csv/<?=$q->get('id');?>"><img src="img/export.png" border="0" title="CSV Export Antworten"/></a>

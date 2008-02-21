@@ -77,7 +77,7 @@ class QuestionaireImport extends AbstractClass {
 				$result[] = explode(";", $item);
 			Session :: setCookie('questionaireimport', $result);
 			$content[] = array ('input' => '<h3>Fragebogenimport Schritt 2/2</h3>');
-			$content[] = array ('input' => '<p>Daten vervollständigen:</p>');
+			$content[] = array ('input' => '<p>Daten vervollst&auml;ndigen:</p>');
 			$content[] = array ('descr' => 'Name', 'input' => HTML :: input('text', 'name', '', 100));
 			$content[] = array ('descr' => 'Autor', 'input' => HTML :: input('text', 'author', '', 100));
 			$content[] = array ('descr' => 'Email', 'input' => HTML :: input('text', 'email', '', 100));
