@@ -1,5 +1,5 @@
 <?
-   /** 
+   /**
   This class is supposed to be seen as Interface for different database connections
   Abstract class, no functionality
 */
@@ -9,7 +9,7 @@ abstract class SQL {
 	protected $queries;
 
 	/**
-	* DB Ressource connection
+	* db ressource connection
 	*/
 	protected $dblink;
 
@@ -46,7 +46,7 @@ abstract class SQL {
 	  Executes SQL insert statement
 	  return : last insert id
 	*/
-	abstract function insert($query);
+	abstract function insert($query, $seq);
 
 	/**
 	  Executes SQL select statement
@@ -59,7 +59,7 @@ abstract class SQL {
 	  return : number of affected rows
 	*/
 	abstract function update($query);
-	
+
 	abstract function escape ($string);
 }
 ?>

@@ -18,7 +18,7 @@ class MySQL extends SQL {
 	* $dbuser
 	* $dbpassword
 	* $dbdatabase
-	* 
+	*
 	* @return	Ressource	databaselink
 	*/
 	function connect() {
@@ -27,7 +27,7 @@ class MySQL extends SQL {
 		global $dbpassword;
 		global $dbdatabase;
 		$this->querycount++;
-		
+
 		if(($this->dblink != null) && mysql_ping($this->dblink)) // connection still exists?
 			return;
 		else {
@@ -51,10 +51,10 @@ class MySQL extends SQL {
 	* @param	String	$query	sql query
 	* @return	int	last insert id
 	*/
-	function insert($query) {
+	function insert($query, $seq = null) {
 		$this->connect();
-		$this->queries[] = $query;			
-		$this->addlog($query, 8);		
+		$this->queries[] = $query;
+		$this->addlog($query, 8);
 		$result = MYSQL_QUERY($query) or $this->print_error("insert", $query);
 		$id = MYSQL_INSERT_ID();
 		return $id;
@@ -68,8 +68,8 @@ class MySQL extends SQL {
 	*/
 	function select($query, $assoc = false) {
 		$this->connect();
-		$this->queries[] = $query;	
-		$this->addlog($query, 9);		
+		$this->queries[] = $query;
+		$this->addlog($query, 9);
 		$result = MYSQL_QUERY($query) or $this->print_error("select", $query);
 		$return = array ();
 		$counter = 0;
@@ -89,8 +89,8 @@ class MySQL extends SQL {
 	*/
 	function executeSql($query) {
 		$this->connect();
-		$this->queries[] = $query;			
-		$this->addlog($query, 9);		
+		$this->queries[] = $query;
+		$this->addlog($query, 9);
 		$result = MYSQL_QUERY($query) or $this->print_error("executeSql", $query);
 		$result = MYSQL_FETCH_ARRAY($result, MYSQL_ASSOC);
 		return $result;
@@ -107,13 +107,13 @@ class MySQL extends SQL {
 	*/
 	function update($query, $mayfail = false) {
 		$this->connect();
-		$this->queries[] = $query;			
+		$this->queries[] = $query;
 		$this->addlog($query, 5);
 		if ($mayfail)
 			@$result = MYSQL_QUERY($query) or $this->failed();
 		else if(!$mayfail)
 			$result = MYSQL_QUERY($query) or $this->print_error("update/delete", $query);
-		
+
 		if ($this->failed)
 			return false;
 		$rows = MYSQL_AFFECTED_ROWS();
@@ -123,10 +123,10 @@ class MySQL extends SQL {
 	public function print_error($method, $query) {
 		$msg = mysql_error()."<br/><b>Query:</b> $query";
 		error($msg, "MySQL", $method);
-	}	
-	
+	}
+
 	public function escape($string) {
 		return mysql_escape_string($string);
-	} 
+	}
 }
 ?>
