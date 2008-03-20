@@ -283,7 +283,7 @@ class Battle extends W40K {
 			} else {
 				$result[$row["armyid"]] = $row;
 				$result[$row["armyid"]]['punkte'] = $row['plus'] - $row['minus'];
-				$result[$row["armyid"]]['score'] = 2*$row['wins'] + $row['deuce'] + $result[$row["armyid"]]['t3_score'];
+				$result[$row["armyid"]]['score'] = 2*$row['wins'] + $row['deuce'] + $row['t3_score'];
 			}
 
 		foreach($result2 as $row) {
@@ -299,7 +299,7 @@ class Battle extends W40K {
 			} else {
 				$result[$row["armyid"]] = $row;
 				$result[$row["armyid"]]['punkte'] = $row['plus'] - $row['minus'];
-				$result[$row["armyid"]]['score'] = 2*$row['wins'] + $row['deuce'] + $result[$row["armyid"]]['t3_score'];
+				$result[$row["armyid"]]['score'] = 2*$row['wins'] + $row['deuce'] + $row['t3_score'];
 			}
 		}
 
