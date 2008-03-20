@@ -72,6 +72,17 @@ class Battle extends W40K {
 		$fields[] = array('name' => 'realdate',
                           'type' => 'date',
                           'notnull' => true);
+
+		$fields[] = array('name' => 'score_t3',
+                          'type' => 'integer',
+                          'notnull' => false);
+		$fields[] = array('name' => 'score_1',
+                          'type' => 'integer',
+                          'notnull' => false);
+		$fields[] = array('name' => 'score_2',
+                          'type' => 'integer',
+                          'notnull' => false);
+
 		return $fields;
 	}
 
@@ -236,18 +247,20 @@ class Battle extends W40K {
 
 		$query1 = "SELECT player1, sum(vp1) as plus, sum(vp2) as minus,
 					count(*) as anzahl, a.id as armyid, a.name as army,
-					IF(winner=0, sum(1), sum(0)) as deuce,
-					IF(winner=1, sum(1), sum(0)) as wins,
-					IF(winner=2, sum(1), sum(0)) as lost
+					IF(score_t3=0 AND winner=0, sum(1), sum(0)) as deuce,
+					IF(score_t3=0 AND winner=1, sum(1), sum(0)) as wins,
+					IF(score_t3=0 AND winner=2, sum(1), sum(0)) as lost,
+					sum(score_1) as t3_score,
 				FROM battle, army a
 				WHERE player1=a.id $GAMESYSTEM $BATTLETYPE $PLAYER AND multibattle is null
 				GROUP BY player1, winner;";
 
 		$query2 = "SELECT player2, sum(vp2) as plus, sum(vp1) as minus,
 					count(*) as anzahl, a.id as armyid, a.name as army,
-					IF(winner=0, sum(1), sum(0)) as deuce,
-					IF(winner=1, sum(1), sum(0)) as lost,
-					IF(winner=2, sum(1), sum(0)) as wins
+					IF(score_t3=0 AND winner=0, sum(1), sum(0)) as deuce,
+					IF(score_t3=0 AND winner=1, sum(1), sum(0)) as lost,
+					IF(score_t3=0 AND winner=2, sum(1), sum(0)) as wins,
+					sum(score_2) as t3_score,
 				FROM battle, army a
 				WHERE player2=a.id $GAMESYSTEM $BATTLETYPE $PLAYER AND multibattle is null
 				GROUP BY player2, winner;";
@@ -266,11 +279,11 @@ class Battle extends W40K {
 				$result[$row["armyid"]]['wins'] += $row['wins'];
 				$result[$row["armyid"]]['lost'] += $row['lost'];
 				$result[$row["armyid"]]['punkte'] = $result[$row["armyid"]]['plus'] - $result[$row["armyid"]]['minus'];
-				$result[$row["armyid"]]['score'] = 2*$result[$row["armyid"]]['wins'] + $result[$row["armyid"]]['deuce'];
+				$result[$row["armyid"]]['score'] = 2*$result[$row["armyid"]]['wins'] + $result[$row["armyid"]]['deuce'] + $result[$row["armyid"]]['t3_score'];
 			} else {
 				$result[$row["armyid"]] = $row;
 				$result[$row["armyid"]]['punkte'] = $row['plus'] - $row['minus'];
-				$result[$row["armyid"]]['score'] = 2*$row['wins'] + $row['deuce'];
+				$result[$row["armyid"]]['score'] = 2*$row['wins'] + $row['deuce'] + $result[$row["armyid"]]['t3_score'];
 			}
 
 		foreach($result2 as $row) {
@@ -282,11 +295,11 @@ class Battle extends W40K {
 				$result[$row["armyid"]]['wins'] += $row['wins'];
 				$result[$row["armyid"]]['lost'] += $row['lost'];
 				$result[$row["armyid"]]['punkte'] = $result[$row["armyid"]]['plus'] - $result[$row["armyid"]]['minus'];
-				$result[$row["armyid"]]['score'] = 2*$result[$row["armyid"]]['wins'] + $result[$row["armyid"]]['deuce'];
+				$result[$row["armyid"]]['score'] = 2*$result[$row["armyid"]]['wins'] + $result[$row["armyid"]]['deuce'] + $result[$row["armyid"]]['t3_score'];
 			} else {
 				$result[$row["armyid"]] = $row;
 				$result[$row["armyid"]]['punkte'] = $row['plus'] - $row['minus'];
-				$result[$row["armyid"]]['score'] = 2*$row['wins'] + $row['deuce'];
+				$result[$row["armyid"]]['score'] = 2*$row['wins'] + $row['deuce'] + $result[$row["armyid"]]['t3_score'];
 			}
 		}
 
@@ -307,6 +320,19 @@ class Battle extends W40K {
 
 
 		$return = parent::parsefields($vars);
+
+		if (!empty($vars['score_t3']) && ($vars['score_t3'] > '0')) {
+			$this->set('score_t3', '1');
+			if ($vars['score_1'] > $vars['score_2']) {
+				$this->set('winner', '1');
+			} else if ($vars['score_1'] < $vars['score_2']) {
+				$this->set('winner', '2');
+			} else {
+				$this->set('winner', '0');
+			}
+		} else {
+			$this->set('score_t3', '0');
+		}
 
 		// store multibattle
 		if (($return === false) && ($vars['multibattle'] == 1)) {
@@ -414,6 +440,17 @@ class Battle extends W40K {
 			case 2: $array['win2']="checked='checked'"; break;
 			default: $array['deuce']="checked='checked'"; break;
 		}
+
+		switch($this->get('score_t3')) {
+			case 0: $array['score_t3']=""; break;
+			case 1: $array['score_t3']="checked='checked'"; break;
+			default: $array['score_t3']=""; break;
+		}
+
+		$array['score_t3'] = $this->get('score_t3');
+		$array['score_1'] = $this->get('score_1');
+		$array['score_2'] = $this->get('score_2');
+
 		$image = new Image();
 		$ilist = $image->getlist('', true, 'prio', array('*'));
 		$array['imagelist'] = "";
@@ -469,6 +506,22 @@ class Battle extends W40K {
 			case 1 : $array['winnername'] = $array['army1name'];break;
 			case 2 : $array['winnername'] = $array['army2name'];break;
 		}
+
+		// NEW STYLE T3 Scores
+		$score_t3 = $this->get('score_t3');
+		$array['score_1'] = $this->get('score_1');
+		$array['score_2'] = $this->get('score_2');
+		if ($score_t3) {
+			if ($array['score_1'] > $array['score_2']) {
+				$array['winnername'] = $array['army1name'];
+			} else if ($array['score_2'] > $array['score_1']) {
+				$array['winnername'] = $array['army2name'];
+			} else {
+				$array['winnername'] = "-";
+			}
+		}
+		// NEW STYLE
+
 		$this->mbarmies1_names = array();
 		$this->mbarmies2_names = array();
 		foreach($this->mbarmies1 as $army_id) {
