@@ -194,8 +194,8 @@ class Template extends AbstractClass {
 			else {
 				$obj = new $type ($value);
 				$temp = $obj->show($vars);
-				if ($this->loggedIn()) // debuginfo
-					$temp = "<!-- start $type/$value -->".$temp."<!-- end $type/$value -->";
+				/*if ($this->loggedIn()) // debuginfo
+					$temp = "<!-- start $type/$value -->".$temp."<!-- end $type/$value -->";*/
 				$array[$key] = $temp;
 			}
 		}
@@ -204,8 +204,8 @@ class Template extends AbstractClass {
 			$string = str_replace('${'.$key.'}', $array[$key], $string);
 		}
 		$this->removeLostTags($string);
-		if ($this->loggedIn()) // debuginfo
-			$string = "<!-- start $class/$layout -->".$string."<!-- end $class/$layout -->";
+		/*if ($this->loggedIn()) // debuginfo
+			$string = "<!-- start $class/$layout -->".$string."<!-- end $class/$layout -->";*/
 		return $string;
 	}
 

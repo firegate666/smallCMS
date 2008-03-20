@@ -442,9 +442,9 @@ class Battle extends W40K {
 		}
 
 		switch($this->get('score_t3')) {
-			case 0: $array['score_t3']=""; break;
-			case 1: $array['score_t3']="checked='checked'"; break;
-			default: $array['score_t3']=""; break;
+			case 0: $array['score_t3_checked']=""; break;
+			case 1: $array['score_t3_checked']="checked='checked'"; break;
+			default: $array['score_t3_checked']=""; break;
 		}
 
 		$array['score_t3'] = $this->get('score_t3');
