@@ -250,7 +250,7 @@ class Battle extends W40K {
 					IF(score_t3=0 AND winner=0, sum(1), sum(0)) as deuce,
 					IF(score_t3=0 AND winner=1, sum(1), sum(0)) as wins,
 					IF(score_t3=0 AND winner=2, sum(1), sum(0)) as lost,
-					sum(score_1) as t3_score,
+					sum(score_1) as t3_score
 				FROM battle, army a
 				WHERE player1=a.id $GAMESYSTEM $BATTLETYPE $PLAYER AND multibattle is null
 				GROUP BY player1, winner;";
@@ -260,7 +260,7 @@ class Battle extends W40K {
 					IF(score_t3=0 AND winner=0, sum(1), sum(0)) as deuce,
 					IF(score_t3=0 AND winner=1, sum(1), sum(0)) as lost,
 					IF(score_t3=0 AND winner=2, sum(1), sum(0)) as wins,
-					sum(score_2) as t3_score,
+					sum(score_2) as t3_score
 				FROM battle, army a
 				WHERE player2=a.id $GAMESYSTEM $BATTLETYPE $PLAYER AND multibattle is null
 				GROUP BY player2, winner;";

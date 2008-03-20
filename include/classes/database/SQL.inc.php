@@ -46,7 +46,7 @@ abstract class SQL {
 	  Executes SQL insert statement
 	  return : last insert id
 	*/
-	abstract function insert($query, $seq);
+	abstract function insert($query, $seq = null);
 
 	/**
 	  Executes SQL select statement
