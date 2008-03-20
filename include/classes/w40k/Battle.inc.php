@@ -303,6 +303,8 @@ class Battle extends W40K {
 			}
 		}
 
+		print_a($result);
+
 		return $result;
 	}
 
