@@ -271,8 +271,8 @@ class Battle extends W40K {
 		$result = array();
 
 		foreach($result1 as $row) {
-			print_a($row);
 			if (isset($result[$row["armyid"]])) {
+				print_a($result[$row["armyid"]]['t3_score']);
 				$result[$row["armyid"]]['plus'] += $row['plus'];
 				$result[$row["armyid"]]['minus'] += $row['minus'];
 				$result[$row["armyid"]]['anzahl'] += $row['anzahl'];
