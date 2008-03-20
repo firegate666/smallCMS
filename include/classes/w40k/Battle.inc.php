@@ -270,7 +270,8 @@ class Battle extends W40K {
 
 		$result = array();
 
-		foreach($result1 as $row)
+		foreach($result1 as $row) {
+			print_a($row);
 			if (isset($result[$row["armyid"]])) {
 				$result[$row["armyid"]]['plus'] += $row['plus'];
 				$result[$row["armyid"]]['minus'] += $row['minus'];
@@ -279,12 +280,13 @@ class Battle extends W40K {
 				$result[$row["armyid"]]['wins'] += $row['wins'];
 				$result[$row["armyid"]]['lost'] += $row['lost'];
 				$result[$row["armyid"]]['punkte'] = $result[$row["armyid"]]['plus'] - $result[$row["armyid"]]['minus'];
-				$result[$row["armyid"]]['score'] += 2*$row['wins'] + $row['deuce'] + $row['t3_score'];
+				$result[$row["armyid"]]['score'] += 2*$result[$row["armyid"]]['wins'] + $result[$row["armyid"]]['deuce'] + $result[$row["armyid"]]['t3_score'];
 			} else {
 				$result[$row["armyid"]] = $row;
 				$result[$row["armyid"]]['punkte'] = $row['plus'] - $row['minus'];
 				$result[$row["armyid"]]['score'] = 2*$row['wins'] + $row['deuce'] + $row['t3_score'];
 			}
+		}
 
 		foreach($result2 as $row) {
 			if (isset($result[$row["armyid"]])) {
