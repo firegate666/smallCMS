@@ -168,7 +168,7 @@ class Battle extends W40K {
 		$rows = '';
 		$counter = 1;
 		foreach($list as $entry) {
-			if ($counter % 2 == 0)
+			if ($counter++ % 2 == 0)
 				$entry['even'] = 'even';
 			else
 				$entry['even'] = '';
