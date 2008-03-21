@@ -3,11 +3,15 @@ SELECT
 	b.*,
 	m.name as missionname,
 	bt.name as battletypename,
-	(SELECT count(*) FROM image WHERE parent='battle' AND parentid=b.id) as icount
-FROM battle b, mission m, battletype bt
+	(SELECT count(*) FROM image WHERE parent='battle' AND parentid=b.id) as icount,
+	a1.name as player1name,
+	a2.name as player2name
+FROM battle b, mission m, battletype bt, army a1, army a2
 WHERE
 	b.mission = m.id AND
-	b.battletypeid = bt.id
+	b.battletypeid = bt.id AND
+	a1.id = player1 AND
+	a2.id = player2
 ORDER BY b.id ASC;
 
 CREATE OR REPLACE VIEW army_view AS
