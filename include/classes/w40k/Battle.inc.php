@@ -166,7 +166,12 @@ class Battle extends W40K {
 			$array['limitstart'] = $limitstart;
 		}
 		$rows = '';
+		$counter = 1;
 		foreach($list as $entry) {
+			if ($counter % 2 == 0)
+				$entry['even'] = 'even';
+			else
+				$entry['even'] = '';
 			if (!empty($entry['comment']))
 				$entry['hastext'] = "T";
 			$entry['day'] = leadingzero($entry['day']);
