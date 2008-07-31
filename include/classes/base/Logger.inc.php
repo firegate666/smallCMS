@@ -5,6 +5,9 @@ define('LOGLEVEL_ACTION', 5);
 define('LOGLEVEL_INFO', 7);
 define('LOGLEVEL_DEBUG', 10);
 
+/**
+ * @package base
+ */
 abstract class Logger {
 	protected $loglevel;
 
@@ -13,6 +16,9 @@ abstract class Logger {
 
 }
 
+/**
+ * @package base
+ */
 class FileLogger extends Logger {
 
 	public function write($msg, $loglevel=0) {

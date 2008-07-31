@@ -12,6 +12,9 @@ $__userrights[] = array('name'=>'guestbookadmin', 'desc'=>'can edit guestbook');
 		'Email Guestbookadmin',
 		false);
 
+/**
+ * @package cms
+ */
 class Guestbook extends AbstractClass {
 
 	function Guestbook($id='') {

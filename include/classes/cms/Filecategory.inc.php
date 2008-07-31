@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @package cms
+ */
 class Filecategory extends AbstractClass {
 
 	public function Filecategory($id='') {

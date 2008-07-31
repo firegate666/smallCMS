@@ -1,4 +1,7 @@
 <?
+/**
+ * @package cms
+ */
 abstract class ContentType {
 	public function acl($method){
 		return ($method=='show');
@@ -7,6 +10,8 @@ abstract class ContentType {
 
 /**
  * create real links
+ * 
+ * @package cms
  */
 class Link extends ContentType {
 	protected $value;
@@ -24,6 +29,8 @@ class Link extends ContentType {
 
 /**
  * Internal Pagelink
+ * 
+ * @package cms
  */
 class PLink extends Link {
 
@@ -35,6 +42,8 @@ class PLink extends Link {
 
 /**
  * real links
+ * 
+ * @package cms
  */
 class Loggedin extends ContentType {
 
@@ -66,6 +75,9 @@ class Loggedin extends ContentType {
 
 $template_classes[] = 'userview';
 
+/**
+ * @package cms
+ */
 class UserView extends AbstractClass {
 
 	protected $template = '';
@@ -107,6 +119,8 @@ class UserView extends AbstractClass {
 
 /**
  * include page with name from postdata
+ * 
+ * @package cms
  */
 class Varspage extends ContentType {
 

@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package w40k
+ */
 class GameSystem extends W40K {
 
 	public function acl($method) {

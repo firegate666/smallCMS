@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package questionaire
+ */
 class QuestionaireImport extends AbstractClass {
 
 	public function acl($method) {

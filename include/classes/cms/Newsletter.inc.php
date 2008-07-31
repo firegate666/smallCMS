@@ -1,4 +1,7 @@
 <?
+/**
+ * @package cms
+ */
 class Newsletter extends AbstractClass {
 
 	public function getFields() {

@@ -1,6 +1,9 @@
 <?php
 Setting::write('w40kuser_defaultpagelimit', '', 'W40K User Default Pagelimit', false);
 
+/**
+ * @package w40k
+ */
 class W40KUser extends W40K {
 	protected $user;
 	protected $armies;

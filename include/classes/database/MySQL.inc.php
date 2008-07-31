@@ -3,6 +3,8 @@
  * MySQL Wrapper
  * in fact, this isn't yet a wrapper, much improved has
  * to be done
+ * 
+ * @package database
  */
 class MySQL extends SQL {
 

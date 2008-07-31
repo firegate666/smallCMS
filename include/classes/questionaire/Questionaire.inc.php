@@ -5,6 +5,8 @@ $__userrights[] = array('name'=>'questionairesuperadmin', 'desc'=>'can edit all 
 
 /**
  * This is questionaire
+ * 
+ * @package questionaire
  */
 class Questionaire extends AbstractClass {
 
@@ -182,7 +184,7 @@ class Questionaire extends AbstractClass {
 			error('Um an Umfragen teilzunehmen, muss man eingelogged sein', 'questionaire', 'submit', $vars);
 		if (!isset ($vars['question']) || !isset ($vars['questionanswer']))
 			return $this->show(array ('err' => 'Es m&uuml;ssen alle Fragen beantwortet werden, bevor die Seite abgeschickt werden kann.'));
-		// TODO überprüfen, ob dieser User diese Frage schon beantwortet hat
+		// TODO ï¿½berprï¿½fen, ob dieser User diese Frage schon beantwortet hat
 		$lastcc = Session::getCookie('questionaire_last_questioncount', null);
 		if ($lastcc != count($vars['questionanswer']))
 			return $this->show(array ('err' => 'Es m&uuml;ssen alle Fragen beantwortet werden, bevor die Seite abgeschickt werden kann.'));

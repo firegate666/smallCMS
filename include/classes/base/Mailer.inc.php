@@ -6,6 +6,8 @@
  * 0: waiting
  * 1: send
  * 2: error
+ * 
+ * @package base
  */
 class Mailer extends AbstractClass{
 

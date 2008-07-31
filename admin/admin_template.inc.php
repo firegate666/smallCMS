@@ -22,7 +22,7 @@ $link = "index.php?admin&template&tpl_class=";
 $array = Template::getClasses();
 $options = '<option value=""></option>';
 foreach ($array as $items) {
-	if($items == $_REQUEST['tpl_class']) $options .= '<option selected="selected">'.$items.'</option>';	else $options .= '<option>'.$items.'</option>';
+	if(isset($_REQUEST['tpl_class']) && ($items == $_REQUEST['tpl_class'])) $options .= '<option selected="selected">'.$items.'</option>';	else $options .= '<option>'.$items.'</option>';
 }
 ?>
 <tr>	<td>Template Klasse</td>
@@ -31,7 +31,7 @@ foreach ($array as $items) {
     	</form>    </td>
 <? if (isset ($_REQUEST['tpl_class']) && !empty($_REQUEST['tpl_class'])) { ?>    <td>Template</td>    <td>		<form name="showtemplate" action="index.php" method="get">			<input type="hidden" name="admin"/>			<input type="hidden" name="template"/>			<input type="hidden" name="tpl_class" value="<?=$_REQUEST['tpl_class']?>"/>			<input type="hidden" name="admin"/>			<select name="tpl_layout" size="1" onChange="this.form.submit()">				<option value=""></option><?
 $array = Template::getLayouts($_REQUEST['tpl_class']);
-foreach ($array as $items) {	$selected = '';	if($items[0] == $_REQUEST['tpl_layout'])		$selected ='selected="selected"';	echo "\t\t\t\t<option $selected value='{$items[0]}'>{$items[0]}</option>\n";}?>
+foreach ($array as $items) {	$selected = (isset($_REQUEST['tpl_layout']) && ($items[0] == $_REQUEST['tpl_layout']))?'selected="selected"':'';	echo "\t\t\t\t<option $selected value='{$items[0]}'>{$items[0]}</option>\n";}?>
 			</select>			<input type='submit' value='Bearbeiten'/>			<input type='submit' value='L&ouml;schen' name='tpl_delete'/>		</form>	</td></tr><tr>	<td>Neues Template</td>    <td>    	<form action="index.php" method="get">       		<input type="hidden" name="tpl_addlayout"/>			<input type="hidden" name="admin"/>			<input type="hidden" name="template"/>			<input type="hidden" name="tpl_class" value="<?=$_REQUEST['tpl_class']?>"/>			<input type="text"   name="tpl_layoutname"/>			<input type="submit" value="Add Layout"/>		</form>    </td>    <td colspan="2"></td></tr><?}?></table><? if (isset ($_REQUEST['tpl_layout'])) { ?>
   <script type="text/javascript" src="?admin/show/javascript"></script>
   <form action="index.php" method="post" name="edittpl">

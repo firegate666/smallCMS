@@ -3,6 +3,8 @@
 
 /**
  * The Error-Class, gets pages for different errors
+ * 
+ * @package base
  */
 class Error extends AbstractClass {
 

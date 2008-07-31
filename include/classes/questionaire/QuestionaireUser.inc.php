@@ -1,11 +1,12 @@
 <?php
 
-/**
- * these are the users who can answer
- */
-
 $template_classes[] = 'questionaireuser';
 
+/**
+ * these are the users who can answer
+ * 
+ * @package questionaire
+ */
 class QuestionaireUser extends AbstractClass {
 
 	public function acl($method) {

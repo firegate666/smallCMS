@@ -1,4 +1,7 @@
 <?
+/**
+ * @package lib
+ */
 class Cache {
 	public static function read($key) {
 		if (file_exists('./cache/files/'.$key))

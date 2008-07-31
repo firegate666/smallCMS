@@ -1,5 +1,4 @@
-<?/** * index.php, one file to rule them all *  * load all needed classes, start session * decode input handle class & action */ // load configrequire_once dirname(__FILE__).'/config/All.inc.php';
-
+<?/** * index.php, one file to rule them all * * load all needed classes, start session * decode input handle class & action */// load config$config = dirname(__FILE__).'/config/config.inc.php';if (!file_exists($config))	die('Configuration file is missing. Run installer-');require_once $config;
 // start/restore session
 session_save_path('cache');
 session_start();
@@ -25,7 +24,7 @@ if (isset ($_REQUEST['class']) || isset ($_REQUEST['method']) || isset ($_REQUES
 	$qs = $_SERVER['QUERY_STRING'];
 	decodeURI($qs, $class, $method, $id, $vars);
 }
-// decode file upload in query stringif (!empty($HTTP_POST_FILES['filename']['tmp_name']))	$vars['__files'] = $HTTP_POST_FILES;if (!isset ($vars['ref']))
+// decode file upload in query stringif (!empty($HTTP_POST_FILES['filename']['tmp_name']))	$vars['__files'] = $HTTP_POST_FILES;if (!isset ($vars['ref']) && isset($_SERVER['HTTP_REFERER']))
 	$vars['ref'] = $_SERVER['HTTP_REFERER'];
 if (empty ($vars['ref']))
 	$vars['ref'] = $_SERVER['REQUEST_URI'];
@@ -49,7 +48,7 @@ if (class_exists($class)) { // is there a class with that name?
 			/* count statistic */
 			$ps = new PageStatistic();
 			$ps->set('template', $id);
-			$ps->store();			// output				$ct = $newclass->contenttype();			header("Content-Type: $ct;");		
+			$ps->store();			// output			$ct = $newclass->contenttype();			header("Content-Type: $ct;");
 			print $result;
 		} else // no page? who are you?
 			if (is_string($result)) // results a string?

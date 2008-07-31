@@ -1,6 +1,9 @@
 <?php
 Setting::write('army_defaultpagelimit', '', 'Army Default Pagelimit', false);
 
+/**
+ * @package w40k
+ */
 class Army extends W40K {
 
 	protected $viewname = 'army_view';

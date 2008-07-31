@@ -5,6 +5,9 @@
 
 $__userrights[] = array('name'=>'templateadmin', 'desc'=>'can edit templates &amp; images');
 
+/**
+ * @package base
+ */
 class Template extends AbstractClass {
 	protected $layout;
 	protected $tags = array ();
@@ -169,12 +172,14 @@ class Template extends AbstractClass {
 		$class = $mysql->escape($class);
 		$layout = $mysql->escape($layout);
 		$string = '';
-		$array['__ref__'] = $vars['ref'];
+		if (isset($vars['ref']))
+			$array['__ref__'] = $vars['ref'];
 		if (isset ($_SESSION['template'][$class][$layout]) && !$nocache && get_config('cache_enabled', false))
 			$string = $_SESSION['template'][$class][$layout];
 		else {
 			$result = $mysql->select("SELECT content FROM template WHERE class='$class' AND layout='$layout'");
-			$string = $result[0][0];
+			if (isset($result[0]) && isset($result[0][0]))
+				$string = $result[0][0];
 			if (get_config('cache_enabled', false))
 				$_SESSION['template'][$class][$layout] = $string;
 		}
@@ -194,8 +199,8 @@ class Template extends AbstractClass {
 			else {
 				$obj = new $type ($value);
 				$temp = $obj->show($vars);
-				/*if ($this->loggedIn()) // debuginfo
-					$temp = "<!-- start $type/$value -->".$temp."<!-- end $type/$value -->";*/
+				if ($this->loggedIn()) // debuginfo
+					$temp = "<!-- start $type/$value -->".$temp."<!-- end $type/$value -->";
 				$array[$key] = $temp;
 			}
 		}
@@ -204,8 +209,8 @@ class Template extends AbstractClass {
 			$string = str_replace('${'.$key.'}', $array[$key], $string);
 		}
 		$this->removeLostTags($string);
-		/*if ($this->loggedIn()) // debuginfo
-			$string = "<!-- start $class/$layout -->".$string."<!-- end $class/$layout -->";*/
+		if ($this->loggedIn()) // debuginfo
+			$string = "<!-- start $class/$layout -->".$string."<!-- end $class/$layout -->";
 		return $string;
 	}
 

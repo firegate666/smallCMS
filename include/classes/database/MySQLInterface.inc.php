@@ -3,7 +3,9 @@
  * Encapsulates the use of the mysql database
  * Queries are build from given arrays
  * 
- * WORK IN PROGRESS !! 
+ * TODO WORK IN PROGRESS !! 
+ * 
+ * @package database
  */
  /*
   Example use:

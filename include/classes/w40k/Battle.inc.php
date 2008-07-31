@@ -1,6 +1,9 @@
 <?php
 Setting::write('battle_defaultpagelimit', '', 'Battle Default Pagelimit', false);
 
+/**
+ * @package w40k
+ */
 class Battle extends W40K {
 
 	protected $viewname = 'battle_view';

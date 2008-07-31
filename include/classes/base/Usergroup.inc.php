@@ -2,6 +2,9 @@
 
 Setting::write('defaultgroup', '', 'Default Usergroup', false);
 
+/**
+ * @package base
+ */
 class Usergroup extends AbstractClass {
 	
 	public function acl($method) {

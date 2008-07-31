@@ -3,6 +3,8 @@
 
 /**
 * generate proper XML output
+* 
+* @package lib
 */
 class XML {
     protected $output;

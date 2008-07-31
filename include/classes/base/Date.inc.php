@@ -2,7 +2,9 @@
 
 	Setting::write('timestampformat', '%Y-%m-%d %H:%M:%S', 'Timestamp Format', false);
 
-
+/**
+ * @package base
+ */
 class Date {
 
 	/**
@@ -17,6 +19,5 @@ class Date {
 		}
 		return strftime("$formatstring", time());
 	}
-
 }
 ?>

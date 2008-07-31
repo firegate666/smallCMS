@@ -1,4 +1,7 @@
 <?php
+/**
+ * @package w40k
+ */
 class BattleType extends W40K {
 
 	public function BattleType($id='') {

@@ -1,6 +1,8 @@
 <?php
 /**
  * expand object with unlimited number of extra fields
+ * 
+ * @package base
  */
 class Extendible extends AbstractClass {
 

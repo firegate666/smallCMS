@@ -3,6 +3,9 @@
 Setting::write('message_defaultpagelimit', '', 'Message Default Pagelimit', false);
 $template_classes[]='message';
 
+/**
+ * @package base
+ */
 class Message extends AbstractClass {
 
 	protected $receiverlist = array();

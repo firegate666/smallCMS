@@ -85,7 +85,7 @@ foreach ($array as $item) {
 ?>
 		<tr>
 			<td><a href="?image/show/<?=$item['name']?>" target="_blank"><?=$item['name']?></a></td>
-			<td><img src="?image/show/<?=$item['name']?>" alt="<?=$item['name']?>" height="20" width="20"/></td>
+			<td><img src="?image/show/<?=$item['name']?>/y=20" alt="<?=$item['name']?>" height="20" width="20"/></td>
 			<td><?=$item['size']?></td>
 			<td><?=$item['type']?></td>
 			<td><?=$item['url']?></td>

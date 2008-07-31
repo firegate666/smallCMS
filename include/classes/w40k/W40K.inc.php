@@ -8,6 +8,9 @@ $__userrights[] = array('name'=>'w40kuser_extern', 'desc'=>'can use W40K');
 $__userrights[] = array('name'=>'w40kuser_intern', 'desc'=>'can use W40K');
 $__userrights[] = array('name'=>'w40kadmin', 'desc'=>'can edit codices & missions');
 
+/**
+ * @package w40k
+ */
 abstract class W40K extends AbstractClass {
 	protected $layoutclass = "w40k";
 	protected $image;

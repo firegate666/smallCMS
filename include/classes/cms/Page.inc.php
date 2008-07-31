@@ -4,6 +4,8 @@
 
 /**
  * This is a page
+ * 
+ * @package cms
  */
 class Page extends AbstractClass {
 
@@ -51,11 +53,12 @@ class Page extends AbstractClass {
 		return $output;
 	}
 
-	function contenttype() {
+	function contenttype($contenttype = 'text/html') {
 		global $mysql;
 		if($this->name=='') return error("Pagename not given",$this->class_name(),"show");
-		$result = $mysql->select("SELECT contenttype FROM template WHERE class='page' AND layout='".$this->name."'");
-		$contenttype = $result[0][0];
+		$result = $mysql->select("SELECT contenttype FROM template WHERE class='".$this->class_name()."' AND layout='".$this->name."'");
+		if (isset($result[0]) && isset($result[0][0]))
+			$contenttype = $result[0][0];
 		return $contenttype;
 	}
 }

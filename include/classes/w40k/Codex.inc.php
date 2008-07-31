@@ -2,6 +2,9 @@
 
 Setting::write('codex_defaultpagelimit', '', 'Codex Default Pagelimit', false);
 
+/**
+ * @package w40k
+ */
 class Codex extends W40K {
 
 	/**

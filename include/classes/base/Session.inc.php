@@ -1,4 +1,7 @@
 <?
+/**
+ * @package base
+ */
 class Session extends AbstractClass {
 	protected $sid;
 
@@ -59,7 +62,7 @@ class Session extends AbstractClass {
 	function Session($userid=0) {
 		$this->data["uid"] = $userid;
 		$this->data["client_ip"] = getClientIP();
-		// in Datenbank speichern und ID übergeben
+		// in Datenbank speichern und ID ï¿½bergeben
 		$this->sid = $this->store();
 	}
 

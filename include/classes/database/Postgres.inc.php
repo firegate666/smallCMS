@@ -1,8 +1,10 @@
 <?
 /**
  * MySQL Wrapper
- * in fact, this isn't yet a wrapper, much improved has
+ * in fact, this isn't yet a wrapper, much improvment has
  * to be done
+ * 
+ * @package database
  */
 class Postgres extends SQL {
 

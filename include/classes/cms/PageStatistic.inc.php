@@ -1,6 +1,8 @@
 <?
 /**
  * This class ist for counting page statistics
+ * 
+ * @package cms
  */
 /*SELECT template, count( id ) as aufrufe
 FROM pagestatistic

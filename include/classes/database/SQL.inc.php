@@ -1,8 +1,10 @@
 <?
-   /**
-  This class is supposed to be seen as Interface for different database connections
-  Abstract class, no functionality
-*/
+/**
+ * This class is supposed to be seen as Interface for different database connections 
+ * Abstract class, no functionality
+ * 
+ * @package database
+ */
 abstract class SQL {
 
 	/** all queries are stored */

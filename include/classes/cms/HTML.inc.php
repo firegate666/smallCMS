@@ -1,6 +1,8 @@
 <?
 /**
  * HTML Wrappers, much improved has to done
+ * 
+ * @package cms
  */
 class HTML {
 

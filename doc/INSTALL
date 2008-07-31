@@ -8,7 +8,7 @@ file permissions
 
 555 admin
 777 cache
-555 config
+777 config
 500 doc
 500 feature
 555 img

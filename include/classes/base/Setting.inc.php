@@ -2,6 +2,9 @@
 $__userrights[] = array('name'=>'configadmin', 'desc'=>'can view config');
 $__userrights[] = array('name'=>'settingsadmin', 'desc'=>'can edit settings');
 
+/**
+ * @package base
+ */
 class Setting extends AbstractClass {
 	
 	public function Setting($name = null) {

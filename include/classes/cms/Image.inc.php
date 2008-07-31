@@ -1,6 +1,8 @@
 <?
 /**
  * Imagelinks
+ *
+ * @package cms
  */
 class Image extends AbstractClass {
 
@@ -163,17 +165,17 @@ class Image extends AbstractClass {
 	function show(& $vars, $layout = '', $array = array()) {
 		if ($layout != '')
 			return parent::show($vars, $layout, $array);
-		//header('Content-Description: File Transfer');
-		//header('Content-Type: application/force-download');
+		header('Content-Description: File Transfer');
 		//header("Content-Disposition: attachment; filename=\"".basename($url)."\";");
-		//header('Content-Length: ' . filesize($url));
-		header('Content-Type: '.$this->get('type'));
 		header("Content-Disposition: inline; filename=\"".$this->get('name').$this->getExtension."\";");
-		header('Content-Length: '.filesize($this->get('url')));
-		if (isset($vars['x']) || isset($vars['y']))
+		
+		if (!empty($vars['x']) || !empty($vars['y']))
 			$this->resize($vars);
-		else
+		else {
+			header('Content-Length: '.filesize($this->get('url')));
+			header('Content-Type: '.$this->get('type'));
 			@readfile($this->get('url')) or die("Error while downloading webfile");
+		}
 	}
 
 	function resize($vars) {
@@ -187,9 +189,10 @@ class Image extends AbstractClass {
 		$src_im = null;
 		$imgname = $this->get('url');
 		$cachekey = md5($x."-".$y."-".$imgname);
-		if (file_exists($cachekey)) {
+		if (file_exists('./cache/files/'.$cachekey)) {
 			$this->addlog("Read image from cache: ".$cachekey, 10);
 			header("Content-type: ".$this->get('type'));
+			header('Content-Length: '.filesize('./cache/files/'.$cachekey));
 			@readfile('./cache/files/'.$cachekey);
 			die;
 		}
@@ -235,6 +238,7 @@ class Image extends AbstractClass {
 		} else // image not supported or not recognized
 			die("Image not supported");
 		$this->addlog("Write image to cache: ".$cachekey, 10);
+		header('Content-Length: '.filesize('./cache/files/'.$cachekey));
 		@readfile('./cache/files/'.$cachekey);
 		imagedestroy($dest_im);
 		die;

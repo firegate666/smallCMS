@@ -4,6 +4,9 @@ $template_classes[]='user';
 $__userrights[] = array('name'=>'useradmin', 'desc'=>'can edit users');
 $__userrights[] = array('name'=>'disabled', 'desc'=>'denied login');
 
+/**
+ * @package base
+ */
 class User extends AbstractClass {
 
 	protected $viewname = 'user_view';

@@ -2,6 +2,8 @@
 
 /**
  * these are the given answers
+ * 
+ * @package questionaire
  */
 class QuestionaireAnswers extends AbstractClass {
 	public function acl($method) {

@@ -1,6 +1,8 @@
 <?
 /**
  * The main features everyone should know
+ * 
+ * @package base
  */
 abstract class AbstractClass {
 

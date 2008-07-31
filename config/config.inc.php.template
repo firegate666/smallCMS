@@ -2,30 +2,31 @@
 	// copy to config.inc.php and replace with valid values
 	
 	// db connection data
-	$dbserver   = "<servername>"; // Datenbankserver
-	$dbuser     = "<username>";	// Datenbankbenutzer
-	$dbpassword = "<password>";	// Benutzerpasswort
-	$dbdatabase = "<database>";	// Datenbank
+	$dbserver   = "<dbserver>"; // Datenbankserver
+	$dbuser     = "<dbuser>";	// Datenbankbenutzer
+	$dbpassword = "<dbpass>";	// Benutzerpasswort
+	$dbdatabase = "<dbname>";	// Datenbank
 
 	// pgsql or mysql
-	$_CONFIG['dbsystem'] = 'mysql';
+	$_CONFIG['dbsystem'] = '<dbtype>';
 
 	// system base url
-	$_CONFIG['system'] = 'http://www.firegate.de';
+	$_CONFIG['system'] = 'http://<system>';
 
 	// default sender and receiver for system messages
-	$_CONFIG['sender'] = 'marco@firegate.de';
-	$_CONFIG['receiver'] = 'marco@firegate.de';
+	$_CONFIG['sender'] = '<email>';
+	$_CONFIG['receiver'] = '<email>';
 	
 	// Store passwords encrypted?
 	// Never change on a running system
 	$_CONFIG['encryptpwd'] = true;
 
 	// enable modules
-	$_CONFIG["cms"] = false;
-	$_CONFIG["questionaire"] = false;
-	$_CONFIG["w40k"] = false;	
-	$_CONFIG["bbcode"] = true;	
+	$_CONFIG["cms"] = <cms>;
+	$_CONFIG["questionaire"] = <questionaire>;
+	$_CONFIG["w40k"] = <w40k>;	
+	$_CONFIG["game"] = <game>;	
+	$_CONFIG["bbcode"] = <bbcode>;	
 
 	// this is where are uploaded files are stored
 	// chmod 777

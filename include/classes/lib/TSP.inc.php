@@ -7,8 +7,9 @@
  * 
  * @author Marco Behnke
  * @copyright Copyright &copy; 2005, Marco Behnke
+ * @package lib
  * 
-*/
+ */
 class TSP {
 
 	protected $ids; // array of keys

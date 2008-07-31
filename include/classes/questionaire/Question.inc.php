@@ -3,6 +3,8 @@ $template_classes[] = 'question';
 
 /**
  * a group of questions contains questions
+ * 
+ * @package questionaire
  */
 class Question extends AbstractClass {
 
