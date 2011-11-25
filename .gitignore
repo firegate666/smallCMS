@@ -1,0 +1,8 @@
+cache/sess*
+cache/*.txt
+upload/*.png
+upload/*.jpg
+upload/*.gif
+upload/*.JPG
+upload/*.GIF
+upload/*.PNG
