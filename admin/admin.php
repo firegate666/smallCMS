@@ -1,4 +1,4 @@
-<?
+<?php
 	if(isset($logout)) {
 		Session::cleanUpCookies();
 		header("Location: index.php");
@@ -22,34 +22,37 @@
     	</p>
       <a href="index.php?admin">Startseite</a>
       <br/><a href="index.php?admin&template">Templates</a>
-      <? if(get_config("cms", false)) { ?>
+      <?php if(get_config("cms", false)) { ?>
 	      <br/><a href="index.php?admin&image">Dateien</a>
+	  <?php if(get_config("game", false)) { ?>
+      	<br><a href="index.php?admin&techtree">Tech-Tree</a>
+      <?php } ?>
 	      <br/><a href="index.php?admin&filecategory">Dateikategorien</a>
-      <? } ?>
-      <? if(get_config("questionaire", false)) { ?>
+      <?php } ?>
+      <?php if(get_config("questionaire", false)) { ?>
       	<br/><a href="index.php?admin&questionaire">Questionaire</a>
-      <? } ?>
-      <? if(get_config("w40k", false)) { ?>
+      <?php } ?>
+      <?php if(get_config("w40k", false)) { ?>
       	<br/><br/><a href="index.php?admin&w40k">Games-DB</a>
-      	<? if (isset($_REQUEST['w40k'])) { ?>
+      	<?php if (isset($_REQUEST['w40k'])) { ?>
       		<br/>=&gt; <a href="?admin&w40k&type=Codex">Codices</a>
       		<br/>=&gt; <a href="?admin&w40k&type=Mission">Missionen</a>
       		<br/>=&gt; <a href="?admin&w40k&type=BattleType">BattleTypes</a>
       		<br/>=&gt; <a href="?admin&w40k&type=GameSystem">GameSystem</a>
-      <? }} ?>
+      <?php }} ?>
       <br/><br/><a href="index.php?admin&user">User</a>
       <br/><a href="index.php?admin&usergroup">Usergroup</a>
       <br/><a href="index.php?admin&settings">Settings</a>
       <br/><a href="index.php?admin&config">Configuration</a>
       <br/><a href="index.php?user/logout//ref=index.php">Logout</a>
-		<?
+		<?php
 	    	$admin = new Admin('customnavi');
 	    	$vars = array();
 	    	echo $admin->show($vars);
 	    ?>
 	</td>
     <td id="topframe">
-    <?
+    <?php
     	$admin = new Admin('topframe');
     	$vars = array();
     	echo $admin->show($vars);
@@ -58,8 +61,9 @@
   </tr>
   <tr>
     <td id="mainframe">
-    <?
-    	$actdir = dirname(__FILE__).'/';		if (isset ($_REQUEST['template'])) {
+    <?php
+    	$actdir = dirname(__FILE__).'/';
+		if (isset ($_REQUEST['template'])) {
 			require_once $actdir.'admin_template.inc.php';
 		} else if (isset ($_REQUEST['image'])) {
 			require_once $actdir.'admin_image.inc.php';

@@ -1,4 +1,4 @@
-<?
+<?php
 	// copy to config.inc.php and replace with valid values
 	
 	// db connection data
@@ -50,4 +50,3 @@
 	// if true, there are template edit links for each template used
 	// while logged in as admin and browsing the pages
 	$_CONFIG["quickedit"] = false;
-?>

@@ -120,4 +120,3 @@ class Guestbook extends AbstractClass {
 		return $output;
 	}
 }
-?>

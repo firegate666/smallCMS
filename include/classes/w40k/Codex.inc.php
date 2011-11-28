@@ -165,4 +165,3 @@ class Codex extends W40K {
 
 
 }
-?>

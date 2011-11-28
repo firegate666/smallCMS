@@ -10,4 +10,3 @@ class QuestionAnswer extends AbstractClass {
 		return false;
 	}
 }
-?>

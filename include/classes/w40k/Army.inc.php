@@ -227,4 +227,3 @@ class Army extends W40K {
 	}
 
 }
-?>

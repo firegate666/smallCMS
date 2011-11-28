@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @package base
  */
@@ -70,4 +70,3 @@ class Session extends AbstractClass {
 		return (($this->id != NULL) && ($this->username != NULL));
 	}
 }
-?>

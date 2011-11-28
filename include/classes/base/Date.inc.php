@@ -20,4 +20,3 @@ class Date {
 		return strftime("$formatstring", time());
 	}
 }
-?>

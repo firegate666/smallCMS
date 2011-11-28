@@ -118,4 +118,3 @@ class Mission extends W40K {
 	}
 
 }
-?>

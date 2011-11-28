@@ -100,4 +100,3 @@ abstract class W40K extends AbstractClass {
 	}
 	
 }
-?>

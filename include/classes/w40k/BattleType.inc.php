@@ -74,4 +74,3 @@ class BattleType extends W40K {
 	}
 	
 }
-?>

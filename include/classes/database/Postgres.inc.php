@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * MySQL Wrapper
  * in fact, this isn't yet a wrapper, much improvment has
@@ -120,4 +120,3 @@ class Postgres extends SQL {
 	} 
 	
 }
-?>

@@ -1542,5 +1542,3 @@ class StringParser_Node_Text extends StringParser_Node {
 		return "text \"".substr (preg_replace ('/\s+/', ' ', $this->content), 0, 40)."\" [f:".preg_replace ('/\s+/', ' ', join(':', array_keys ($this->_flags)))."]";
 	}
 }
-
-?>

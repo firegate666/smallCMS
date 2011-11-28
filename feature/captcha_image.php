@@ -1,4 +1,4 @@
-<?
+<?php
 // *** CAPTCHA image generation ***
 // *** http://frikk.tk ***
 
@@ -49,4 +49,3 @@ function create_image()
 	// *** Clear up some memory... ***
 	imagedestroy($image);
 }
-?>

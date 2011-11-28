@@ -15,4 +15,3 @@ class QuestionaireAnswers extends AbstractClass {
 		$q_list = $q->advsearch(array('questionaireid='.$q_id));
 	}
 }
-?>

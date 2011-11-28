@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Templatehandling
  */
@@ -193,7 +193,8 @@ class Template extends AbstractClass {
 		}
 		$this->parseTags($string);
 		foreach ($this->tags as $key => $item) {
-			$type = $mysql->escape($item['type']);			$value= $mysql->escape($item['value']);
+			$type = $mysql->escape($item['type']);
+			$value= $mysql->escape($item['value']);
 			if ($type == 'image')
 				$array[$key] = '?image/show/'.$value;
 			else {
@@ -215,4 +216,3 @@ class Template extends AbstractClass {
 	}
 
 }
-?>

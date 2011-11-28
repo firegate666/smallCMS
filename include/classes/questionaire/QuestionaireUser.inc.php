@@ -121,4 +121,3 @@ class QuestionaireUser extends AbstractClass {
 		//return 1; // TODO userlogin
 	}
 }
-?>

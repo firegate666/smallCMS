@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @package cms
  */
@@ -50,4 +50,3 @@ class NewsletterSubscription extends AbstractClass {
 		return $fields;
 	}
 }
-?>

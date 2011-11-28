@@ -1,4 +1,4 @@
-<?
+<?php
 	$template_classes[] = 'error';
 
 /**
@@ -42,4 +42,3 @@ class Error extends AbstractClass {
 		}
 	}
 }
-?>

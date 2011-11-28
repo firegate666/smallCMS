@@ -108,5 +108,3 @@ escaped before calling!!
     }
 
 }
-
-?>

@@ -17,4 +17,3 @@ if(get_config("w40k", false))
 	require_once dirname(__FILE__).'/w40k/All.inc.php';
 
 require_once dirname(__FILE__).'/lib/All.inc.php';
-?>

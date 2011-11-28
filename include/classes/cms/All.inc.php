@@ -10,4 +10,3 @@
 	require_once $d.'PageStatistic.inc.php';
 
 	require_once $d.'ContentTypes.inc.php';
-?>

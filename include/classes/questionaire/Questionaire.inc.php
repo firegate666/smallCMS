@@ -379,4 +379,3 @@ class Questionaire extends AbstractClass {
 		return $mysql->select($query, true);
 	}
 }
-?>

@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * These classes have a navigation bar
 */
@@ -13,4 +13,3 @@ abstract class AbstractNavigationClass extends AbstractNoNavigationClass {
 	}
 
 }
-?>

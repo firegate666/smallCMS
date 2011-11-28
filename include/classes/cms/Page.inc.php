@@ -1,4 +1,4 @@
-<?
+<?php
 	$template_classes[] = 'page';
 	$template_classes[] = 'admin';
 
@@ -62,4 +62,3 @@ class Page extends AbstractClass {
 		return $contenttype;
 	}
 }
-?>

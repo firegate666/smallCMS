@@ -9,4 +9,3 @@
 		require_once $d.'stringparser_bbcode.class.php';
 		require_once $d.'DefaultBBCode.inc.php';
 	}
-?>

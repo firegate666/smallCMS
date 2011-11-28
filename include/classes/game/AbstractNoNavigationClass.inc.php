@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * The main features everyone should know
  */
@@ -12,4 +12,3 @@ abstract class AbstractNoNavigationClass extends AbstractClass{
 		return "&nbsp;";
 	}
 }
-?>

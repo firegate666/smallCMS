@@ -1,4 +1,4 @@
-<?
+<?php
 	$template_classes[] = 'inselliste';
 
 /**
@@ -83,4 +83,3 @@ class Inselliste extends AbstractNavigationClass {
 		return $this->getLayout($array, "page", $vars);
 	}
 }
-?>

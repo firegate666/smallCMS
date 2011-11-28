@@ -10,4 +10,3 @@
 	require_once $d.'QuestionAnswertype.inc.php';
 
 	require_once $d.'QuestionaireImport.inc.php';
-?>

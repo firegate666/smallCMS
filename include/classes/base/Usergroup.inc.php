@@ -1,4 +1,4 @@
-<?
+<?php
 
 Setting::write('defaultgroup', '', 'Default Usergroup', false);
 
@@ -58,4 +58,3 @@ class Userrights extends AbstractClass {
 		return false;
 	}
 }
-?>

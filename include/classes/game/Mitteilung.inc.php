@@ -1,4 +1,4 @@
-<?
+<?php
   $template_classes[] = 'mitteilung';
   
   class mitteilung extends AbstractNoNavigationClass {
@@ -96,4 +96,3 @@
 	
   	
   }
-?>

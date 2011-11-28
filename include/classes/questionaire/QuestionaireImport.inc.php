@@ -73,7 +73,7 @@ class QuestionaireImport extends AbstractClass {
 						<link href="?admin/show/css" rel="stylesheet" type="text/css"/>
 						<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 					</head>
-			<?
+			<?php
 			$csv = file($HTTP_POST_FILES['importfile']['tmp_name']);
 			$result[] = array ('Semantische ID', 'Fragetext', 'Block', 'Gruppen', 'TYPE');
 			foreach ($csv as $item)
@@ -107,7 +107,7 @@ class QuestionaireImport extends AbstractClass {
 					<link href="?admin/show/css" rel="stylesheet" type="text/css"/>
 					<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 				</head>
-		<?
+		<?php
 		Session :: unsetCookie('questionaireimport');
 		$content[] = array ('input' => '<h3>Fragebogenimport Schritt 1/2</h3>');
 		$content[] = array ('descr' => 'Input File (csv)', 'input' => HTML :: input('file', 'importfile', ''));
@@ -118,4 +118,3 @@ class QuestionaireImport extends AbstractClass {
 	}
 
 }
-?>

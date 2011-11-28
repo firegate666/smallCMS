@@ -43,4 +43,3 @@ class Extendible extends AbstractClass {
 	}
 
 }
-?>

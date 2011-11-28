@@ -1,4 +1,4 @@
-<?
+<?php
 
 Setting::write('message_defaultpagelimit', '', 'Message Default Pagelimit', false);
 $template_classes[]='message';
@@ -303,4 +303,3 @@ class Message extends AbstractClass {
 		return redirect($vars['ref']);
 	}
 }
-?>

@@ -1,4 +1,4 @@
-<?
+<?php
   /**
    * every entity that stores anything has a lager
    * islands, ships
@@ -26,4 +26,3 @@
                $this->lagerenthaelt = $res;
       }
   }
-?>

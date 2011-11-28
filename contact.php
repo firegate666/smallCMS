@@ -1,4 +1,4 @@
-<?
+<?php
 // TODO better handling in contact class
 require_once dirname(__FILE__).'/config/All.inc.php';
 
@@ -21,4 +21,3 @@ $headers = 'From: '.$from."\r\n" .
 	'X-Mailer: PHP/' . phpversion();
 mail($to, $subject, $body, $headers);
 header("Location: ".$_REQUEST['ref']);
-?>

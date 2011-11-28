@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @package lib
  */
@@ -16,4 +16,3 @@ class Cache {
 		file_put_contents('./cache/files/'.$key, $value);
 	}
 }
-?>

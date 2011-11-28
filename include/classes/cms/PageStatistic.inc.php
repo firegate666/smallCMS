@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * This class ist for counting page statistics
  * 
@@ -53,4 +53,3 @@ class PageStatistic extends AbstractClass {
 	}
 
 }
-?>

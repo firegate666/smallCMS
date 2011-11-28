@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @package cms
  */
@@ -138,4 +138,3 @@ class Varspage extends ContentType {
 			return '<!-- empty -->';
 	}
 }
-?>

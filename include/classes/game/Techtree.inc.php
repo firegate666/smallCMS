@@ -1,4 +1,4 @@
-<?
+<?php
 	$template_classes[] = 'techtree';
 	
 /**
@@ -148,7 +148,7 @@ class TechTree extends AbstractNavigationClass {
 		
 		$query = "DELETE FROM ttexplored WHERE `spieler_id` = $spieler_id AND `techtree_entry_id` <> 0;";
 		$mysql->update($query);
-		$error = "Alle Forschungen gelöscht";
+		$error = "Alle Forschungen gelï¿½scht";
 		return redirect('?class=techtree&error='.$error);
 	}
 
@@ -302,11 +302,11 @@ class TTExplored extends AbstractClass {
 		if(empty($spieler_id))
 			$spieler_id = SeaWars::player();
 		$spieler_id = $mysql->escape($spieler_id);
-		$query = "SELECT *, COUNT(`techtree_entry_id`) AS erfuellt, COUNT(*) AS Abhängigkeiten 
+		$query = "SELECT *, COUNT(`techtree_entry_id`) AS erfuellt, COUNT(*) AS Abhï¿½ngigkeiten 
 					FROM `ttentrydependson` 
 					LEFT JOIN `ttexplored` ON `dependson_id`=`techtree_entry_id`
     				WHERE spieler_id=$spieler_id GROUP BY `ttentrydependson`.`entry_id`
-	  				HAVING Abhängigkeiten=erfuellt $techids;";
+	  				HAVING Abhï¿½ngigkeiten=erfuellt $techids;";
 	  	$temp = $mysql->select($query, true);
 	  	$result = array();
 	  	if(is_array($runningtechs))
@@ -392,4 +392,3 @@ class TTType extends AbstractClass {
 		return $fields;
 	}
 }
-?>

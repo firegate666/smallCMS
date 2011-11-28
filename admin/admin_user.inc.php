@@ -1,4 +1,4 @@
-<?
+<?php
 $adminlogin = (User::hasright('admin') || User::hasright('useradmin'));
 if(!$adminlogin) die("DENIED");
 
@@ -52,18 +52,18 @@ if(isset($_REQUEST['store']) && isset($_REQUEST['userright'])) {
 	unset($_REQUEST['usergroup']);
 }
 ?>
-<?
+<?php
 if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 	$ug = new Usergroup();
 ?>
 	<h3>User</h3>
-	<div class="error"><?=$error?></div>
+	<div class="error"><?php print $error?></div>
 	<form action="index.php" method="post">
 		<input type="hidden" name="admin"/>
 		<input type="hidden" name="user"/>
 		<select name="usergroupid" onChange="this.form.submit()">
 			<option value="">- Gruppenfilter aus -</option>
-			<?=$ug->getOptionList($_REQUEST['usergroupid'], false, 'name', true, 'name')?>
+			<?php print $ug->getOptionList($_REQUEST['usergroupid'], false, 'name', true, 'name')?>
 		</select>
 	</form>
 
@@ -84,7 +84,7 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 			<th align="left">leztes Login</th>
 			<th>&nbsp;</th>
 		</tr>
-	<?
+	<?php
 		$u = new User();
 		$where = array();
 		if (!empty($_REQUEST['usergroupid']))
@@ -98,29 +98,29 @@ if ((!isset($_REQUEST['usergroup'])) && (!isset($_REQUEST['userid']))) {
 				$class = 'lightborder';
 		?>
 			<tr>
-				<td><?=$myuser['login']?></td>
-				<td><?=$myuser['email']?></td>
-				<td><?=$ug->get('name')?></td>
-				<td class="<?=$class?>"><?=$ug2->get('name')?></td>
+				<td><?php print $myuser['login']?></td>
+				<td><?php print $myuser['email']?></td>
+				<td><?php print $ug->get('name')?></td>
+				<td class="<?php print $class?>"><?php print $ug2->get('name')?></td>
 				<td>
-					<? if (!empty($class)) { ?>
-						<a href="index.php?admin&user&groupaction=delete&userid=<?=$myuser['id']?>"><img src="img/deny.gif" alt="Reject Request"/></a>
-						<a href="index.php?admin&user&groupaction=change&userid=<?=$myuser['id']?>"><img src="img/verified.gif" alt="Acknowledge Request"/></a>
-					<? } ?>
+					<?php if (!empty($class)) { ?>
+						<a href="index.php?admin&user&groupaction=delete&userid=<?php print $myuser['id']?>"><img src="img/deny.gif" alt="Reject Request"/></a>
+						<a href="index.php?admin&user&groupaction=change&userid=<?php print $myuser['id']?>"><img src="img/verified.gif" alt="Acknowledge Request"/></a>
+					<?php } ?>
 				</td>
-				<td><?=$myuser['__createdon']?></td>
-				<td><?=$myuser['errorlogins']?></td>
-				<td><?=$myuser['lastlogin']?></td>
-				<td><a href="?admin&user&userid=<?=$myuser['id']?>"><img src="img/edit.gif" border="0" alt="Edit"/></a>
-					<a href="?admin&user&userid=<?=$myuser['id']?>&delete">
+				<td><?php print $myuser['__createdon']?></td>
+				<td><?php print $myuser['errorlogins']?></td>
+				<td><?php print $myuser['lastlogin']?></td>
+				<td><a href="?admin&user&userid=<?php print $myuser['id']?>"><img src="img/edit.gif" border="0" alt="Edit"/></a>
+					<a href="?admin&user&userid=<?php print $myuser['id']?>&delete">
 						<img src="img/delete.gif" border="0" alt="Delete"/>
 					</a>
 				</td>
 			</tr>
-		<? }
+		<?php }
 	?>
 	</table>
-<?}
+<?php }
 if (isset($_REQUEST['userid'])) {
 	$u = new User($_REQUEST['userid']);
 	$ug = new Usergroup($u->get('groupid'));
@@ -130,18 +130,18 @@ if (isset($_REQUEST['userid'])) {
 	<form action="index.php" method="post">
 		<input type="hidden" name="admin"/>
 		<input type="hidden" name="user"/>
-		<input type="hidden" name="userid" value="<?=$u->get('id')?>"/>
+		<input type="hidden" name="userid" value="<?php print $u->get('id')?>"/>
 		<table class="adminedit">
 			<tr>
-				<th colspan="2"><h3>Edit User: <?=$u->get('login')?></h3></th>
+				<th colspan="2"><h3>Edit User: <?php print $u->get('login')?></h3></th>
 			</tr>
 			<tr>
 				<td>Login</td>
-				<td><input type="text" name="login" value="<?=$u->get('login')?>"/></td>
+				<td><input type="text" name="login" value="<?php print $u->get('login')?>"/></td>
 			</tr>
 			<tr>
 				<td>Email</td>
-				<td><input type="text" name="email" value="<?=$u->get('email')?>"/></td>
+				<td><input type="text" name="email" value="<?php print $u->get('email')?>"/></td>
 			</tr>
 			<tr>
 				<td>Password</td>
@@ -151,11 +151,11 @@ if (isset($_REQUEST['userid'])) {
 			</tr>
 			<tr>
 				<td>Usergroup</td>
-				<td><select name="groupid"><?=$ug->getOptionList($u->get('groupid'),true)?></select></td>
+				<td><select name="groupid"><?php print $ug->getOptionList($u->get('groupid'),true)?></select></td>
 			</tr>
 			<tr>
 				<td>&nbsp;</td><td><input type="submit" name="store" value="Speichern"/></td>
 			</tr>
 		</table>
 	</form>
-<? } ?>
+<?php } ?>

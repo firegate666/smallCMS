@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * MySQL Wrapper
  * in fact, this isn't yet a wrapper, much improved has
@@ -131,4 +131,3 @@ class MySQL extends SQL {
 		return mysql_escape_string($string);
 	}
 }
-?>

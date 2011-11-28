@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * Imagelinks
  *
@@ -252,4 +252,3 @@ class Image extends AbstractClass {
 			$this->loadbyname($nameorid);
 	}
 }
-?>

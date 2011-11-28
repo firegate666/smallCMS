@@ -1,4 +1,4 @@
-<?
+<?php
 	$template_classes[] = 'messenger';
 
   class Messenger extends AbstractNavigationClass {
@@ -83,7 +83,7 @@
 		$result=$this->getLayout($array, "main_window_header", $vars);
 		
 		$nachricht=new Mitteilung();	//Neue Mitteilung erzeugen
-		$errormessage=$nachricht->parse_html_imput($vars); //Formulareingaben überprüfen und zuweisen
+		$errormessage=$nachricht->parse_html_imput($vars); //Formulareingaben ï¿½berprï¿½fen und zuweisen
 		$result.=$errormessage;
 		if ($errormessage=="Nachricht gesendet") {
 			$nachricht->store();	//Nachricht in SQL-DB abspeichern
@@ -94,4 +94,3 @@
 		return $result;
 	}
   }
-?>

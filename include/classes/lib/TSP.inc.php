@@ -47,7 +47,7 @@ class TSP {
 		while(!empty($bag)) {
 			$distance = null;
 			$nextnode = null;
-			foreach($bag as $item) { // die Verbindung zu jedem prüfen
+			foreach($bag as $item) { // die Verbindung zu jedem prï¿½fen
 				$tempcost = $costs[$node][$item];
 				if($distance == null) { // first round
 					$distance = $tempcost;
@@ -118,7 +118,7 @@ class TSP {
 			while(!empty($bag)) {
 				$distance = null;
 				$nextnode = null;
-				foreach($bag as $item) { // die Verbindung zu jedem prüfen
+				foreach($bag as $item) { // die Verbindung zu jedem prï¿½fen
 					$tempcost = $costs[$node][$item];
 					if($distance == null) { // first round
 						$distance = $tempcost;
@@ -144,4 +144,3 @@ class TSP {
 		return $totalresults;
 	}
 }
-?>

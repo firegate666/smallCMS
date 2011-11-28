@@ -556,6 +556,3 @@ class Battle extends W40K {
 	}
 
 }
-
-
-?>

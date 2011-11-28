@@ -14,5 +14,3 @@
 	    $mysql = new Postgres();
 	} else
 		die("No database system set");
-
-?>

@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * This class is supposed to be seen as Interface for different database connections 
  * Abstract class, no functionality
@@ -64,4 +64,3 @@ abstract class SQL {
 
 	abstract function escape ($string);
 }
-?>

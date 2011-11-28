@@ -27,4 +27,3 @@ class GameSystem extends W40K {
 		return $fields;
 	}	
 }
-?>

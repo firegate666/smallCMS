@@ -64,4 +64,3 @@ class Setting extends AbstractClass {
 		$_SESSION['settingdesc'][$name] = $description;
 	}
 }
-?>

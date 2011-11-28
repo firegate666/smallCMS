@@ -1,4 +1,4 @@
-<?
+<?php
 $adminlogin = (User::hasright('admin') || User::hasright('configadmin'));
 if(empty($adminlogin)) die("DENIED");
 ?>
@@ -8,18 +8,18 @@ if(empty($adminlogin)) die("DENIED");
   <tr>
     <th align="left">Name</th><th align="left">Value</th>
   </tr>
-<?
+<?php
 
 	global $_CONFIG;
 	foreach($_CONFIG as $name=>$value) { ?>
 		<tr>
-		  <td><?=$name?></td>
-		  <td><?
+		  <td><?php print $name?></td>
+		  <td><?php
 		  		if ($value === true) echo "true";
 		  		else if ($value === false) echo "false";
 		  		else echo $value;
 		  ?></td>
 		</tr>
-	<? }
+	<?php }
 ?>
 </table>

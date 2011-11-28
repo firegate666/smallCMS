@@ -11,4 +11,3 @@ class QuestionAnswertype extends AbstractClass {
 		return false;
 	}
 }
-?>

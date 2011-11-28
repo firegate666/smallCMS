@@ -1,7 +1,7 @@
 <html>
 <head><title>smallCMS Setup</title></head>
 <body>
-<?
+<?php
 $step = 1;
 if (!empty($_REQUEST['step']))
 	$step = $_REQUEST['step'];;

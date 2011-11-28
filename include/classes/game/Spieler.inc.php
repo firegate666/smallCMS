@@ -1,4 +1,4 @@
-<?
+<?php
 	Setting::write('ttpointsfaktor', 0.1, 'Faktor mit denen erforschte Techs in die Punktzahl eingehen', false);
 
 	$template_classes[] = 'spieler';
@@ -61,4 +61,3 @@ class Spieler extends AbstractNavigationClass {
 		return false;
 	}
 }
-?>

@@ -15,4 +15,3 @@
 	// target system
 	$base = "http://fairness-online.virtualid.de/index.php";
 	header("Location: ".$base."?questionaire/show/".($ids[$random]));
-?>

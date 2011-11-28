@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * The main features everyone should know
  * 
@@ -558,4 +558,3 @@ abstract class AbstractClass {
 		return $mysql->escape($string);
 	}
 }
-?>

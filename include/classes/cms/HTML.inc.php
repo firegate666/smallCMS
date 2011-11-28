@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * HTML Wrappers, much improved has to done
  * 
@@ -9,13 +9,13 @@ class HTML {
 	public function convert_specialchars($string) {
 		//removed because of JAVA Script Problems
 		//$string = str_replace('&', '&amp;', $string);
-		$string = str_replace('ä', '&auml;', $string);
-		$string = str_replace('ö', '&ouml;', $string);
-		$string = str_replace('ü', '&uuml;', $string);
-		$string = str_replace('Ä', '&Auml;', $string);
-		$string = str_replace('Ö', '&Ouml;', $string);
-		$string = str_replace('Ü', '&Uuml;', $string);
-		$string = str_replace('ß', '&szlig;', $string);
+		$string = str_replace('ï¿½', '&auml;', $string);
+		$string = str_replace('ï¿½', '&ouml;', $string);
+		$string = str_replace('ï¿½', '&uuml;', $string);
+		$string = str_replace('ï¿½', '&Auml;', $string);
+		$string = str_replace('ï¿½', '&Ouml;', $string);
+		$string = str_replace('ï¿½', '&Uuml;', $string);
+		$string = str_replace('ï¿½', '&szlig;', $string);
 		return $string;
 	}
 	
@@ -83,4 +83,3 @@ class HTML {
 		}
 	}	
 }
-?>

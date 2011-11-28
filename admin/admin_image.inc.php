@@ -1,4 +1,4 @@
-<?
+<?php
 $adminlogin = (User::hasright('admin') || User::hasright('templateadmin'));
 $msg = "";
 if(empty($adminlogin)) die("DENIED");
@@ -29,7 +29,7 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 <h3>Dateiverwaltung</h3>
 <div id="myform"><a href="index.php?admin&image&img_upload">Upload</a> /
 <a href="index.php?admin&image&img_show">Anzeigen</a>
-  <? if(isset($_REQUEST['img_upload'])) { ?>
+  <?php if(isset($_REQUEST['img_upload'])) { ?>
 	<form action="index.php" enctype="multipart/form-data" method="post" name="fupload">
 		<script type="text/javascript">
 			function upload() {
@@ -54,9 +54,9 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
        </table>
 	</form></div>
 	<div id="bar" style="display:none"><img src="img/progressbar.gif" alt="uploadbar"/></div>
-	<div id="msg"><?=$msg?></div>
-  <? } ?>
-  <? if(isset($_REQUEST['img_show'])) {
+	<div id="msg"><?php print $msg ?></div>
+  <?php } ?>
+  <?php if(isset($_REQUEST['img_show'])) {
   		$image = new Image();
 		$optionlist = $image->getTypeOptionList($_REQUEST['filter_type']);
 		$optionlist_emo = $image->getEmoOptionList($_REQUEST['filter_emoticon']);
@@ -68,13 +68,13 @@ if (isset ($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename'])) {
 	<table class="adminlist">
 		<tr>
 			<th>Bildname</th>
-			<th><select name="filter_emoticon" onChange="this.form.submit();"><option value="">Alle</option><?=$optionlist_emo?></select></th>
+			<th><select name="filter_emoticon" onChange="this.form.submit();"><option value="">Alle</option><?php print $optionlist_emo?></select></th>
 			<th>Gr&ouml;&szlig;e</th>
-			<th><select name="filter_type" onChange="this.form.submit();"><option value="">Dateityp</option><?=$optionlist?></select></th>
+			<th><select name="filter_type" onChange="this.form.submit();"><option value="">Dateityp</option><?php print $optionlist?></select></th>
 			<th>URL</th>
 			<th/>
 		</tr>
-<?
+<?php
 $where[] = 'parentid=0';
 if (!empty($_REQUEST['filter_type']))
 	$where[] = "type='{$_REQUEST['filter_type']}'";
@@ -84,16 +84,16 @@ $array = Image::getImageList($where);
 foreach ($array as $item) {
 ?>
 		<tr>
-			<td><a href="?image/show/<?=$item['name']?>" target="_blank"><?=$item['name']?></a></td>
-			<td><img src="?image/show/<?=$item['name']?>/y=20" alt="<?=$item['name']?>" height="20" width="20"/></td>
-			<td><?=$item['size']?></td>
-			<td><?=$item['type']?></td>
-			<td><?=$item['url']?></td>
-		    <td><a href="javascript:dialog_confirm('Wirklich l&ouml;schen?', 'index.php?admin&image&img_show&img_delete&id=<?=$item['id']?>');"><img src="img/delete.gif" border="0"alt="Delete"/></a></td>
+			<td><a href="?image/show/<?php print $item['name']?>" target="_blank"><?php print $item['name']?></a></td>
+			<td><img src="?image/show/<?php print $item['name']?>/y=20" alt="<?php print $item['name']?>" height="20" width="20"/></td>
+			<td><?php print $item['size']?></td>
+			<td><?php print $item['type']?></td>
+			<td><?php print $item['url']?></td>
+		    <td><a href="javascript:dialog_confirm('Wirklich l&ouml;schen?', 'index.php?admin&image&img_show&img_delete&id=<?php print $item['id']?>');"><img src="img/delete.gif" border="0"alt="Delete"/></a></td>
 		</tr>
-<?
+<?php
 }
 ?>
 	</table>
 </form>
-  <? } ?>
+  <?php } ?>

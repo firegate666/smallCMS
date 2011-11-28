@@ -11,7 +11,4 @@
 
  $database = new MySQL();
  */
- // hier einmal der Reihe nach alle .sql Dateien einlesen und ausführen
-
-
-?>
+ // hier einmal der Reihe nach alle .sql Dateien einlesen und ausfï¿½hren

@@ -1,4 +1,4 @@
-<?
+<?php
 
 // TODO better handling in newsletter class
 require_once dirname(__FILE__).'/config/All.inc.php';
@@ -22,5 +22,3 @@ if (!empty ($email)) {
 	header("Location: ".$_REQUEST['ref']);
 } else
 	header("Location: ".$_REQUEST['referr']);
-?>
-

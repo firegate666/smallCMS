@@ -1956,5 +1956,3 @@ class StringParser_BBCode_Node_Element extends StringParser_Node {
 		return $str;
 	}
 }
-
-?>

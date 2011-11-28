@@ -47,4 +47,3 @@ class Question extends AbstractClass {
 		return $mysql->select($query);
 	}
 }
-?>

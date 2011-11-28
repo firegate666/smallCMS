@@ -86,4 +86,3 @@ class W40KUser extends W40K {
 	}
 	
 }
-?>

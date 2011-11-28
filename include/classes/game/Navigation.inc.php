@@ -1,4 +1,4 @@
-<?
+<?php
 	$template_classes[] = 'navigation';
 
 /**
@@ -15,4 +15,3 @@ class Navigation extends AbstractClass {
 	function Navigation() {
 	}
 }
-?>
