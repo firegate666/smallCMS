@@ -128,10 +128,11 @@ function error($error, $class, $method, $vars=array())
 /**
  * improved print_r
  */
-function print_a($array)
+function print_a()
 {
 	echo ("<pre>\n");
-	print_r($array);
+	foreach(func_get_args() as $arg)
+		var_dump($arg);
 	echo ("</pre>\n");
 }
 
