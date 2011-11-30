@@ -93,20 +93,29 @@ if ($step == 1) {
 		$db = mysql_select_db($dbdatabase, $db) or die('Database "'.$dbdatabase.'" is invalid: '.mysql_error());
 		echo "<h3>Setup database</h3>";
 		$dir = dirname(__FILE__).'/mysql/';
-  		if ($handle = opendir($dir)) {
+  		if ($handle = opendir($dir) !== false) {
 			$files = array();
 
 			while (false !== ($file = readdir($handle))) {
-				if ((substr($file, 0, 1) == '.') || ($file == 'CVS'))
-		                        continue;
-				$files[] = $file;
+				if (substr($file, strrpos($file, '.')) == '.sql')
+					$files[] = $file;
 			}
 			closedir($handle);
 			sort($files);
 			foreach ($files as $file) {
 				if (file_exists($dir."/".$file)) {
+					printf("<p>Process %s</p>", $file);
 					$sql = file_get_contents($dir."/".$file);
-					mysql_query($sql) or die("ERROR: SQL (".$dir."/".$file.") fails: ".mysql_error());
+					
+					$statements = explode(';', $sql);
+					foreach($statements as $statement)
+					{
+						$statement = trim($statement);
+						if (!empty($statement))
+						{
+							mysql_query($statement) or die("ERROR: SQL (".$dir."/".$file.") fails: ".mysql_error());
+						}
+					}
 				} else
 					die("ERROR: File does not exist: ".$dir."/".$file);
 			}
