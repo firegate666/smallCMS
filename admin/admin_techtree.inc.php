@@ -1,4 +1,4 @@
-<?
+<?php
 $adminlogin = Session::getCookie('adminlogin');
 if(empty($adminlogin)) die("DENIED");
 
@@ -30,7 +30,7 @@ if(isset($cat)) { ?>
 		   	  $tc = new TTCategory($item['id']);
 		   	  ?><tr>
 		   	      <td><?=$tc->get('name')?></td>
-		   	      <td><a href="?admin&techtree&cat&del&id=<?=$tc->get('id')?>">löschen</a></td>
+		   	      <td><a href="?admin&techtree&cat&del&id=<?=$tc->get('id')?>">lï¿½schen</a></td>
 		   	    </tr>
 		   	  <?
 		   }
