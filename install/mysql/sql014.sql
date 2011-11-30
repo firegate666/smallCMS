@@ -1,1 +1,0 @@
-ALTER TABLE `guestbook` CHANGE `timestamp` `timestamp` DATETIME;

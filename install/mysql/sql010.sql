@@ -1,2 +1,0 @@
-ALTER TABLE `spieler` ADD `hash` VARCHAR( 100 ) NOT NULL ,
-ADD `confirmed` TINYINT DEFAULT '0' NOT NULL ;
