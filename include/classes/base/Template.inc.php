@@ -185,7 +185,7 @@ class Template extends AbstractClass {
 		}
 		if ($noparse)
 			return $string;
-		$string = html_entity_decode($string);
+		$string = html_entity_decode($string, ENT_COMPAT, Setting::read('charset','UTF-8'));
 		$string = HTML::convert_specialchars($string);
 		$keys = array_keys($array);
 		foreach ($keys as $key) {
