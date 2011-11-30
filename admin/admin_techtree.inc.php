@@ -1,5 +1,5 @@
 <?php
-$adminlogin = Session::getCookie('adminlogin');
+$adminlogin = User::hasright('admin');
 if(empty($adminlogin)) die("DENIED");
 
 if(isset($cat) && isset($create)) {
