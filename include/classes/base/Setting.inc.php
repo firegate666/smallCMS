@@ -40,8 +40,10 @@ class Setting extends AbstractClass
 		$setting->data['name'] = $name;
 		$setting->data['description'] = $description;
 		if ($override || !$setting->exists())
+		{
 			$setting->data['value'] = $value;
-		$setting->store();
+			$setting->store();
+		}
 		$_SESSION['setting'][$name] = $setting->data['value'];
 		if (empty($_SESSION['settingdesc'][$name]))
 			$_SESSION['settingdesc'][$name] = $setting->data['description'];
