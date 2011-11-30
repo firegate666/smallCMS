@@ -1,7 +1,7 @@
 <?php
   $template_classes[] = 'mitteilung';
   
-  class mitteilung extends AbstractNoNavigationClass {
+  class Mitteilung extends AbstractNoNavigationClass {
   	
   	/**
 	 * all fields used in class

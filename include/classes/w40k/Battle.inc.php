@@ -485,8 +485,8 @@ class Battle extends W40K {
 		}
 	}
 
-	public function Battle($id='') {
-		parent::W40K($id);
+	public function __construct($id='') {
+		parent::__construct($id);
 		$this->loadMultibattles();
 	}
 

@@ -17,9 +17,9 @@ $__userrights[] = array('name'=>'guestbookadmin', 'desc'=>'can edit guestbook');
  */
 class Guestbook extends AbstractClass {
 
-	function Guestbook($id='') {
+	function __construct($id='') {
 		$this->layout = $id;
-		parent::AbstractClass($id);
+		parent::__construct($id);
 	}
 
 	function togglestate($vars) {

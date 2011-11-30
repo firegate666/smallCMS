@@ -7,7 +7,7 @@ $__userrights[] = array('name'=>'settingsadmin', 'desc'=>'can edit settings');
  */
 class Setting extends AbstractClass {
 	
-	public function Setting($name = null) {
+	public function __construct($name = null) {
 		if (($name == null) || ($name == '')) 
 			return;
 		global $mysql;

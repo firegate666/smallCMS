@@ -21,7 +21,7 @@ class TSP {
 	 * @param	int[]	$ids	assoc array of ids
 	 * Example: array('6543'=>6543, '12432'=>12432);
 	 */
-	function TSP($ids){
+	function __construct($ids){
 		foreach($ids as $id) {
 			$this->ids[$id] = $id;
 		}

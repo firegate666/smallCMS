@@ -21,7 +21,7 @@ class MySQLInterface {
 	
 	private $mysql;
 	
-	public function MySQLInterface() {
+	public function __construct() {
 		$this->mysql = new MySQL();
 	}
 	

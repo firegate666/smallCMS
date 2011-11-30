@@ -11,7 +11,5 @@ class Navigation extends AbstractClass {
 		$o = $this->getLayout(array(), "main_bar", $vars);
 		return $o;
 	}
-	
-	function Navigation() {
-	}
+
 }

@@ -94,8 +94,8 @@ abstract class W40K extends AbstractClass {
 		return false;
 	}
 	
-	public function W40K($id='') {
-		parent::AbstractClass($id);
+	public function __construct($id='') {
+		parent::__construct($id);
 		$this->image = new Image();
 	}
 	

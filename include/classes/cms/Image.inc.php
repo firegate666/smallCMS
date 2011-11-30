@@ -243,11 +243,11 @@ class Image extends AbstractClass {
 		imagedestroy($dest_im);
 		die;
 	}
-	function Image($nameorid = '') {
+	function __construct($nameorid = '') {
 		if (empty ($nameorid))
 			return;
 		if(is_numeric($nameorid)) {
-			parent::AbstractClass($nameorid);
+			parent::__construct($nameorid);
 		} else
 			$this->loadbyname($nameorid);
 	}

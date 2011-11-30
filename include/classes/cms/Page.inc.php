@@ -18,7 +18,7 @@ class Page extends AbstractClass {
 		return false;
 	}
 
-	function Page($name='') {
+	function __construct($name='') {
 		$this->name = $name;
 	}
 

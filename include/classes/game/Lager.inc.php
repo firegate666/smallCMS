@@ -6,9 +6,9 @@
   class Lager extends AbstractClass {
       protected $lagerenthaelt;
 
-      function Lager($id='') {
+      function __construct($id='') {
       	if(empty($id)) return;
-          parent::AbstractClass($id);
+          parent::__construct($id);
           $this->loadres();
       }
 

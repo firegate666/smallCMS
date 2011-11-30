@@ -40,7 +40,7 @@ class W40KUser extends W40K {
 		return parent::show($vars, 'user_view', $array);
 	}
 
-	public function W40KUser($id='') {
+	public function __construct($id='') {
 		$this->user = new User($id);
 		$this->data['id'] = $this->user->get('id');
 		

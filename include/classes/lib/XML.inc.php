@@ -103,7 +103,7 @@ escaped before calling!!
     }
 
 
-    function XML() {
+    function __construct() {
         $this->output = '';
     }
 

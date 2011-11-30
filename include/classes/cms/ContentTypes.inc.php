@@ -21,7 +21,7 @@ class Link extends ContentType {
 		return $this->link.$this->value;
 	}
 
-	function Link($value) {
+	function __construct($value) {
 		$this->link = 'index.php?';
 		$this->value = $value;
 	}
@@ -34,8 +34,8 @@ class Link extends ContentType {
  */
 class PLink extends Link {
 
-	function PLink($value) {
-		parent::Link($value);
+	function __construct($value) {
+		parent::__construct($value);
 		$this->link = 'index.php?page/show/';
 	}
 }
@@ -64,7 +64,7 @@ class Loggedin extends ContentType {
 		}
 	}
 
-	function Loggedin($value) {
+	function __construct($value) {
 		$value = explode("|", $value);
 		if(isset($value[0]))
 			$this->loggedin = $value[0];
@@ -112,7 +112,7 @@ class UserView extends AbstractClass {
 		return parent::show($vars, $this->template, $array);
 	}
 
-	public function UserView($id) {
+	public function __construct($id) {
 		$this->template = $id;
 	}
 }
@@ -126,7 +126,7 @@ class Varspage extends ContentType {
 
 	protected $attr = '';
 
-	function Varspage($id='') {
+	function __construct($id='') {
 		$this->attr = $id;
 	}
 

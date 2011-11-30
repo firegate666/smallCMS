@@ -320,7 +320,7 @@ abstract class AbstractClass {
 	*
 	* @param	int	$id	id of object
 	*/
-	public function AbstractClass($id='') {
+	public function __construct($id='') {
 		if(!$this->getFields()) error("No fields set",$this->class_name(),'Constructor');
 		if(empty($id) || !is_numeric($id)) return;
 		$this->id=$id;

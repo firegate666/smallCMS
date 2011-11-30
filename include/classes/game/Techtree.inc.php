@@ -155,7 +155,7 @@ class TechTree extends AbstractNavigationClass {
 	/**
 	* public constructore, initialize Tech-Tree for logged in player
 	*/
-	function TechTree() {
+	function __construct() {
 		$this->update();
 		$this->load();
 		// get all information
@@ -229,7 +229,7 @@ class TTEntryDependson extends AbstractClass {
   	/**
 	 * all fields used in class
 	 */
-	protected function getFields() {
+	public function getFields() {
 		$fields[] = array('name' => 'entry_id', 'type' => 'Integer', 'notnull' => true);
 		$fields[] = array('name' => 'dependson_id', 'type' => 'Integer', 'notnull' => true);
 	}
@@ -328,7 +328,7 @@ class TTCategory extends AbstractClass {
   	/**
 	 * all fields used in class
 	 */
-	protected function getFields() {
+	public function getFields() {
 		$fields[] = array('name' => 'name', 'type' => 'String', 'notnull' => true);
 		return $fields;
 	}
@@ -365,7 +365,7 @@ class TTEntry extends AbstractClass {
   	/**
 	 * all fields used in class
 	 */
-	protected function getFields() {
+	public function getFields() {
 		$fields[] = array('name' => 'name', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'description', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'image_id', 'type' => 'Integer', 'notnull' => true);
@@ -386,7 +386,7 @@ class TTType extends AbstractClass {
   	/**
 	 * all fields used in class
 	 */
-	protected function getFields() {
+	public function getFields() {
 		$fields[] = array('name' => 'name', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'beschreibung', 'type' => 'String', 'notnull' => true);
 		return $fields;
