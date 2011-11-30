@@ -40,15 +40,15 @@ class Inselliste extends AbstractNavigationClass
 		}
 		switch (strtoupper($mode))
 		{
-			case ("ALL") : return $this->show_all(&$vars);
+			case ("ALL") : return $this->show_all($vars);
 				break;
-			case ("REGION") : return $this->show_region(&$vars);
+			case ("REGION") : return $this->show_region($vars);
 				break;
-			case ("ARCHIPEL") : return $this->show_archipel(&$vars);
+			case ("ARCHIPEL") : return $this->show_archipel($vars);
 				break;
-			case ("OWN") : return $this->show_own(&$vars);
+			case ("OWN") : return $this->show_own($vars);
 				break;
-			default : return $this->show_all(&$vars);
+			default : return $this->show_all($vars);
 		}
 		return $this->show_all();
 	}
