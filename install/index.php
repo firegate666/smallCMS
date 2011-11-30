@@ -83,7 +83,7 @@ if ($step == 1) {
 		$content = str_replace("<game>", $_REQUEST['game'], $content);
 		$content = str_replace("<bbcode>", $_REQUEST['bbcode'], $content);
 		
-		file_put_contents($config, $content);
+		file_put_contents("<?php\n".$config, $content);
 		 
 		echo '<p><a href="index.php?step=4">Proceed with step 4</a></p>';
 	} else if ($step == 4) {

@@ -1,52 +1,51 @@
-<?php
-	// copy to config.inc.php and replace with valid values
-	
-	// db connection data
-	$dbserver   = "<dbserver>"; // Datenbankserver
-	$dbuser     = "<dbuser>";	// Datenbankbenutzer
-	$dbpassword = "<dbpass>";	// Benutzerpasswort
-	$dbdatabase = "<dbname>";	// Datenbank
+// copy to config.inc.php and replace with valid values
 
-	// pgsql or mysql
-	$_CONFIG['dbsystem'] = '<dbtype>';
+// db connection data
+$dbserver   = "<dbserver>"; // Datenbankserver
+$dbuser     = "<dbuser>";	// Datenbankbenutzer
+$dbpassword = "<dbpass>";	// Benutzerpasswort
+$dbdatabase = "<dbname>";	// Datenbank
 
-	// system base url
-	$_CONFIG['system'] = 'http://<system>';
+// pgsql or mysql
+$_CONFIG['dbsystem'] = '<dbtype>';
 
-	// default sender and receiver for system messages
-	$_CONFIG['sender'] = '<email>';
-	$_CONFIG['receiver'] = '<email>';
-	
-	// Store passwords encrypted?
-	// Never change on a running system
-	$_CONFIG['encryptpwd'] = true;
+// system base url
+$_CONFIG['system'] = 'http://<system>';
 
-	// enable modules
-	$_CONFIG["cms"] = <cms>;
-	$_CONFIG["questionaire"] = <questionaire>;
-	$_CONFIG["w40k"] = <w40k>;	
-	$_CONFIG["game"] = <game>;	
-	$_CONFIG["bbcode"] = <bbcode>;	
+// default sender and receiver for system messages
+$_CONFIG['sender'] = '<email>';
+$_CONFIG['receiver'] = '<email>';
 
-	// this is where are uploaded files are stored
-	// chmod 777
-	$_CONFIG["uploadpath"] = 'upload/';
-	
-	// cache templates to session or not
-	$_CONFIG["cache_enabled"] = false;
-	
-	// if true, there are defaults for class, method and/or id if not set
-	$_CONFIG["usedefaults"] = false;
+// Store passwords encrypted?
+// Never change on a running system
+$_CONFIG['encryptpwd'] = true;
 
-	// each of these can be set, but mus not.
-	// Only used if $_CONFiG["usedefaults"] = true
-	$_CONFIG["default_class"] = "page";
-	$_CONFIG["default_method"] = "show";
-	$_CONFIG["default_id"] = "index";
-	
-	// if true, debug messages will be printed
-	$_CONFIG["debug"] = false;
+// enable modules
+$_CONFIG["cms"] = <cms>;
+$_CONFIG["questionaire"] = <questionaire>;
+$_CONFIG["w40k"] = <w40k>;	
+$_CONFIG["game"] = <game>;	
+$_CONFIG["bbcode"] = <bbcode>;	
 
-	// if true, there are template edit links for each template used
-	// while logged in as admin and browsing the pages
-	$_CONFIG["quickedit"] = false;
+// this is where are uploaded files are stored
+// chmod 777
+$_CONFIG["uploadpath"] = 'upload/';
+
+// cache templates to session or not
+$_CONFIG["cache_enabled"] = false;
+
+// if true, there are defaults for class, method and/or id if not set
+$_CONFIG["usedefaults"] = false;
+
+// each of these can be set, but mus not.
+// Only used if $_CONFiG["usedefaults"] = true
+$_CONFIG["default_class"] = "page";
+$_CONFIG["default_method"] = "show";
+$_CONFIG["default_id"] = "index";
+
+// if true, debug messages will be printed
+$_CONFIG["debug"] = false;
+
+// if true, there are template edit links for each template used
+// while logged in as admin and browsing the pages
+$_CONFIG["quickedit"] = false;
