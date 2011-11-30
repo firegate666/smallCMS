@@ -282,12 +282,17 @@ class Image extends AbstractClass
 	function __construct($nameorid = '')
 	{
 		if (empty($nameorid))
-			return;
-		if (is_numeric($nameorid))
+		{
+			// do nothing
+		}
+		else if (is_numeric($nameorid))
 		{
 			parent::__construct($nameorid);
-		} else
+		}
+		else
+		{
 			$this->loadbyname($nameorid);
+		}
 	}
 
 }

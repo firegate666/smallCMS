@@ -31,6 +31,7 @@ class Link extends ContentType
 
 	function __construct($value)
 	{
+		parent::__construct($id);
 		$this->link = 'index.php?';
 		$this->value = $value;
 	}
@@ -83,6 +84,7 @@ class Loggedin extends ContentType
 
 	function __construct($value)
 	{
+		parent::__construct($id);
 		$value = explode("|", $value);
 		if (isset($value[0]))
 			$this->loggedin = $value[0];
@@ -136,6 +138,7 @@ class UserView extends AbstractClass
 
 	public function __construct($id)
 	{
+		parent::__construct($id);
 		$this->template = $id;
 	}
 
@@ -153,6 +156,7 @@ class Varspage extends ContentType
 
 	function __construct($id='')
 	{
+		parent::__construct($id);
 		$this->attr = $id;
 	}
 

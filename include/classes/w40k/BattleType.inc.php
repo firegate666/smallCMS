@@ -8,10 +8,10 @@ class BattleType extends W40K
 
 	public function __construct($id='')
 	{
+		parent::__construct($id);
 		$this->set('sortfirst', 'score');
 		$this->set('sortsecond', 'punkte');
 		$this->set('sortthird', 'anzahl');
-		parent::__construct($id);
 	}
 
 	public function acl($method)

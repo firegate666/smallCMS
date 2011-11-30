@@ -11,13 +11,16 @@ class Setting extends AbstractClass
 
 	public function __construct($name = null)
 	{
-		if (($name == null) || ($name == ''))
-			return;
-		global $mysql;
-		$result = $mysql->executeSql("SELECT id FROM setting WHERE name='" . $mysql->escape($name) . "';");
-		$this->id = $result['id'];
-		if (!empty($this->id))
-			$this->load();
+		if (($name != null) && ($name != ''))
+		{
+			global $mysql;
+			$result = $mysql->executeSql("SELECT id FROM setting WHERE name='" . $mysql->escape($name) . "';");
+			$this->id = $result['id'];
+			if (!empty($this->id))
+			{
+				$this->load();
+			}
+		}
 	}
 
 	/**

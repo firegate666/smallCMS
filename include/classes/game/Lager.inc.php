@@ -11,10 +11,11 @@ class Lager extends AbstractClass
 
 	function __construct($id='')
 	{
-		if (empty($id))
-			return;
-		parent::__construct($id);
-		$this->loadres();
+		if (!empty($id))
+		{
+			parent::__construct($id);
+			$this->loadres();
+		}
 	}
 
 	/**

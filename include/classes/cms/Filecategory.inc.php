@@ -6,11 +6,6 @@
 class Filecategory extends AbstractClass
 {
 
-	public function __construct($id='')
-	{
-		parent::__construct($id);
-	}
-
 	public function acl($method)
 	{
 		return false;

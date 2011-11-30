@@ -186,16 +186,6 @@ class StringParser
 	public $_recentlyReparsed = false;
 
 	/**
-	 * Constructor
-	 *
-	 * @access public
-	 */
-	function __construct()
-	{
-		
-	}
-
-	/**
 	 * Add a filter
 	 *
 	 * @access public

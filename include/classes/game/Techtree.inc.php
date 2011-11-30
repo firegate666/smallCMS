@@ -177,6 +177,7 @@ class TechTree extends AbstractNavigationClass
 	 */
 	function __construct()
 	{
+		parent::__construct();
 		$this->update();
 		$this->load();
 		// get all information

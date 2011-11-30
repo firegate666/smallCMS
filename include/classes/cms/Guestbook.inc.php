@@ -21,8 +21,8 @@ class Guestbook extends AbstractClass
 
 	function __construct($id='')
 	{
-		$this->layout = $id;
 		parent::__construct($id);
+		$this->layout = $id;
 	}
 
 	function togglestate($vars)

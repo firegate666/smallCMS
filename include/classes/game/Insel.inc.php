@@ -109,12 +109,13 @@ class Insel extends AbstractNavigationClass
 	 */
 	function __construct($id = '')
 	{
-		if (empty($id) or ($id == 0))
-			return;
-		parent::__construct($id);
-		$this->update();
-		$this->rohstoffproduktion = new Rohstoffproduktion($this->id);
-		$this->lager = new Lager($this->data['lager_id']);
+		if (!empty($id) && ($id != 0))
+		{
+			parent::__construct($id);
+			$this->update();
+			$this->rohstoffproduktion = new Rohstoffproduktion($this->id);
+			$this->lager = new Lager($this->data['lager_id']);
+		}
 	}
 
 	/**
