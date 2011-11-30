@@ -1,3 +1,6 @@
 <?php
-  class Archipel extends AbstractNavigationClass {
-  }
+
+class Archipel extends AbstractNavigationClass
+{
+
+}

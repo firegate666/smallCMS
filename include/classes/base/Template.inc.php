@@ -1,18 +1,21 @@
 <?php
+
 /**
  * Templatehandling
  */
-
-$__userrights[] = array('name'=>'templateadmin', 'desc'=>'can edit templates &amp; images');
+$__userrights[] = array('name' => 'templateadmin', 'desc' => 'can edit templates &amp; images');
 
 /**
  * @package base
  */
-class Template extends AbstractClass {
-	protected $layout;
-	protected $tags = array ();
+class Template extends AbstractClass
+{
 
-	function contenttypeoptionlist($class, $layout) {
+	protected $layout;
+	protected $tags = array();
+
+	function contenttypeoptionlist($class, $layout)
+	{
 		global $mysql;
 		$list[] = "text/html";
 		$list[] = "text/plain";
@@ -22,7 +25,8 @@ class Template extends AbstractClass {
 		$result = $mysql->select("SELECT contenttype FROM template WHERE class='$class' AND layout='$layout'");
 		$contenttype = $result[0][0];
 		$return = "";
-		foreach($list as $item) {
+		foreach ($list as $item)
+		{
 			$SELECTED = "";
 			if ($item == $contenttype)
 				$SELECTED = "selected='selectetd'";
@@ -31,28 +35,32 @@ class Template extends AbstractClass {
 		return $return;
 	}
 
-	function idbyname($name) {
+	function idbyname($name)
+	{
+
 	}
 
 	/**
-	* checks whether it is allowed to call method from outside 	or	 who is
-	* allowed to call.
-	*
-	* @param	String	$method	function to test
-	* @return	boolean	true if allowed, else false
-	*/
-	function acl($method) {
+	 * checks whether it is allowed to call method from outside 	or	 who is
+	 * allowed to call.
+	 *
+	 * @param	String	$method	function to test
+	 * @return	boolean	true if allowed, else false
+	 */
+	function acl($method)
+	{
 		if ($method == 'clearcache')
 			return true;
 		return false;
 	}
 
 	/**
-	* remove all templates from cache
-	*/
-	function clearcache() {
+	 * remove all templates from cache
+	 */
+	function clearcache()
+	{
 		if (get_config('cache_enabled', false))
-			unset ($_SESSION['template']);
+			unset($_SESSION['template']);
 		die('cache geleert');
 	}
 
@@ -61,7 +69,8 @@ class Template extends AbstractClass {
 	 *
 	 * @param	String	$template	template contents
 	 */
-	function removeLostTags(& $template) {
+	function removeLostTags(& $template)
+	{
 		$suchmuster = '/\$\{.*\}/i';
 		$template = preg_replace($suchmuster, '', $template);
 	}
@@ -71,13 +80,15 @@ class Template extends AbstractClass {
 	 *
 	 * @param	String	$template	template contents
 	 */
-	function parseTags($template) {
-		$result = array ();
+	function parseTags($template)
+	{
+		$result = array();
 		$suchmuster = '/\$\{(\w*):(\w*\|?\w+)\}/i';
-		$temp = array ();
+		$temp = array();
 		preg_match_all($suchmuster, $template, $temp, PREG_SET_ORDER);
-		foreach ($temp as $item) {
-			$result[$item[1].':'.$item[2]] = array ('type' => $item[1], 'value' => $item[2]);
+		foreach ($temp as $item)
+		{
+			$result[$item[1] . ':' . $item[2]] = array('type' => $item[1], 'value' => $item[2]);
 		}
 		$this->tags = $result;
 	}
@@ -88,7 +99,8 @@ class Template extends AbstractClass {
 	 * @param	String	$class	category
 	 * @param	String	$layout	name
 	 */
-	function deleteTemplate($class, $layout) {
+	function deleteTemplate($class, $layout)
+	{
 		global $mysql;
 		$class = $mysql->escape($class);
 		$layout = $mysql->escape($layout);
@@ -102,7 +114,8 @@ class Template extends AbstractClass {
 	 * @param	String	$class	category
 	 * @param	String	$layout	name
 	 */
-	function createTemplate($class, $layout) {
+	function createTemplate($class, $layout)
+	{
 		global $mysql;
 		$class = $mysql->escape($class);
 		$layout = $mysql->escape($layout);
@@ -121,10 +134,11 @@ class Template extends AbstractClass {
 	 *
 	 * @return	String[]	all categories sorted
 	 */
-	function getClasses() {
+	function getClasses()
+	{
 		global $template_classes;
-		if (!isset ($template_classes) || empty ($template_classes))
-			$template_classes = array ();
+		if (!isset($template_classes) || empty($template_classes))
+			$template_classes = array();
 		sort($template_classes);
 		return array_unique($template_classes);
 	}
@@ -135,17 +149,20 @@ class Template extends AbstractClass {
 	 * @param	String	$class	category
 	 * @return	String[]	all layouts
 	 */
-	function getLayouts($class) {
+	function getLayouts($class)
+	{
 		global $mysql;
 		$class = $mysql->escape($class);
 		$result = $mysql->select("SELECT layout, id FROM template WHERE class='$class';");
 		return $result;
 	}
 
-	public function getLayoutOptions($class, $default) {
+	public function getLayoutOptions($class, $default)
+	{
 		$list = Template::getLayouts($class);
 		$return = "<option value='0'></option>";
-		foreach($list as $layout) {
+		foreach ($list as $layout)
+		{
 			$selected = "";
 			if ($layout[1] == $default)
 				$selected = "SELECTED='SELECTED'";
@@ -153,7 +170,6 @@ class Template extends AbstractClass {
 		}
 		return $return;
 	}
-
 
 	/**
 	 * Returns parsed template
@@ -167,16 +183,18 @@ class Template extends AbstractClass {
 	 * @param	boolean	$nocache	if false, take template from session cache
 	 * @return	String	template as string
 	 */
-	function getLayout($class, $layout, $array = array (), $noparse = false, $vars = array (), $nocache = false) {
+	function getLayout($class, $layout, $array = array(), $noparse = false, $vars = array(), $nocache = false)
+	{
 		global $mysql;
 		$class = $mysql->escape($class);
 		$layout = $mysql->escape($layout);
 		$string = '';
 		if (isset($vars['ref']))
 			$array['__ref__'] = $vars['ref'];
-		if (isset ($_SESSION['template'][$class][$layout]) && !$nocache && get_config('cache_enabled', false))
+		if (isset($_SESSION['template'][$class][$layout]) && !$nocache && get_config('cache_enabled', false))
 			$string = $_SESSION['template'][$class][$layout];
-		else {
+		else
+		{
 			$result = $mysql->select("SELECT content FROM template WHERE class='$class' AND layout='$layout'");
 			if (isset($result[0]) && isset($result[0][0]))
 				$string = $result[0][0];
@@ -185,33 +203,37 @@ class Template extends AbstractClass {
 		}
 		if ($noparse)
 			return $string;
-		$string = html_entity_decode($string, ENT_COMPAT, Setting::read('charset','UTF-8'));
+		$string = html_entity_decode($string, ENT_COMPAT, Setting::read('charset', 'UTF-8'));
 		$string = HTML::convert_specialchars($string);
 		$keys = array_keys($array);
-		foreach ($keys as $key) {
-			$string = stripcslashes(str_replace('${'.$key.'}', $array[$key], $string));
+		foreach ($keys as $key)
+		{
+			$string = stripcslashes(str_replace('${' . $key . '}', $array[$key], $string));
 		}
 		$this->parseTags($string);
-		foreach ($this->tags as $key => $item) {
+		foreach ($this->tags as $key => $item)
+		{
 			$type = $mysql->escape($item['type']);
-			$value= $mysql->escape($item['value']);
+			$value = $mysql->escape($item['value']);
 			if ($type == 'image')
-				$array[$key] = '?image/show/'.$value;
-			else {
-				$obj = new $type ($value);
+				$array[$key] = '?image/show/' . $value;
+			else
+			{
+				$obj = new $type($value);
 				$temp = $obj->show($vars);
 				if ($this->loggedIn()) // debuginfo
-					$temp = "<!-- start $type/$value -->".$temp."<!-- end $type/$value -->";
+					$temp = "<!-- start $type/$value -->" . $temp . "<!-- end $type/$value -->";
 				$array[$key] = $temp;
 			}
 		}
 		$keys = array_keys($array);
-		foreach ($keys as $key) {
-			$string = str_replace('${'.$key.'}', $array[$key], $string);
+		foreach ($keys as $key)
+		{
+			$string = str_replace('${' . $key . '}', $array[$key], $string);
 		}
 		$this->removeLostTags($string);
 		if ($this->loggedIn()) // debuginfo
-			$string = "<!-- start $class/$layout -->".$string."<!-- end $class/$layout -->";
+			$string = "<!-- start $class/$layout -->" . $string . "<!-- end $class/$layout -->";
 		return $string;
 	}
 

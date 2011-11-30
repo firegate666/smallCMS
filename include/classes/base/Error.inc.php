@@ -1,16 +1,18 @@
 <?php
-	$template_classes[] = 'error';
+
+$template_classes[] = 'error';
 
 /**
  * The Error-Class, gets pages for different errors
  * 
  * @package base
  */
-class Error extends AbstractClass {
+class Error extends AbstractClass
+{
 
-	protected $class  = '';
+	protected $class = '';
 	protected $method = '';
-	protected $msg    = '';
+	protected $msg = '';
 
 	/**
 	 * constructor
@@ -19,26 +21,32 @@ class Error extends AbstractClass {
 	 * @param	String	$class	who throws the error
 	 * @param	String	$method	when?
 	 */
-	function __construct($msg, $class='', $method=''){
+	function __construct($msg, $class='', $method='')
+	{
 		$this->msg = $msg;
 		$this->class = $class;
 		$this->method = $method;
 	}
 
 	/**
-	* show errorpage
-	*/
-	function show(&$vars) {
-		if(get_config('cms', false)) {
+	 * show errorpage
+	 */
+	function show(&$vars)
+	{
+		if (get_config('cms', false))
+		{
 			$array = array(
-						"message" => $this->msg,
-						"class" => $this->class,
-						"method" => $this->method
-					);
+				"message" => $this->msg,
+				"class" => $this->class,
+				"method" => $this->method
+			);
 			return $this->getLayout($array, "page", $vars);
-		} else {
-			$result = "Error ".$this->class."/".$this->method.": ".$this->msg;
+		}
+		else
+		{
+			$result = "Error " . $this->class . "/" . $this->method . ": " . $this->msg;
 			return $result;
 		}
 	}
+
 }

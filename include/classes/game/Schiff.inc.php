@@ -1,5 +1,11 @@
 <?php
-class Schiff extends AbstractClass {
-	function setname($newname) {
+
+class Schiff extends AbstractClass
+{
+
+	function setname($newname)
+	{
+		
 	}
+
 }

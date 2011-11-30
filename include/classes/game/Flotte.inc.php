@@ -1,5 +1,11 @@
 <?php
-class Flotte extends AbstractClass {
-	function setname($newname) {
+
+class Flotte extends AbstractClass
+{
+
+	function setname($newname)
+	{
+		
 	}
+
 }

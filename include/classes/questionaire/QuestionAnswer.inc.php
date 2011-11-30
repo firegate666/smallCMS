@@ -5,8 +5,12 @@
  * 
  * @package questionaire
  */
-class QuestionAnswer extends AbstractClass {
-	public function acl($method) {
+class QuestionAnswer extends AbstractClass
+{
+
+	public function acl($method)
+	{
 		return false;
 	}
+
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Traveling Salesman Problem (Solution)
  * Give IDs, give costs, you get: Best results
@@ -10,23 +11,26 @@
  * @package lib
  * 
  */
-class TSP {
+class TSP
+{
 
 	protected $ids; // array of keys
 	protected $costs; // array of costs
-	
 	private $INFINITY = 100000000; // this is big
 
 	/**
 	 * @param	int[]	$ids	assoc array of ids
 	 * Example: array('6543'=>6543, '12432'=>12432);
 	 */
-	function __construct($ids){
-		foreach($ids as $id) {
+
+	function __construct($ids)
+	{
+		foreach ($ids as $id)
+		{
 			$this->ids[$id] = $id;
 		}
 	}
-	
+
 	/**
 	 * normal calculation (faster, retaining start node)
 	 * 
@@ -36,7 +40,8 @@ class TSP {
 	 * 
 	 * @return	int[]	return best route retaining start node
 	 */
-	function calculate(&$costs) {
+	function calculate(&$costs)
+	{
 		$this->costs = $costs;
 		$bag = $this->ids;
 		reset($bag);
@@ -44,16 +49,22 @@ class TSP {
 		$result[] = $node; // den start da rein 
 		unset($bag[$node]); // startknoten rauswerfen
 		$totalcosts = 0;
-		while(!empty($bag)) {
+		while (!empty($bag))
+		{
 			$distance = null;
 			$nextnode = null;
-			foreach($bag as $item) { // die Verbindung zu jedem pr�fen
+			foreach ($bag as $item)
+			{ // die Verbindung zu jedem pr�fen
 				$tempcost = $costs[$node][$item];
-				if($distance == null) { // first round
+				if ($distance == null)
+				{ // first round
 					$distance = $tempcost;
 					$nextnode = $item;
-				} else {
-					if($tempcost < $distance ) {// better way found
+				}
+				else
+				{
+					if ($tempcost < $distance)
+					{// better way found
 						$distance = $tempcost;
 						$nextnode = $item;
 					}
@@ -62,7 +73,7 @@ class TSP {
 			$node = $nextnode;
 			unset($bag[$nextnode]); // aktuellen Knoten wegwerfen
 			$totalcosts += $distance;
-			$result[] = $node; 
+			$result[] = $node;
 		}
 		$costs = $totalcosts;
 		return $result;
@@ -77,54 +88,67 @@ class TSP {
 	 * 
 	 * @return	int[]	best result
 	 */
-	function calculatecomplex(&$costs) {
+	function calculatecomplex(&$costs)
+	{
 		$this->costs = $costs;
 		$bag1 = $this->ids;
 		reset($bag1);
 		$anzahl_knoten = count($bag1);
 		$count = 0;
-		foreach($bag1 as $id) {
+		foreach ($bag1 as $id)
+		{
 			$bigbag[0][$count++] = $id;
 		}
 
 		// permutation, create big bag with all nodes as startnode
 		$permut = 0;
-		for($permut = 0; $permut < $anzahl_knoten; $permut++) {
- 			for($i = 0; $i < $anzahl_knoten-1; $i++) {
-				$bigbag[$permut+1][$i] = $bigbag[$permut][$i+1];	
+		for ($permut = 0; $permut < $anzahl_knoten; $permut++)
+		{
+			for ($i = 0; $i < $anzahl_knoten - 1; $i++)
+			{
+				$bigbag[$permut + 1][$i] = $bigbag[$permut][$i + 1];
 			}
-			$bigbag[$permut+1][$anzahl_knoten-1] = $bigbag[$permut][0];
+			$bigbag[$permut + 1][$anzahl_knoten - 1] = $bigbag[$permut][0];
 		}
 
 		// reorder
 		$count = 0;
 		$bigbag2 = array();
-		foreach($bigbag as $bag) {
-			foreach($bag as $id) {
+		foreach ($bigbag as $bag)
+		{
+			foreach ($bag as $id)
+			{
 				$bigbag2[$count][$id] = $id;
 			}
 			$count++;
 		}
-		
+
 		// now calculation
 		$totalresults = array();
-		$bestcost = $this->INFINITY;	
-		foreach($bigbag2 as $bag) {
+		$bestcost = $this->INFINITY;
+		foreach ($bigbag2 as $bag)
+		{
 			$node = pos($bag);
 			$result = array();
 			$result[] = $node; // den start da rein 
 			unset($bag[$node]); // startknoten rauswerfen
 			$totalcosts = 0;
-			while(!empty($bag)) {
+			while (!empty($bag))
+			{
 				$distance = null;
 				$nextnode = null;
-				foreach($bag as $item) { // die Verbindung zu jedem pr�fen
+				foreach ($bag as $item)
+				{ // die Verbindung zu jedem pr�fen
 					$tempcost = $costs[$node][$item];
-					if($distance == null) { // first round
+					if ($distance == null)
+					{ // first round
 						$distance = $tempcost;
 						$nextnode = $item;
-					} else {
-						if($tempcost < $distance ) {// better way found
+					}
+					else
+					{
+						if ($tempcost < $distance)
+						{// better way found
 							$distance = $tempcost;
 							$nextnode = $item;
 						}
@@ -133,9 +157,10 @@ class TSP {
 				$node = $nextnode;
 				unset($bag[$nextnode]); // aktuellen Knoten wegwerfen
 				$totalcosts += $distance;
-				$result[] = $node; 
+				$result[] = $node;
 			}
-			if($totalcosts < $bestcost) {
+			if ($totalcosts < $bestcost)
+			{
 				$bestcost = $totalcosts;
 				$totalresults = $result;
 			}
@@ -143,4 +168,5 @@ class TSP {
 		$costs = $bestcost;
 		return $totalresults;
 	}
+
 }

@@ -1,14 +1,19 @@
 <?php
+
 /**
  * The main features everyone should know
  */
-abstract class AbstractNoNavigationClass extends AbstractClass{
-	
-	function getMainLayout() {
+abstract class AbstractNoNavigationClass extends AbstractClass
+{
+
+	function getMainLayout()
+	{
 		return 'main';
 	}
 
-	function getNavigation(&$vars) {
+	function getNavigation(&$vars)
+	{
 		return "&nbsp;";
 	}
+
 }

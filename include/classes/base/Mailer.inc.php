@@ -1,4 +1,5 @@
 <?php
+
 /**
  * handle mailsending
  * 
@@ -9,7 +10,8 @@
  * 
  * @package base
  */
-class Mailer extends AbstractClass{
+class Mailer extends AbstractClass
+{
 
 	/**
 	 * send email
@@ -21,19 +23,23 @@ class Mailer extends AbstractClass{
 	 * 
 	 * @return	boolean	send result
 	 */
-	function simplesend($from, $to, $subject, $body) {
-		
+	function simplesend($from, $to, $subject, $body)
+	{
+
 		if ($from == '')
 			$from = get_config('sender', false);
-			
+
 		if ($to == '')
 			$to = get_config('receiver', false);
-		
-		if (($from === false) || ($to === false)) {
+
+		if (($from === false) || ($to === false))
+		{
 			error('Email could not be send because no system sender and/or receiver is set',
 				'Mailer', 'simplesend',
-				array('from'=>$from, 'to'=>$to, 'subject'=>'subject', 'body'=>$body));
-		} else {
+				array('from' => $from, 'to' => $to, 'subject' => 'subject', 'body' => $body));
+		}
+		else
+		{
 			$headers = "From: $from";
 			$this->set('mto', $to);
 			$this->set('msubject', $subject);
@@ -44,16 +50,21 @@ class Mailer extends AbstractClass{
 			//return @mail($to, $subject, $body, $headers);
 		}
 	}
-	
-	function mail() {
-		if(@mail($this->get('mto'),$this->get('msubject'),$this->get('mbody'),$this->get('mheader'))) {
+
+	function mail()
+	{
+		if (@mail($this->get('mto'), $this->get('msubject'), $this->get('mbody'), $this->get('mheader')))
+		{
 			$this->set('mstate', 1);
 			$this->store();
 			return true;
-		} else {
+		}
+		else
+		{
 			$this->set('mstate', 2);
 			$this->store();
 			return false;
 		}
 	}
+
 }

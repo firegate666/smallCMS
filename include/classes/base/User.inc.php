@@ -1,48 +1,53 @@
 <?php
 
-$template_classes[]='user';
-$__userrights[] = array('name'=>'useradmin', 'desc'=>'can edit users');
-$__userrights[] = array('name'=>'disabled', 'desc'=>'denied login');
+$template_classes[] = 'user';
+$__userrights[] = array('name' => 'useradmin', 'desc' => 'can edit users');
+$__userrights[] = array('name' => 'disabled', 'desc' => 'denied login');
 
 /**
  * @package base
  */
-class User extends AbstractClass {
+class User extends AbstractClass
+{
 
 	protected $viewname = 'user_view';
 
 	/**
-	* returns id of logged in user, 0 if no one is logged in
-	*
-	* @return	integer	userid
-	*/
-	public function loggedIn() {
+	 * returns id of logged in user, 0 if no one is logged in
+	 *
+	 * @return	integer	userid
+	 */
+	public function loggedIn()
+	{
 		$user = Session::getCookie('user', false);
-		if (empty($user)) {
+		if (empty($user))
+		{
 			return null;
 		}
 		return $user;
 	}
 
-	public function changenewgroup() {
+	public function changenewgroup()
+	{
 		$this->set('groupid', $this->get('newgroup'));
 		$this->set('newgroup', null);
 		$this->store();
 		$m = new Mailer();
 		$from = get_config('sender', 'no reply');
 		$to = $this->get('email');
-		$subject = "Gruppenwechsel best&auml;tigt auf  ".get_config('system', 'smallCMS');
+		$subject = "Gruppenwechsel best&auml;tigt auf  " . get_config('system', 'smallCMS');
 		$body = "Hallo ! Dein Gruppenwechsel wurde so eben best&auml;tigt.";
 		$m->simplesend($from, $to, $subject, $body);
 	}
 
-	public function delnewgroup() {
+	public function delnewgroup()
+	{
 		$this->set('newgroup', null);
 		$this->store();
 		$m = new Mailer();
 		$from = get_config('sender', 'no reply');
 		$to = $this->get('email');
-		$subject = "Gruppenwechsel abgelehnt auf  ".get_config('system', 'smallCMS');
+		$subject = "Gruppenwechsel abgelehnt auf  " . get_config('system', 'smallCMS');
 		$body = "Hallo ! Dein Gruppenwechsel wurde abgelehnt.";
 		$m->simplesend($from, $to, $subject, $body);
 	}
@@ -50,45 +55,51 @@ class User extends AbstractClass {
 	/**
 	 * test rights for logged in user
 	 */
-	public function hasright($right) {
+	public function hasright($right)
+	{
 		$rights = Session::getCookie('userrights', array());
 		return in_array($right, $rights);
 	}
 
-	public function acl($method) {
-		if (($method=='logout')
-				|| ($method == 'passwordreminder')
-				|| ($method == 'resetpassword')
+	public function acl($method)
+	{
+		if (($method == 'logout')
+			|| ($method == 'passwordreminder')
+			|| ($method == 'resetpassword')
 		)
 			return true;
-		if ($method=='edit')
+		if ($method == 'edit')
 			return $this->get('id') == $this->loggedIn();
-		if ($method=='login')
+		if ($method == 'login')
 			return true;
-		if ($method=='register')
+		if ($method == 'register')
 			return true;
 		return false;
 	}
 
-	public function logout($vars){
+	public function logout($vars)
+	{
 		Session::cleanUpCookies();
 		return redirect($vars['ref']);
 	}
 
-	public function login($vars) {
+	public function login($vars)
+	{
 		if (empty($vars['login']) || empty($vars['password']))
 			return error('Login or password not send', 'user', 'login', $vars);
 		$ids = $this->search($vars['login'], 'login');
 		if (count($ids) != 1)
 			return error('Login does not exist', 'user', 'login', $vars);
 		$u = new User($ids[0]['id']);
-		if (myencrypt($vars['password']) != $u->get('password')) {
-			$u->set('errorlogins', $u->get('errorlogins')+1);
+		if (myencrypt($vars['password']) != $u->get('password'))
+		{
+			$u->set('errorlogins', $u->get('errorlogins') + 1);
 			$u->store();
 			return error('Password error', 'user', 'login', $vars);
 		}
 		$this->dologin($u);
-		if ($u->hasright('disabled')) {
+		if ($u->hasright('disabled'))
+		{
 			Session::cleanUpCookies();
 			return error('User disabled', 'user', 'login', $vars);
 		}
@@ -98,68 +109,71 @@ class User extends AbstractClass {
 		return redirect($vars['ref']);
 	}
 
-	protected function dologin($u) {
+	protected function dologin($u)
+	{
 		Session::setCookie('user', $u->get('id'));
 		Session::setCookie('usergroup', $u->get('groupid'));
 		Session::setCookie('userrights', Usergroup::getUserrights($u->get('groupid')));
 	}
 
-	public function getFields() {
+	public function getFields()
+	{
 		$fields[] = array('name' => 'login',
-                          'type' => 'string',
-                          'size' => 100,
-                          'notnull' => true);
+			'type' => 'string',
+			'size' => 100,
+			'notnull' => true);
 		$fields[] = array('name' => 'email',
-                          'type' => 'string',
-                          'size' => 100,
-                          'notnull' => true);
+			'type' => 'string',
+			'size' => 100,
+			'notnull' => true);
 		$fields[] = array('name' => 'signature',
-                          'type' => 'string',
-                          'default' => '',
-                          'size' => 100,
-                          'notnull' => false);
+			'type' => 'string',
+			'default' => '',
+			'size' => 100,
+			'notnull' => false);
 		$fields[] = array('name' => 'show_email',
-                          'type' => 'integer',
-                          'default' => '0',
-                          'notnull' => false);
+			'type' => 'integer',
+			'default' => '0',
+			'notnull' => false);
 		$fields[] = array('name' => 'password',
-                          'type' => 'string',
-                          'size' => 100,
-                          'notnull' => true,
-                          'password' => true);
+			'type' => 'string',
+			'size' => 100,
+			'notnull' => true,
+			'password' => true);
 		$fields[] = array('name' => 'errorlogins',
-                          'type' => 'integer',
-                          'default' => 0,
-                          'notnull' => false);
+			'type' => 'integer',
+			'default' => 0,
+			'notnull' => false);
 		$fields[] = array('name' => 'lastlogin',
-                          'type' => 'date',
-                          'default' => Date::now(),
-                          'notnull' => false);
+			'type' => 'date',
+			'default' => Date::now(),
+			'notnull' => false);
 		$fields[] = array('name' => 'hash',
-                          'type' => 'string',
-                          'default' => '',
-                          'notnull' => false);
+			'type' => 'string',
+			'default' => '',
+			'notnull' => false);
 		$fields[] = array('name' => 'groupid',
-                          'type' => 'integer',
-                          'notnull' => false);
+			'type' => 'integer',
+			'notnull' => false);
 		$fields[] = array('name' => 'newgroup',
-                          'type' => 'integer',
-                          'notnull' => false);
+			'type' => 'integer',
+			'notnull' => false);
 
 		return $fields;
 	}
 
-	function parsefields($vars) {
+	function parsefields($vars)
+	{
 		$err = false;
 		if ((!isset($vars['password2'])) ||
 			(!isset($vars['password'])) ||
-				($vars['password2'] != $vars['password']))
-			$err[] ='Passwords do not match';
+			($vars['password2'] != $vars['password']))
+			$err[] = 'Passwords do not match';
 		if (isset($vars['login']) && !empty($vars['login']))
 			if (!($vars['login'] == $this->get('login')))
-				if(count($this->search($vars['login'], 'login'))>0)
+				if (count($this->search($vars['login'], 'login')) > 0)
 					$err[] = 'Username already exists';
-		if(!empty($vars['password']))
+		if (!empty($vars['password']))
 			$vars['password'] = myencrypt($vars['password']);
 		$return = parent::parsefields($vars);
 		if ($return && $err)
@@ -171,9 +185,12 @@ class User extends AbstractClass {
 		return false;
 	}
 
-	public function resetpassword($vars) {
-		if (isset($vars['hash'])) {
-			if($this->get('hash') == $vars['hash']) {
+	public function resetpassword($vars)
+	{
+		if (isset($vars['hash']))
+		{
+			if ($this->get('hash') == $vars['hash'])
+			{
 				$array['newpass'] = randomstring(8);
 				$this->set('hash', '');
 				$this->set('password', myencrypt($array['newpass']));
@@ -190,12 +207,14 @@ class User extends AbstractClass {
 		return '';
 	}
 
-	public function passwordreminder($vars) {
-		if (isset($vars['login'])) {
+	public function passwordreminder($vars)
+	{
+		if (isset($vars['login']))
+		{
 			$ids = $this->search($vars['login'], 'login');
 			$u = new User($ids[0]['id']);
 			$hash = randomstring(32);
-			$array['hashlink'] = get_config('system', '').'/index.php?user/resetpassword/'.$u->get('id').'/hash='.$hash;
+			$array['hashlink'] = get_config('system', '') . '/index.php?user/resetpassword/' . $u->get('id') . '/hash=' . $hash;
 			$u->set('hash', $hash);
 			$u->store();
 			$body = $u->show($vars, 'remindermail', $array);
@@ -209,20 +228,23 @@ class User extends AbstractClass {
 		return '';
 	}
 
-	public function register($vars){
+	public function register($vars)
+	{
 		$array = array();
-		if (isset($vars['submit'])) {
+		if (isset($vars['submit']))
+		{
 			$err = $this->parsefields($vars);
 			if (!empty($err))
-				$array['error'] = implode (", ", $err);
-			else {
+				$array['error'] = implode(", ", $err);
+			else
+			{
 				$this->data['groupid'] = Setting::read('defaultgroup', null);
 				$this->store();
 				$m = new Mailer();
 				$from = get_config('sender', 'no reply');
 				$to = $this->get('email');
-				$subject = "User registration at ".get_config('system', 'smallCMS');
-				$body = "User: ".$this->get('login')."\nPassword: ".$vars['password2'];
+				$subject = "User registration at " . get_config('system', 'smallCMS');
+				$body = "User: " . $this->get('login') . "\nPassword: " . $vars['password2'];
 				$m->simplesend($from, $to, $subject, $body);
 				$this->dologin($this);
 				return redirect($vars['ref']);
@@ -231,9 +253,11 @@ class User extends AbstractClass {
 		return parent::show($vars, 'register', $array);
 	}
 
-	function edit(&$vars) {
+	function edit(&$vars)
+	{
 		$array = array();
-		if (isset($vars['submit'])) {
+		if (isset($vars['submit']))
+		{
 			$vars['groupid'] = $this->get('groupid');
 			if (isset($vars['show_email']))
 				$vars['show_email'] = 1;
@@ -241,8 +265,9 @@ class User extends AbstractClass {
 				$vars['show_email'] = 0;
 			$err = $this->parsefields($vars);
 			if (!empty($err))
-				$array['error'] = implode (", ", $err);
-			else {
+				$array['error'] = implode(", ", $err);
+			else
+			{
 				$this->store();
 				$array['error'] = "Object saved";
 			}
@@ -257,6 +282,5 @@ class User extends AbstractClass {
 
 		return parent::show($vars, 'edit', $array);
 	}
-
 
 }

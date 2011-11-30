@@ -1,4 +1,5 @@
 <?php
+
 $template_classes[] = 'questionanswertype';
 
 /**
@@ -6,8 +7,12 @@ $template_classes[] = 'questionanswertype';
  * 
  * @package questionaire
  */
-class QuestionAnswertype extends AbstractClass {
-	public function acl($method) {
+class QuestionAnswertype extends AbstractClass
+{
+
+	public function acl($method)
+	{
 		return false;
 	}
+
 }
