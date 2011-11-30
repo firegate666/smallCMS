@@ -34,9 +34,9 @@ $vars = array();
 if (isset($_REQUEST['class']) || isset($_REQUEST['method']) || isset($_REQUEST['id']))
 {
 	// old style, used in HTML forms
-	$class = $_REQUEST["class"];
-	$method = $_REQUEST["method"];
-	$id = $_REQUEST["id"];
+	$class = isset($_REQUEST["class"]) ? $_REQUEST["class"] : '';
+	$method = isset($_REQUEST["method"]) ? $_REQUEST["method"] : '';
+	$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : '';
 	$vars = array_merge(array(), $_REQUEST);
 }
 else
