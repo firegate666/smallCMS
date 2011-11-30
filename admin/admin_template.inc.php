@@ -8,7 +8,7 @@ if (empty($adminlogin))
 if (isset($_REQUEST['tpl_content']))
 {
 	global $mysql;
-	$_REQUEST['tpl_content'] = htmlentities($_REQUEST['tpl_content'], ENT_COMPAT, Setting::read('charset', 'UTF-8'));
+	$_REQUEST['tpl_content'] = $mysql->escape(htmlentities($_REQUEST['tpl_content'], ENT_COMPAT, Setting::read('charset', 'UTF-8')));
 	$_REQUEST['tpl_class'] = $mysql->escape($_REQUEST['tpl_class']);
 	$_REQUEST['tpl_layout'] = $mysql->escape($_REQUEST['tpl_layout']);
 	$_REQUEST['contenttype'] = $mysql->escape($_REQUEST['contenttype']);
