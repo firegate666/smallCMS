@@ -38,7 +38,8 @@ if (isset($_REQUEST['store'])) {
 						<img src='img/delete.gif' border='0' alt='Delete'/>
 					</td>
 				</tr>
-		   <?php}
+		   <?php
+		   }
 		?>
 		</table>
 	<?php }
