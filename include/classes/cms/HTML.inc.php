@@ -9,13 +9,13 @@ class HTML {
 	public function convert_specialchars($string) {
 		//removed because of JAVA Script Problems
 		//$string = str_replace('&', '&amp;', $string);
-		$string = str_replace('�', '&auml;', $string);
-		$string = str_replace('�', '&ouml;', $string);
-		$string = str_replace('�', '&uuml;', $string);
-		$string = str_replace('�', '&Auml;', $string);
-		$string = str_replace('�', '&Ouml;', $string);
-		$string = str_replace('�', '&Uuml;', $string);
-		$string = str_replace('�', '&szlig;', $string);
+		$string = str_replace('ä', '&auml;', $string);
+		$string = str_replace('ö', '&ouml;', $string);
+		$string = str_replace('ü', '&uuml;', $string);
+		$string = str_replace('Ä', '&Auml;', $string);
+		$string = str_replace('Ö', '&Ouml;', $string);
+		$string = str_replace('Ü', '&Uuml;', $string);
+		$string = str_replace('ß', '&szlig;', $string);
 		return $string;
 	}
 	
