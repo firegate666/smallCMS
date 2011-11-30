@@ -25,7 +25,7 @@ class Mailer extends AbstractClass
 	 */
 	function simplesend($from, $to, $subject, $body)
 	{
-
+		$mailer = new Mailer();
 		if ($from == '')
 			$from = get_config('sender', false);
 
@@ -41,13 +41,12 @@ class Mailer extends AbstractClass
 		else
 		{
 			$headers = "From: $from";
-			$this->set('mto', $to);
-			$this->set('msubject', $subject);
-			$this->set('mbody', $body);
-			$this->set('mheader', $headers);
-			$this->store();
-			return $this->mail();
-			//return @mail($to, $subject, $body, $headers);
+			$mailer->set('mto', $to);
+			$mailer->set('msubject', $subject);
+			$mailer->set('mbody', $body);
+			$mailer->set('mheader', $headers);
+			$mailer->store();
+			return $mailer->mail();
 		}
 	}
 
