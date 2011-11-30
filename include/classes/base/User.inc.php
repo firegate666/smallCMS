@@ -17,7 +17,11 @@ class User extends AbstractClass {
 	* @return	integer	userid
 	*/
 	public function loggedIn() {
-		return Session::getCookie('user', false);
+		$user = Session::getCookie('user', false);
+		if (empty($user)) {
+			return null;
+		}
+		return $user;
 	}
 
 	public function changenewgroup() {

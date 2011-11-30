@@ -59,7 +59,7 @@ class Session extends AbstractClass {
 		$_SESSION = array ();
 	}
 
-	function __construct($userid=0) {
+	function __construct($userid = null) {
 		$this->data["uid"] = $userid;
 		$this->data["client_ip"] = getClientIP();
 		$this->sid = $this->store();
