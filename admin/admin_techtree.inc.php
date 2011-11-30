@@ -18,21 +18,21 @@ if(isset($cat) && isset($del)) {
 <h3>Tech-Tree Management</h3>
 <p><a href="?admin&techtree&cat">Kategorie</a> - <a href="?admin&techtree&entry">Eintrag</a></p>
 
-<?
+<?php
 if(isset($cat)) { ?>
 	<table>
 		<tr>
 			<th>Name</th>
 			<th>&nbsp;</th>
 		</tr>
-		<? $result = TTCategory::getlist('ttcategory');
+		<?php $result = TTCategory::getlist('ttcategory');
 		   foreach($result as $item) {
 		   	  $tc = new TTCategory($item['id']);
 		   	  ?><tr>
-		   	      <td><?=$tc->get('name')?></td>
-		   	      <td><a href="?admin&techtree&cat&del&id=<?=$tc->get('id')?>">l�schen</a></td>
+		   	      <td><?php print $tc->get('name')?></td>
+		   	      <td><a href="?admin&techtree&cat&del&id=<?=$tc->get('id')?>">löschen</a></td>
 		   	    </tr>
-		   	  <?
+		   	  <?php
 		   }
 		?>
 	</table>
@@ -44,9 +44,9 @@ if(isset($cat)) { ?>
 		Kategoriename: <input type="text" name="cat_name" maxlength="100">
 		<input type="submit" value="Erstellen">
 	</form>
-<? }
+<?php }
 if(isset($entry)) { ?>
 	
 	
 	
-<? } ?>
+<?php } ?>

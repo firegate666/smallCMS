@@ -63,8 +63,7 @@ if (isset($_REQUEST['delete'])) {
 						</a>
 					</td>
 				</tr>
-		   <?php}
-		?>
+		   <?php } ?>
 		</table>
 	<?php } ?>
 	<?php if(isset($_REQUEST['id'])) { ?>
@@ -89,8 +88,7 @@ if (isset($_REQUEST['delete'])) {
 								<td><?php print $field['desc']?></td>
 								<td><?php print $obj->getInputField($field)?></td>
 							</tr>
-						<?php}
-					?>
+						<?php } ?>
 					<tr>
 						<td colspan="2"><input type="submit" name="store" value="Speichern"/></td>
 					</tr>
