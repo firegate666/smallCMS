@@ -39,9 +39,10 @@ $_CONFIG["usedefaults"] = false;
 
 // each of these can be set, but mus not.
 // Only used if $_CONFiG["usedefaults"] = true
-$_CONFIG["default_class"] = "page";
+$_CONFIG["default_class"] = "admin";
 $_CONFIG["default_method"] = "show";
-$_CONFIG["default_id"] = "index";
+$_CONFIG["default_id"] = "login";
+$_CONFiG["usedefaults"] = true;
 
 // if true, debug messages will be printed
 $_CONFIG["debug"] = false;
