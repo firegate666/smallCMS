@@ -8,3 +8,6 @@ upload/*.GIF
 upload/*.PNG
 
 nbproject
+
+config/config.inc.php
+
