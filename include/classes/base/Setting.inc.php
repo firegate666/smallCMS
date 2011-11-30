@@ -32,7 +32,7 @@ class Setting extends AbstractClass {
 		$setting = new Setting($name);
 		$setting->data['name'] = $name;
 		$setting->data['description'] = $description;
-		if ($override)
+		if ($override || !$setting->exists())
 			$setting->data['value'] = $value;
 		$setting->store();
 		$_SESSION['setting'][$name] = $setting->data['value'];
