@@ -185,7 +185,7 @@ class Image extends AbstractClass
 			return parent::show($vars, $layout, $array);
 		header('Content-Description: File Transfer');
 		//header("Content-Disposition: attachment; filename=\"".basename($url)."\";");
-		header("Content-Disposition: inline; filename=\"" . $this->get('name') . $this->getExtension . "\";");
+		header("Content-Disposition: inline; filename=\"" . $this->get('name') . $this->getExtension() . "\";");
 
 		if (!empty($vars['x']) || !empty($vars['y']))
 			$this->resize($vars);
