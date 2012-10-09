@@ -95,7 +95,9 @@
 			$content = str_replace("<bbcode>", $_REQUEST['bbcode'], $content);
 
 			file_put_contents($config, "<?php\n" . $content);
+			chmod($config, 0666);
 
+			echo "<p>Config file is written to '$config' and marked as writable. Please set it to readable only when going to public!.</p>";
 			echo '<p><a href="index.php?step=4">Proceed with step 4</a></p>';
 		}
 		else if ($step == 4)
