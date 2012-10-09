@@ -273,7 +273,7 @@ class StringParser
 			StringParser_Node::destroyNode($this->_root);
 		}
 		unset($this->_root);
-		$this->_root = & new StringParser_Node_Root ();
+		$this->_root = new StringParser_Node_Root ();
 		$this->_stack[0] = & $this->_root;
 
 		$this->_parserInit();
@@ -1050,7 +1050,7 @@ class StringParser_Node
 		$ccount = count($this->_children);
 		if ($ccount == 0 || $this->_children[$ccount - 1]->_type != STRINGPARSER_NODE_TEXT)
 		{
-			$ntextnode = & new StringParser_Node_Text($text);
+			$ntextnode = new StringParser_Node_Text($text);
 			return $this->appendChild($ntextnode);
 		}
 		else
