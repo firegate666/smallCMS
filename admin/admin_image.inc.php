@@ -14,15 +14,15 @@ if (isset($_REQUEST['img_delete']))
 	}
 }
 
-if (isset($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename']))
+if (isset($_REQUEST['img_upload']) && isset($_FILES['filename']))
 {
 	$image = new Image();
-	$result = $image->parsefields($HTTP_POST_FILES['filename']);
+	$result = $image->parsefields($_FILES['filename']);
 	if ($result === false)
 	{
 		$image->set('emoticon', $_REQUEST['emoticon']);
-		$msg .= "Dateigr&ouml;&szlig;e: " . $HTTP_POST_FILES['filename']['size'] . " bytes<br/>\n";
-		$msg .= "Dateityp: " . $HTTP_POST_FILES['filename']['type'] . "<br/>\n";
+		$msg .= "Dateigr&ouml;&szlig;e: " . $_FILES['filename']['size'] . " bytes<br/>\n";
+		$msg .= "Dateityp: " . $_FILES['filename']['type'] . "<br/>\n";
 		if (!empty($_REQUEST['img_name']))
 			$image->set('name', $_REQUEST['img_name']);
 		$image->store();

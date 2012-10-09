@@ -47,8 +47,8 @@ else
 }
 
 // decode file upload in query string
-if (!empty($HTTP_POST_FILES['filename']['tmp_name']))
-	$vars['__files'] = $HTTP_POST_FILES;
+if (!empty($_FILES['filename']['tmp_name']))
+	$vars['__files'] = $_FILES;
 if (!isset($vars['ref']) && isset($_SERVER['HTTP_REFERER']))
 	$vars['ref'] = $_SERVER['HTTP_REFERER'];
 if (empty($vars['ref']))

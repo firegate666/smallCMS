@@ -68,8 +68,7 @@ class QuestionaireImport extends AbstractClass
 
 	function verify($vars)
 	{
-		global $HTTP_POST_FILES;
-		if (isset($HTTP_POST_FILES['importfile']['error']) && $HTTP_POST_FILES['importfile']['error'] == 0)
+		if (isset($_FILES['importfile']['error']) && $_FILES['importfile']['error'] == 0)
 		{
 ?>
 			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -81,7 +80,7 @@ class QuestionaireImport extends AbstractClass
 					<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 				</head>
 	<?php
-			$csv = file($HTTP_POST_FILES['importfile']['tmp_name']);
+			$csv = file($_FILES['importfile']['tmp_name']);
 			$result[] = array('Semantische ID', 'Fragetext', 'Block', 'Gruppen', 'TYPE');
 			foreach ($csv as $item)
 				$result[] = explode(";", $item);
