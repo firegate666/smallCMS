@@ -16,6 +16,9 @@ $_CONFIG['system'] = 'http://<system>';
 $_CONFIG['sender'] = '<email>';
 $_CONFIG['receiver'] = '<email>';
 
+// if set, mails are only stored not sent
+$_CONFIG['disable_mail'] = true;
+
 // Store passwords encrypted?
 // Never change on a running system
 $_CONFIG['encryptpwd'] = true;

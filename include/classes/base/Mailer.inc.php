@@ -52,6 +52,10 @@ class Mailer extends AbstractClass
 
 	function mail()
 	{
+		if (get_config('disable_mail', true)) {
+			return true;
+		}
+
 		if (@mail($this->get('mto'), $this->get('msubject'), $this->get('mbody'), $this->get('mheader')))
 		{
 			$this->set('mstate', 1);
