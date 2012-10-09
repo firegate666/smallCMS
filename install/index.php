@@ -78,7 +78,7 @@
 			$db = mysql_select_db($_REQUEST['dbname'], $db) or die('Database "' . $_REQUEST['dbname'] . '" is invalid: ' . mysql_error());
 
 			$config_template = realpath("../config/config.inc.php.template");
-			$config = realpath("../config/config.inc.php");
+			$config = "../config/config.inc.php";
 			$content = file_get_contents($config_template);
 			$content = str_replace("<dbname>", $_REQUEST['dbname'], $content);
 			$content = str_replace("<dbtype>", $_REQUEST['dbtype'], $content);
