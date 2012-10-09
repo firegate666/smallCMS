@@ -5,6 +5,10 @@
  */
 abstract class ContentType
 {
+	
+	public function __construct() {
+		
+	}
 
 	public function acl($method)
 	{
@@ -31,7 +35,7 @@ class Link extends ContentType
 
 	function __construct($value)
 	{
-		parent::__construct($id);
+		parent::__construct();
 		$this->link = 'index.php?';
 		$this->value = $value;
 	}
@@ -84,7 +88,7 @@ class Loggedin extends ContentType
 
 	function __construct($value)
 	{
-		parent::__construct($id);
+		parent::__construct();
 		$value = explode("|", $value);
 		if (isset($value[0]))
 			$this->loggedin = $value[0];
@@ -156,7 +160,7 @@ class Varspage extends ContentType
 
 	function __construct($id='')
 	{
-		parent::__construct($id);
+		parent::__construct();
 		$this->attr = $id;
 	}
 
