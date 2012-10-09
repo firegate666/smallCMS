@@ -207,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `dbversion` (
 --
 
 INSERT INTO `dbversion` (`id`, `__createdon`, `__changedon`, `sql_id`, `sql_subid`) VALUES
-(1, NULL, NULL, 1, 0),
+(1, NULL, NULL, 1, 0);
 
 -- --------------------------------------------------------
 
