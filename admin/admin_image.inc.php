@@ -10,8 +10,10 @@ if (isset($_REQUEST['img_delete']))
 	{
 		$i = new Image($_REQUEST['id']);
 		$i->delete();
+		$msg = "image deleted";
 	}
 }
+
 if (isset($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename']))
 {
 	$image = new Image();
@@ -24,6 +26,7 @@ if (isset($_REQUEST['img_upload']) && isset($HTTP_POST_FILES['filename']))
 		if (!empty($_REQUEST['img_name']))
 			$image->set('name', $_REQUEST['img_name']);
 		$image->store();
+		$msg = "image stored";
 	} else
 	{
 		$msg .= implode($result);
