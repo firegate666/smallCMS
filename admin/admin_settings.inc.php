@@ -26,8 +26,8 @@ if (isset($_REQUEST['edit']))
 				<tr>
 					<th colspan="2"><h3>Setting bearbeiten</h3></th>
 				<tr>
-					<td><?php print $_SESSION['settingdesc'][$_REQUEST['name']] ?></td>
-					<td><input size="25" name="value" type="text" value="<?php print $_SESSION['setting'][$_REQUEST['name']] ?>"/></td>
+					<td><?php print Session::getSubCookie('settingdesc', 'name') ?></td>
+					<td><input size="25" name="value" type="text" value="<?php print Session::getSubCookie('setting', 'name') ?>"/></td>
 				</tr>
 				<tr>
 					<td></td>
@@ -41,10 +41,10 @@ if (isset($_REQUEST['edit']))
 	<tr>
 		<th align="left">Name</th><th align="left">Value</th><th align="left">&nbsp;</th>
 	</tr>
-<?php foreach ($_SESSION['setting'] as $name => $value)
+<?php foreach (Session::getCookie('setting') as $name => $value)
 { ?>
 	<tr>
-		<td><?php print $_SESSION['settingdesc'][$name] ?></td>
+		<td><?php print Session::getSubCookie('settingdesc', $name) ?></td>
 		<td><?php
 			if ($value === true)
 				echo "true";

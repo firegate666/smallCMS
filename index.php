@@ -20,6 +20,7 @@ require_once dirname(__FILE__) . '/include/All.inc.php';
 
 // store session
 $s = new Session(User::loggedIn());
+Session::writeClose();
 
 // if admincall load admin scene
 if (isset($_REQUEST["admin"]))

@@ -59,8 +59,9 @@ class Template extends AbstractClass
 	 */
 	function clearcache()
 	{
-		if (get_config('cache_enabled', false))
-			unset($_SESSION['template']);
+		if (get_config('cache_enabled', false)) {
+			Session::removeCookie('template');
+		}
 		die('cache geleert');
 	}
 
@@ -171,6 +172,33 @@ class Template extends AbstractClass
 		return $return;
 	}
 
+	protected function getCachedLayout($class, $layout) {
+		if (!get_config('cache_enabled', false)) {
+			return false;
+		}
+
+		$cached = Session::getSubCookie('template', $class);
+		if (empty($cached) || !is_array($cached) || !array_key_exists($layout, $cached)) {
+			return false;
+		}
+
+		return $cached[$layout];
+	}
+
+	protected function setCachedLayout($class, $layout, $value) {
+		if (!get_config('cache_enabled', false)) {
+			return;
+		}
+
+		$cached = Session::getSubCookie('template', $class);
+		if (empty($cached) || !is_array($cached)) {
+			$cached = array();
+		}
+
+		$cached[$layout] = $value;
+		Session::setSubCookie('template', $class, $cached);
+	}
+
 	/**
 	 * Returns parsed template
 	 *
@@ -191,15 +219,16 @@ class Template extends AbstractClass
 		$string = '';
 		if (isset($vars['ref']))
 			$array['__ref__'] = $vars['ref'];
-		if (isset($_SESSION['template'][$class][$layout]) && !$nocache && get_config('cache_enabled', false))
-			$string = $_SESSION['template'][$class][$layout];
+
+		if (!$nocache && $this->getCachedLayout($class, $layout))
+			$string = $this->getCachedLayout($class, $layout);
 		else
 		{
 			$result = $mysql->select("SELECT content FROM template WHERE class='$class' AND layout='$layout'");
 			if (isset($result[0]) && isset($result[0][0]))
 				$string = $result[0][0];
 			if (get_config('cache_enabled', false))
-				$_SESSION['template'][$class][$layout] = $string;
+				$this->setCachedLayout ($class, $layout, $string);
 		}
 		if ($noparse)
 			return $string;

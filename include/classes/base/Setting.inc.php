@@ -44,9 +44,10 @@ class Setting extends AbstractClass
 			$setting->data['value'] = $value;
 			$setting->store();
 		}
-		$_SESSION['setting'][$name] = $setting->data['value'];
-		if (empty($_SESSION['settingdesc'][$name]))
-			$_SESSION['settingdesc'][$name] = $setting->data['description'];
+		Session::setSubCookie('setting', $name, $setting->data['value']);
+		$desc = Session::getSubCookie('settingdesc', $name, null);
+		if ($desc)
+			Session::setSubCookie ('settingdesc', $name, $setting->data['description']);
 		return true;
 	}
 
@@ -59,8 +60,8 @@ class Setting extends AbstractClass
 	 */
 	function read($name, $default='', $description='')
 	{
-		if (isset($_SESSION['setting'][$name]))
-			return $_SESSION['setting'][$name];
+		if (Session::getSubCookie('setting', $name, false))
+			return Session::getSubCookie('setting', $name, false);
 		global $mysql;
 		$result = null;
 		$setting = new Setting($name);
@@ -73,8 +74,8 @@ class Setting extends AbstractClass
 			$result = $setting->data['value'];
 			$description = $setting->data['description'];
 		}
-		$_SESSION['setting'][$name] = $result;
-		$_SESSION['settingdesc'][$name] = $description;
+		Session::setSubCookie('setting', $name, $result);
+		Session::setSubCookie('settingdesc', $name, $description);
 	}
 
 }
