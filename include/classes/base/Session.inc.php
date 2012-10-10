@@ -42,8 +42,7 @@ class Session extends AbstractClass {
 	 */
 	static function unsetCookie($name) {
 		Session::openIfClosed();
-		if (isset($_SESSION[$name]))
-			unset($_SESSION[$name]);
+		unset($_SESSION[$name]);
 	}
 
 	/**
@@ -58,6 +57,9 @@ class Session extends AbstractClass {
 	}
 
 	static function setSubCookie($name, $section, $value) {
+		Session::openIfClosed();
+		$_SESSION[$name][$section] = $value;
+		return;
 		$old_cookie = Session::getSubCookie($name, $section);
 		if (empty($old_cookie) || !is_array($old_cookie)) {
 			$old_cookie = array();
@@ -73,8 +75,7 @@ class Session extends AbstractClass {
 	 * @param	String	$name	name of value
 	 */
 	static function removeCookie($name) {
-		Session::openIfClosed();
-		$_SESSION[$name] = '';
+		Session::setCookie($name, null);
 	}
 
 	/**

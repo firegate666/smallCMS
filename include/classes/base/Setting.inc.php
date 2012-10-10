@@ -39,9 +39,7 @@ class Setting extends AbstractClass {
 			$setting->store();
 		}
 		Session::setSubCookie('setting', $name, $setting->data['value']);
-		$desc = Session::getSubCookie('settingdesc', $name, null);
-		if ($desc)
-			Session::setSubCookie('settingdesc', $name, $setting->data['description']);
+		Session::setSubCookie('settingdesc', $name, $setting->data['description']);
 		return true;
 	}
 
