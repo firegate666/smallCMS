@@ -456,7 +456,7 @@ abstract class AbstractClass {
 			} else {
 				if (isset($field['default']))
 					$this->data[$field['name']] = $field['default'];
-				else if (($field['notnull'] || $field['password']))
+				else if (($field['notnull'] || (isset($field['password']) && $field['password'])))
 					$err[] = "{$field['name']} is null";
 				else
 					$this->data[$field['name']] = null;
