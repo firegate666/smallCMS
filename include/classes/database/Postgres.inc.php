@@ -4,11 +4,10 @@
  * MySQL Wrapper
  * in fact, this isn't yet a wrapper, much improvment has
  * to be done
- * 
+ *
  * @package database
  */
-class Postgres extends SQL
-{
+class Postgres extends SQL {
 
 	/**
 	 * Connects to MySQL Database using global parameters
@@ -19,8 +18,7 @@ class Postgres extends SQL
 	 *
 	 * @return	Ressource	databaselink
 	 */
-	function connect()
-	{
+	function connect() {
 		global $dbserver;
 		global $dbuser;
 		global $dbpassword;
@@ -29,8 +27,7 @@ class Postgres extends SQL
 
 		if (($this->dblink != null) && pg_ping($this->dblink)) // connection still exists?
 			return;
-		else
-		{
+		else {
 			$connectionstring = "host=$dbserver dbname=$dbdatabase user=$dbuser password=$dbpassword";
 			$this->dblink = pg_connect($connectionstring) or $this->print_error("connect", "");
 		}
@@ -40,8 +37,7 @@ class Postgres extends SQL
 	 * Disconnects database
 	 * @param	Ressource $dblink	databaselink
 	 */
-	function disconnect()
-	{
+	function disconnect() {
 		if ($this->dblink != null)
 			pg_close($this->dblink);
 	}
@@ -51,15 +47,13 @@ class Postgres extends SQL
 	 * @param	String	$query	sql query
 	 * @return	int	last insert id
 	 */
-	function insert($query, $seq=null)
-	{
+	function insert($query, $seq = null) {
 		$this->connect();
 		$this->queries[] = $query;
 		$result = pg_query($this->dblink, $query) or $this->print_error("insert", $query);
 		flush();
 		$id = 0;
-		if ($seq != null)
-		{
+		if ($seq != null) {
 			$query = "SELECT currval('$seq') as id";
 			$result = $this->executeSql($query);
 			$id = $result['id'];
@@ -73,8 +67,7 @@ class Postgres extends SQL
 	 * @param	boolean	$assoc	if false, return array is numeric
 	 * @return	String[][]	result set as array
 	 */
-	function select($query, $assoc = false)
-	{
+	function select($query, $assoc = false) {
 		$this->connect();
 		$this->queries[] = $query;
 		$result = pg_query($this->dblink, $query) or $this->print_error("select", $query);
@@ -95,8 +88,7 @@ class Postgres extends SQL
 	 * @param	String	$query	sql query
 	 * @return	String[]	result set with single row
 	 */
-	function executeSql($query)
-	{
+	function executeSql($query) {
 		$this->connect();
 		$this->queries[] = $query;
 		$result = pg_query($this->dblink, $query) or $this->print_error("executeSql", $query);
@@ -110,8 +102,7 @@ class Postgres extends SQL
 	 * @param	String	$query	update statement
 	 * @return	int	number of affected rows
 	 */
-	function update($query)
-	{
+	function update($query) {
 		$this->connect();
 		$this->queries[] = $query;
 		$result = pg_query($this->dblink, $query) or $this->print_error("update", $query);
@@ -120,14 +111,12 @@ class Postgres extends SQL
 		return $rows;
 	}
 
-	public function print_error($method, $query)
-	{
+	public function print_error($method, $query) {
 		$msg = pg_last_error() . "<br/><b>Query:</b> $query";
 		error($msg, "MySQL", $method);
 	}
 
-	public function escape($string)
-	{
+	public function escape($string) {
 		return pg_escape_string($string);
 	}
 

@@ -6,37 +6,29 @@
 		if (!empty($_REQUEST['step']))
 			$step = $_REQUEST['step'];;
 
-		if ($step == 1)
-		{
+		if ($step == 1) {
 			// check permissions
 			$error = false;
 			echo "<h3>Check file permissions:</h3><table>";
 			$writable = array('cache', 'upload', 'config');
 
 			$dir = realpath("..");
-			if ($handle = opendir($dir))
-			{
-				while (false !== ($file = readdir($handle)))
-				{
+			if ($handle = opendir($dir)) {
+				while (false !== ($file = readdir($handle))) {
 					if (substr($file, 0, 1) == '.')
 						continue;
 					print "<tr><td>" . $file . "</td><td>";
-					if (in_array($file, $writable))
-					{
+					if (in_array($file, $writable)) {
 						if (is_writable($dir . "/" . $file))
 							print '<font color="#00ff00">OK</font><br/>';
-						else
-						{
+						else {
 							$error = true;
 							print '<font color="#ff0000"><strong>NOT WRITABLE</strong></font><br/>';
 						}
-					}
-					else
-					{
+					} else {
 						if (is_readable($dir . "/" . $file))
 							print '<font color="#00ff00">OK</font><br/>';
-						else
-						{
+						else {
 							$error = true;
 							print '<font color="#ff0000"><strong>NOT READABLE</strong></font><br/>';
 						}
@@ -47,8 +39,7 @@
 			echo "</table>";
 			if (!$error)
 				echo '<p><a href="index.php?step=2">Proceed with step 2</a></p>';
-		} else if ($step == 2)
-		{
+		} else if ($step == 2) {
 			// create config
 			echo "<h3>Setup database</h3>";
 			echo "<form action='index.php'><input type='hidden' name='step' value='3'/><table>";
@@ -68,9 +59,7 @@
 
 			echo "<tr><td></td><td><input type='submit' value='Proceed with step 3'/></td></tr>";
 			echo "</table></form>";
-		}
-		else if ($step == 3)
-		{
+		} else if ($step == 3) {
 			// check and write config
 			print "<h3>Write config</h3>";
 
@@ -99,39 +88,31 @@
 
 			echo "<p>Config file is written to '$config' and marked as writable. Please set it to readable only when going to public!.</p>";
 			echo '<p><a href="index.php?step=4">Proceed with step 4</a></p>';
-		}
-		else if ($step == 4)
-		{
+		} else if ($step == 4) {
 			// initialize database
 			require_once realpath("../config/config.inc.php");
 			$db = @mysql_connect($dbserver, $dbuser, $dbpassword) or die('Server, user or password is invalid: ' . mysql_error());
 			$db = mysql_select_db($dbdatabase, $db) or die('Database "' . $dbdatabase . '" is invalid: ' . mysql_error());
 			echo "<h3>Setup database</h3>";
 			$dir = dirname(__FILE__) . '/mysql/';
-			if ($handle = opendir($dir) !== false)
-			{
+			if ($handle = opendir($dir) !== false) {
 				$files = array();
 
-				while (false !== ($file = readdir($handle)))
-				{
+				while (false !== ($file = readdir($handle))) {
 					if (substr($file, strrpos($file, '.')) == '.sql')
 						$files[] = $file;
 				}
 				closedir($handle);
 				sort($files);
-				foreach ($files as $file)
-				{
-					if (file_exists($dir . "/" . $file))
-					{
+				foreach ($files as $file) {
+					if (file_exists($dir . "/" . $file)) {
 						printf("<p>Process %s</p>", $file);
 						$sql = file_get_contents($dir . "/" . $file);
 
 						$statements = explode(';', $sql);
-						foreach ($statements as $statement)
-						{
+						foreach ($statements as $statement) {
 							$statement = trim($statement);
-							if (!empty($statement))
-							{
+							if (!empty($statement)) {
 								mysql_query($statement) or die("ERROR: SQL (" . $dir . "/" . $file . ") fails: " . mysql_error());
 							}
 						}

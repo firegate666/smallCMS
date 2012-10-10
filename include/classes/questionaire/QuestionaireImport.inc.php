@@ -3,11 +3,9 @@
 /**
  * @package questionaire
  */
-class QuestionaireImport extends AbstractClass
-{
+class QuestionaireImport extends AbstractClass {
 
-	public function acl($method)
-	{
+	public function acl($method) {
 		if ($method == 'start')
 			return true;
 		if ($method == 'verify')
@@ -17,8 +15,7 @@ class QuestionaireImport extends AbstractClass
 		return parent :: acl($method);
 	}
 
-	function finish($vars)
-	{
+	function finish($vars) {
 		if (!Session :: getCookie('questionaireimport', false))
 			return $this->start($vars);
 
@@ -34,8 +31,7 @@ class QuestionaireImport extends AbstractClass
 		$questionaire->set('userid', User::loggedIn());
 		$questionaire_id = $questionaire->store();
 		$at_translation_table = array();
-		foreach ($questions as $item)
-		{
+		foreach ($questions as $item) {
 			$question = new Question();
 			$question->set('sem_id', $item[0]);
 			unset($item[0]);
@@ -53,8 +49,7 @@ class QuestionaireImport extends AbstractClass
 			$at = $item[4];
 			$at = trim($at);
 			$answer = new QuestionAnswer();
-			if (!isset($at_translation_table["$at"]))
-			{
+			if (!isset($at_translation_table["$at"])) {
 				$newAT = new QuestionAnswertype();
 				$newAT->set('name', $question->get('sem_id'));
 				$at_translation_table["$at"] = $newAT->store();
@@ -66,11 +61,9 @@ class QuestionaireImport extends AbstractClass
 		return redirect('?admin&questionaire');
 	}
 
-	function verify($vars)
-	{
-		if (isset($_FILES['importfile']['error']) && $_FILES['importfile']['error'] == 0)
-		{
-?>
+	function verify($vars) {
+		if (isset($_FILES['importfile']['error']) && $_FILES['importfile']['error'] == 0) {
+			?>
 			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 			<html xmlns="http://www.w3.org/1999/xhtml">
@@ -79,7 +72,7 @@ class QuestionaireImport extends AbstractClass
 					<link href="?admin/show/css" rel="stylesheet" type="text/css"/>
 					<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 				</head>
-	<?php
+			<?php
 			$csv = file($_FILES['importfile']['tmp_name']);
 			$result[] = array('Semantische ID', 'Fragetext', 'Block', 'Gruppen', 'TYPE');
 			foreach ($csv as $item)
@@ -98,32 +91,30 @@ class QuestionaireImport extends AbstractClass
 			$form2 = $this->getForm($content2, '', 'start', 'stopimport', $vars, '');
 			$output = $form1 . $form2 . HTML :: table($result);
 			return $output;
-		}
-		else
-		{
+		} else {
 			error('Dateiupload fehlgeschlagen', 'Questionaire', 'import');
 		}
 	}
 
-	public function start($vars)
-	{
-	?>
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml">
-		<head>
-			<title>smallCMS Admin</title>
-			<link href="?admin/show/css" rel="stylesheet" type="text/css"/>
-			<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-		</head>
-		<?php
-		Session :: unsetCookie('questionaireimport');
-		$content[] = array('input' => '<h3>Fragebogenimport Schritt 1/2</h3>');
-		$content[] = array('descr' => 'Input File (csv)', 'input' => HTML :: input('file', 'importfile', ''));
-		$content[] = array('descr' => 'Trennzeichen', 'input' => HTML :: input('text', 'importseperator', ';'));
-		$content[] = array('descr' => '&nbsp;', 'input' => HTML :: input('submit', 'submit', 'Import starten'));
-		$form = $this->getForm($content, '', 'verify', 'importfile', $vars, 'multipart/form-data');
-		return $form;
+	public function start($vars) {
+		?>
+			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+				"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+			<html xmlns="http://www.w3.org/1999/xhtml">
+				<head>
+					<title>smallCMS Admin</title>
+					<link href="?admin/show/css" rel="stylesheet" type="text/css"/>
+					<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+				</head>
+			<?php
+			Session :: unsetCookie('questionaireimport');
+			$content[] = array('input' => '<h3>Fragebogenimport Schritt 1/2</h3>');
+			$content[] = array('descr' => 'Input File (csv)', 'input' => HTML :: input('file', 'importfile', ''));
+			$content[] = array('descr' => 'Trennzeichen', 'input' => HTML :: input('text', 'importseperator', ';'));
+			$content[] = array('descr' => '&nbsp;', 'input' => HTML :: input('submit', 'submit', 'Import starten'));
+			$form = $this->getForm($content, '', 'verify', 'importfile', $vars, 'multipart/form-data');
+			return $form;
+		}
+
 	}
 
-}

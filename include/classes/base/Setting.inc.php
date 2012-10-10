@@ -6,18 +6,14 @@ $__userrights[] = array('name' => 'settingsadmin', 'desc' => 'can edit settings'
 /**
  * @package base
  */
-class Setting extends AbstractClass
-{
+class Setting extends AbstractClass {
 
-	public function __construct($name = null)
-	{
-		if (($name != null) && ($name != ''))
-		{
+	public function __construct($name = null) {
+		if (($name != null) && ($name != '')) {
 			global $mysql;
 			$result = $mysql->executeSql("SELECT id FROM setting WHERE name='" . $mysql->escape($name) . "';");
 			$this->id = $result['id'];
-			if (!empty($this->id))
-			{
+			if (!empty($this->id)) {
 				$this->load();
 			}
 		}
@@ -30,8 +26,7 @@ class Setting extends AbstractClass
 	 * @param	boolean	$override	if true, overwrite if setting already exists
 	 * @return	false, if $override = false and setting existed, else true
 	 */
-	function write($name, $value, $description = '', $override = true)
-	{
+	function write($name, $value, $description = '', $override = true) {
 		global $mysql;
 		$name = $mysql->escape($name);
 		$value = $mysql->escape($value);
@@ -39,15 +34,14 @@ class Setting extends AbstractClass
 		$setting = new Setting($name);
 		$setting->data['name'] = $name;
 		$setting->data['description'] = $description;
-		if ($override || !$setting->exists())
-		{
+		if ($override || !$setting->exists()) {
 			$setting->data['value'] = $value;
 			$setting->store();
 		}
 		Session::setSubCookie('setting', $name, $setting->data['value']);
 		$desc = Session::getSubCookie('settingdesc', $name, null);
 		if ($desc)
-			Session::setSubCookie ('settingdesc', $name, $setting->data['description']);
+			Session::setSubCookie('settingdesc', $name, $setting->data['description']);
 		return true;
 	}
 
@@ -58,19 +52,15 @@ class Setting extends AbstractClass
 	 * @param	String	$default	default if not set
 	 * @return	String	value of setting
 	 */
-	function read($name, $default='', $description='')
-	{
+	function read($name, $default = '', $description = '') {
 		if (Session::getSubCookie('setting', $name, false))
 			return Session::getSubCookie('setting', $name, false);
 		global $mysql;
 		$result = null;
 		$setting = new Setting($name);
-		if (!$setting->exists())
-		{
+		if (!$setting->exists()) {
 			$result = $default;
-		}
-		else
-		{
+		} else {
 			$result = $setting->data['value'];
 			$description = $setting->data['description'];
 		}

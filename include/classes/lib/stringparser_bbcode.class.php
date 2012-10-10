@@ -54,8 +54,7 @@ define('BBCODE_PARAGRAPH_BLOCK_ELEMENT', 2);
  *
  * @package stringparser
  */
-class StringParser_BBCode extends StringParser
-{
+class StringParser_BBCode extends StringParser {
 
 	/**
 	 * String parser mode
@@ -67,6 +66,7 @@ class StringParser_BBCode extends StringParser
 	 * @see STRINGPARSER_MODE_SEARCH, STRINGPARSER_MODE_LOOP
 	 */
 	public $_parserMode = STRINGPARSER_MODE_SEARCH;
+
 	/**
 	 * Defined BB Codes
 	 *
@@ -76,6 +76,7 @@ class StringParser_BBCode extends StringParser
 	 * @var array
 	 */
 	public $_codes = array();
+
 	/**
 	 * Registered parsers
 	 *
@@ -83,6 +84,7 @@ class StringParser_BBCode extends StringParser
 	 * @var array
 	 */
 	public $_parsers = array();
+
 	/**
 	 * Defined maximum occurrences
 	 *
@@ -90,6 +92,7 @@ class StringParser_BBCode extends StringParser
 	 * @var array
 	 */
 	public $_maxOccurrences = array();
+
 	/**
 	 * Root content type
 	 *
@@ -97,6 +100,7 @@ class StringParser_BBCode extends StringParser
 	 * @var string
 	 */
 	public $_rootContentType = 'block';
+
 	/**
 	 * Do not output but return the tree
 	 *
@@ -104,6 +108,7 @@ class StringParser_BBCode extends StringParser
 	 * @var bool
 	 */
 	public $_noOutput = false;
+
 	/**
 	 * Global setting: case sensitive
 	 *
@@ -111,6 +116,7 @@ class StringParser_BBCode extends StringParser
 	 * @var bool
 	 */
 	public $_caseSensitive = true;
+
 	/**
 	 * Root paragraph handling enabled
 	 *
@@ -118,6 +124,7 @@ class StringParser_BBCode extends StringParser
 	 * @var bool
 	 */
 	public $_rootParagraphHandling = false;
+
 	/**
 	 * Paragraph handling parameters
 	 * @access protected
@@ -128,12 +135,14 @@ class StringParser_BBCode extends StringParser
 		'start_tag' => '<p>',
 		'end_tag' => "</p>\n"
 	);
+
 	/**
 	 * Allow mixed attribute types (e.g. [code=bla attr=blub])
 	 * @access private
 	 * @var bool
 	 */
 	public $_mixedAttributeTypes = false;
+
 	/**
 	 * Whether to call validation function again (with $action == 'validate_auto') when closetag comes
 	 * @access protected
@@ -154,14 +163,11 @@ class StringParser_BBCode extends StringParser
 	 * @param array $not_allowed_within See documentation
 	 * @return bool
 	 */
-	function addCode($name, $callback_type, $callback_func, $callback_params, $content_type, $allowed_within, $not_allowed_within)
-	{
-		if (isset($this->_codes[$name]))
-		{
+	function addCode($name, $callback_type, $callback_func, $callback_params, $content_type, $allowed_within, $not_allowed_within) {
+		if (isset($this->_codes[$name])) {
 			return false; // already exists
 		}
-		if (!preg_match('/^[a-zA-Z0-9*_!+-]+$/', $name))
-		{
+		if (!preg_match('/^[a-zA-Z0-9*_!+-]+$/', $name)) {
 			return false; // invalid
 		}
 		$this->_codes[$name] = array(
@@ -184,10 +190,8 @@ class StringParser_BBCode extends StringParser
 	 * @param $name The code to remove
 	 * @return bool
 	 */
-	function removeCode($name)
-	{
-		if (isset($this->_codes[$name]))
-		{
+	function removeCode($name) {
+		if (isset($this->_codes[$name])) {
 			unset($this->_codes[$name]);
 			return true;
 		}
@@ -199,8 +203,7 @@ class StringParser_BBCode extends StringParser
 	 *
 	 * @access public
 	 */
-	function removeAllCodes()
-	{
+	function removeAllCodes() {
 		$this->_codes = array();
 	}
 
@@ -213,10 +216,8 @@ class StringParser_BBCode extends StringParser
 	 * @param mixed $value The value of the flag to set
 	 * @return bool
 	 */
-	function setCodeFlag($name, $flag, $value)
-	{
-		if (!isset($this->_codes[$name]))
-		{
+	function setCodeFlag($name, $flag, $value) {
+		if (!isset($this->_codes[$name])) {
 			return false;
 		}
 		$this->_codes[$name]['flags'][$flag] = $value;
@@ -237,8 +238,7 @@ class StringParser_BBCode extends StringParser
 	 * @param string $type The name of the occurrence type to set
 	 * @return bool
 	 */
-	function setOccurrenceType($code, $type)
-	{
+	function setOccurrenceType($code, $type) {
 		return $this->setCodeFlag($code, 'occurrence_type', $type);
 	}
 
@@ -250,11 +250,9 @@ class StringParser_BBCode extends StringParser
 	 * @param int $count The maximum number of occurrences
 	 * @return bool
 	 */
-	function setMaxOccurrences($type, $count)
-	{
+	function setMaxOccurrences($type, $count) {
 		settype($count, 'integer');
-		if ($count < 0)
-		{ // sorry, does not make any sense
+		if ($count < 0) { // sorry, does not make any sense
 			return false;
 		}
 		$this->_maxOccurrences[$type] = $count;
@@ -269,18 +267,14 @@ class StringParser_BBCode extends StringParser
 	 * @param mixed $parser The function to call
 	 * @return bool
 	 */
-	function addParser($type, $parser)
-	{
-		if (is_array($type))
-		{
-			foreach ($type as $t)
-			{
+	function addParser($type, $parser) {
+		if (is_array($type)) {
+			foreach ($type as $t) {
 				$this->addParser($t, $parser);
 			}
 			return true;
 		}
-		if (!isset($this->_parsers[$type]))
-		{
+		if (!isset($this->_parsers[$type])) {
 			$this->_parsers[$type] = array();
 		}
 		$this->_parsers[$type][] = $parser;
@@ -293,8 +287,7 @@ class StringParser_BBCode extends StringParser
 	 * @access public
 	 * @param string $content_type The new root content type
 	 */
-	function setRootContentType($content_type)
-	{
+	function setRootContentType($content_type) {
 		$this->_rootContentType = $content_type;
 	}
 
@@ -304,8 +297,7 @@ class StringParser_BBCode extends StringParser
 	 * @access public
 	 * @param bool $enabled The new status of paragraph handling on root element
 	 */
-	function setRootParagraphHandling($enabled)
-	{
+	function setRootParagraphHandling($enabled) {
 		$this->_rootParagraphHandling = (bool) $enabled;
 	}
 
@@ -317,8 +309,7 @@ class StringParser_BBCode extends StringParser
 	 * @param string $start_tag The replacement for the start tag (e.g. <p>)
 	 * @param string $end_tag The replacement for the start tag (e.g. </p>)
 	 */
-	function setParagraphHandlingParameters($detect_string, $start_tag, $end_tag)
-	{
+	function setParagraphHandlingParameters($detect_string, $start_tag, $end_tag) {
 		$this->_paragraphHandling = array(
 			'detect_string' => $detect_string,
 			'start_tag' => $start_tag,
@@ -337,8 +328,7 @@ class StringParser_BBCode extends StringParser
 	 * @access public
 	 * @param bool $caseSensitive
 	 */
-	function setGlobalCaseSensitive($caseSensitive)
-	{
+	function setGlobalCaseSensitive($caseSensitive) {
 		$this->_caseSensitive = (bool) $caseSensitive;
 	}
 
@@ -348,8 +338,7 @@ class StringParser_BBCode extends StringParser
 	 * @access public
 	 * @return bool
 	 */
-	function globalCaseSensitive()
-	{
+	function globalCaseSensitive() {
 		return $this->_caseSensitive;
 	}
 
@@ -364,8 +353,7 @@ class StringParser_BBCode extends StringParser
 	 * @access public
 	 * @param bool $mixedAttributeTypes
 	 */
-	function setMixedAttributeTypes($mixedAttributeTypes)
-	{
+	function setMixedAttributeTypes($mixedAttributeTypes) {
 		$this->_mixedAttributeTypes = (bool) $mixedAttributeTypes;
 	}
 
@@ -375,8 +363,7 @@ class StringParser_BBCode extends StringParser
 	 * @access public
 	 * @return bool
 	 */
-	function mixedAttributeTypes()
-	{
+	function mixedAttributeTypes() {
 		return $this->_mixedAttributeTypes;
 	}
 
@@ -389,8 +376,7 @@ class StringParser_BBCode extends StringParser
 	 * @access public
 	 * @param bool $validateAgain
 	 */
-	function setValidateAgain($validateAgain)
-	{
+	function setValidateAgain($validateAgain) {
 		$this->_validateAgain = (bool) $validateAgain;
 	}
 
@@ -400,8 +386,7 @@ class StringParser_BBCode extends StringParser
 	 * @access public
 	 * @return bool
 	 */
-	function validateAgain()
-	{
+	function validateAgain() {
 		return $this->_validateAgain;
 	}
 
@@ -415,19 +400,15 @@ class StringParser_BBCode extends StringParser
 	 * @param mixed $default The default return value
 	 * @return bool
 	 */
-	function getCodeFlag($name, $flag, $type = 'mixed', $default = null)
-	{
-		if (!isset($this->_codes[$name]))
-		{
+	function getCodeFlag($name, $flag, $type = 'mixed', $default = null) {
+		if (!isset($this->_codes[$name])) {
 			return $default;
 		}
-		if (!array_key_exists($flag, $this->_codes[$name]['flags']))
-		{
+		if (!array_key_exists($flag, $this->_codes[$name]['flags'])) {
 			return $default;
 		}
 		$return = $this->_codes[$name]['flags'][$flag];
-		if ($type != 'mixed')
-		{
+		if ($type != 'mixed') {
 			settype($return, $type);
 		}
 		return $return;
@@ -437,10 +418,8 @@ class StringParser_BBCode extends StringParser
 	 * Set a specific status
 	 * @access protected
 	 */
-	function _setStatus($status)
-	{
-		switch ($status)
-		{
+	function _setStatus($status) {
+		switch ($status) {
 			case 0:
 				$this->_charactersSearch = array('[/', '[');
 				$this->_status = $status;
@@ -455,25 +434,18 @@ class StringParser_BBCode extends StringParser
 				$this->_savedName = '';
 				break;
 			case 3:
-				if ($this->_quoting !== null)
-				{
-					if ($this->_mixedAttributeTypes)
-					{
+				if ($this->_quoting !== null) {
+					if ($this->_mixedAttributeTypes) {
 						$this->_charactersSearch = array('\\\\', '\\' . $this->_quoting, $this->_quoting . ' ', $this->_quoting . ']', $this->_quoting);
-					}
-					else
-					{
+					} else {
 						$this->_charactersSearch = array('\\\\', '\\' . $this->_quoting, $this->_quoting . ']', $this->_quoting);
 					}
 					$this->_status = $status;
 					break;
 				}
-				if ($this->_mixedAttributeTypes)
-				{
+				if ($this->_mixedAttributeTypes) {
 					$this->_charactersSearch = array(' ', ']');
-				}
-				else
-				{
+				} else {
 					$this->_charactersSearch = array(']');
 				}
 				$this->_status = $status;
@@ -485,12 +457,9 @@ class StringParser_BBCode extends StringParser
 				$this->_savedValue = '';
 				break;
 			case 5:
-				if ($this->_quoting !== null)
-				{
+				if ($this->_quoting !== null) {
 					$this->_charactersSearch = array('\\\\', '\\' . $this->_quoting, $this->_quoting . ' ', $this->_quoting . ']', $this->_quoting);
-				}
-				else
-				{
+				} else {
 					$this->_charactersSearch = array(' ', ']');
 				}
 				$this->_status = $status;
@@ -498,8 +467,7 @@ class StringParser_BBCode extends StringParser
 				break;
 			case 7:
 				$this->_charactersSearch = array('[/' . $this->_topNode('name') . ']');
-				if (!$this->_topNode('getFlag', 'case_sensitive', 'boolean', true) || !$this->_caseSensitive)
-				{
+				if (!$this->_topNode('getFlag', 'case_sensitive', 'boolean', true) || !$this->_caseSensitive) {
 					$this->_charactersSearch[] = '[/';
 				}
 				$this->_status = $status;
@@ -516,14 +484,11 @@ class StringParser_BBCode extends StringParser
 	 * @param string $text The text to append
 	 * @return bool On success, the function returns true, else false
 	 */
-	function _appendText($text)
-	{
-		if (!strlen($text))
-		{
+	function _appendText($text) {
+		if (!strlen($text)) {
 			return true;
 		}
-		switch ($this->_status)
-		{
+		switch ($this->_status) {
 			case 0:
 			case 7:
 				return $this->_appendToLastTextChild($text);
@@ -552,10 +517,8 @@ class StringParser_BBCode extends StringParser
 	 * @access protected
 	 * @return bool
 	 */
-	function _reparseAfterCurrentBlock()
-	{
-		if ($this->_status == 2)
-		{
+	function _reparseAfterCurrentBlock() {
+		if ($this->_status == 2) {
 			// this status will *never* call _reparseAfterCurrentBlock itself
 			// so this is called if the loop ends
 			// therefore, just add the [/ to the text
@@ -565,29 +528,22 @@ class StringParser_BBCode extends StringParser
 			$this->_status = 0;
 			$this->_appendText('[/');
 			return true;
-		}
-		else
-		{
-			return parent::_reparseAfterCurrentBlock ();
+		} else {
+			return parent::_reparseAfterCurrentBlock();
 		}
 	}
 
 	/**
 	 * Apply parsers
 	 */
-	function _applyParsers($type, $text)
-	{
-		if (!isset($this->_parsers[$type]))
-		{
+	function _applyParsers($type, $text) {
+		if (!isset($this->_parsers[$type])) {
 			return $text;
 		}
-		foreach ($this->_parsers[$type] as $parser)
-		{
-			if (is_callable($parser))
-			{
+		foreach ($this->_parsers[$type] as $parser) {
+			if (is_callable($parser)) {
 				$ntext = call_user_func($parser, $text);
-				if (is_string($ntext))
-				{
+				if (is_string($ntext)) {
 					$text = $ntext;
 				}
 			}
@@ -602,30 +558,22 @@ class StringParser_BBCode extends StringParser
 	 * @param string $needle The needle that was found
 	 * @return bool
 	 */
-	function _handleStatus($status, $needle)
-	{
-		switch ($status)
-		{
+	function _handleStatus($status, $needle) {
+		switch ($status) {
 			case 0: // NORMAL TEXT
-				if ($needle != '[' && $needle != '[/')
-				{
+				if ($needle != '[' && $needle != '[/') {
 					$this->_appendText($needle);
 					return true;
 				}
-				if ($needle == '[')
-				{
+				if ($needle == '[') {
 					$node = new StringParser_BBCode_Node_Element($this->_cpos);
 					$res = $this->_pushNode($node);
-					if (!$res)
-					{
+					if (!$res) {
 						return false;
 					}
 					$this->_setStatus(1);
-				}
-				else if ($needle == '[/')
-				{
-					if (count($this->_stack) <= 1)
-					{
+				} else if ($needle == '[/') {
+					if (count($this->_stack) <= 1) {
 						$this->_appendText($needle);
 						return true;
 					}
@@ -633,42 +581,31 @@ class StringParser_BBCode extends StringParser
 				}
 				break;
 			case 1: // OPEN TAG
-				if ($needle == ']')
-				{
+				if ($needle == ']') {
 					return $this->_openElement(0);
-				}
-				else if (trim($needle) == ':' || trim($needle) == '=')
-				{
+				} else if (trim($needle) == ':' || trim($needle) == '=') {
 					$this->_quoting = null;
 					$this->_setStatus(3); // default value parser
 					break;
-				}
-				else if (trim($needle) == '="' || trim($needle) == '= "' || trim($needle) == '=\'' || trim($needle) == '= \'')
-				{
+				} else if (trim($needle) == '="' || trim($needle) == '= "' || trim($needle) == '=\'' || trim($needle) == '= \'') {
 					$this->_quoting = substr(trim($needle), -1);
 					$this->_setStatus(3); // default value parser with quotation
 					break;
-				}
-				else if ($needle == ' ')
-				{
+				} else if ($needle == ' ') {
 					$this->_setStatus(4); // attribute parser
 					break;
-				}
-				else
-				{
+				} else {
 					$this->_appendText($needle);
 					return true;
 				}
 			// break not necessary because every if clause contains return
 			case 2: // CLOSE TAG
-				if ($needle != ']')
-				{
+				if ($needle != ']') {
 					$this->_appendText($needle);
 					return true;
 				}
 				$closecount = 0;
-				if (!$this->_isCloseable($this->_savedName, $closecount))
-				{
+				if (!$this->_isCloseable($this->_savedName, $closecount)) {
 					$this->_setStatus(0);
 					$this->_appendText('[/' . $this->_savedName . $needle);
 					return true;
@@ -677,209 +614,145 @@ class StringParser_BBCode extends StringParser
 				// that code(s) are built - if the second validation fails, we will have
 				// to reparse. note that as _reparseAfterCurrentBlock will not work correctly
 				// if we're in $status == 2, we will have to set our status to 0 manually
-				if (!$this->_validateCloseTags($closecount))
-				{
+				if (!$this->_validateCloseTags($closecount)) {
 					$this->_setStatus(0);
 					return $this->_reparseAfterCurrentBlock();
 				}
 				$this->_setStatus(0);
-				for ($i = 0; $i < $closecount; $i++)
-				{
-					if ($i == $closecount - 1)
-					{
+				for ($i = 0; $i < $closecount; $i++) {
+					if ($i == $closecount - 1) {
 						$this->_topNode('setHadCloseTag');
 					}
-					if (!$this->_popNode())
-					{
+					if (!$this->_popNode()) {
 						return false;
 					}
 				}
 				break;
 			case 3: // DEFAULT ATTRIBUTE
-				if ($this->_quoting !== null)
-				{
-					if ($needle == '\\\\')
-					{
+				if ($this->_quoting !== null) {
+					if ($needle == '\\\\') {
 						$this->_appendText('\\');
 						return true;
-					}
-					else if ($needle == '\\' . $this->_quoting)
-					{
+					} else if ($needle == '\\' . $this->_quoting) {
 						$this->_appendText($this->_quoting);
 						return true;
-					}
-					else if ($needle == $this->_quoting . ' ')
-					{
+					} else if ($needle == $this->_quoting . ' ') {
 						$this->_setStatus(4);
 						return true;
-					}
-					else if ($needle == $this->_quoting . ']')
-					{
+					} else if ($needle == $this->_quoting . ']') {
 						return $this->_openElement(2);
-					}
-					else if ($needle == $this->_quoting)
-					{
+					} else if ($needle == $this->_quoting) {
 						// can't be, only ']' and ' ' allowed after quoting char
 						return $this->_reparseAfterCurrentBlock();
-					}
-					else
-					{
+					} else {
 						$this->_appendText($needle);
 						return true;
 					}
-				}
-				else
-				{
-					if ($needle == ' ')
-					{
+				} else {
+					if ($needle == ' ') {
 						$this->_setStatus(4);
 						return true;
-					}
-					else if ($needle == ']')
-					{
+					} else if ($needle == ']') {
 						return $this->_openElement(2);
-					}
-					else
-					{
+					} else {
 						$this->_appendText($needle);
 						return true;
 					}
 				}
 			// break not needed because every if clause contains return!
 			case 4: // ATTRIBUTE NAME
-				if ($needle == ' ')
-				{
-					if (strlen($this->_savedName))
-					{
+				if ($needle == ' ') {
+					if (strlen($this->_savedName)) {
 						$this->_topNode('setAttribute', $this->_savedName, true);
 					}
 					// just ignore and continue in same mode
 					$this->_setStatus(4); // reset parameters
 					return true;
-				}
-				else if ($needle == ']')
-				{
-					if (strlen($this->_savedName))
-					{
+				} else if ($needle == ']') {
+					if (strlen($this->_savedName)) {
 						$this->_topNode('setAttribute', $this->_savedName, true);
 					}
 					return $this->_openElement(2);
-				}
-				else if ($needle == '=')
-				{
+				} else if ($needle == '=') {
 					$this->_quoting = null;
 					$this->_setStatus(5);
 					return true;
-				}
-				else if ($needle == '="')
-				{
+				} else if ($needle == '="') {
 					$this->_quoting = '"';
 					$this->_setStatus(5);
 					return true;
-				}
-				else if ($needle == '=\'')
-				{
+				} else if ($needle == '=\'') {
 					$this->_quoting = '\'';
 					$this->_setStatus(5);
 					return true;
-				}
-				else
-				{
+				} else {
 					$this->_appendText($needle);
 					return true;
 				}
 			// break not needed because every if clause contains return!
 			case 5: // ATTRIBUTE VALUE
-				if ($this->_quoting !== null)
-				{
-					if ($needle == '\\\\')
-					{
+				if ($this->_quoting !== null) {
+					if ($needle == '\\\\') {
 						$this->_appendText('\\');
 						return true;
-					}
-					else if ($needle == '\\' . $this->_quoting)
-					{
+					} else if ($needle == '\\' . $this->_quoting) {
 						$this->_appendText($this->_quoting);
 						return true;
-					}
-					else if ($needle == $this->_quoting . ' ')
-					{
+					} else if ($needle == $this->_quoting . ' ') {
 						$this->_topNode('setAttribute', $this->_savedName, $this->_savedValue);
 						$this->_setStatus(4);
 						return true;
-					}
-					else if ($needle == $this->_quoting . ']')
-					{
+					} else if ($needle == $this->_quoting . ']') {
 						$this->_topNode('setAttribute', $this->_savedName, $this->_savedValue);
 						return $this->_openElement(2);
-					}
-					else if ($needle == $this->_quoting)
-					{
+					} else if ($needle == $this->_quoting) {
 						// can't be, only ']' and ' ' allowed after quoting char
 						return $this->_reparseAfterCurrentBlock();
-					}
-					else
-					{
+					} else {
 						$this->_appendText($needle);
 						return true;
 					}
-				}
-				else
-				{
-					if ($needle == ' ')
-					{
+				} else {
+					if ($needle == ' ') {
 						$this->_topNode('setAttribute', $this->_savedName, $this->_savedValue);
 						$this->_setStatus(4);
 						return true;
-					}
-					else if ($needle == ']')
-					{
+					} else if ($needle == ']') {
 						$this->_topNode('setAttribute', $this->_savedName, $this->_savedValue);
 						return $this->_openElement(2);
-					}
-					else
-					{
+					} else {
 						$this->_appendText($needle);
 						return true;
 					}
 				}
 			// break not needed because every if clause contains return!
 			case 7:
-				if ($needle == '[/')
-				{
+				if ($needle == '[/') {
 					// this was case insensitive match
-					if (strtolower(substr($this->_text, $this->_cpos + strlen($needle), strlen($this->_topNode('name')) + 1)) == strtolower($this->_topNode('name') . ']'))
-					{
+					if (strtolower(substr($this->_text, $this->_cpos + strlen($needle), strlen($this->_topNode('name')) + 1)) == strtolower($this->_topNode('name') . ']')) {
 						// this matched
 						$this->_cpos += strlen($this->_topNode('name')) + 1;
-					}
-					else
-					{
+					} else {
 						// it didn't match
 						$this->_appendText($needle);
 						return true;
 					}
 				}
 				$closecount = $this->_savedCloseCount;
-				if (!$this->_topNode('validate'))
-				{
+				if (!$this->_topNode('validate')) {
 					return $this->_reparseAfterCurrentBlock();
 				}
 				// do we have to close subnodes?
-				if ($closecount)
-				{
+				if ($closecount) {
 					// get top node
 					$mynode = & $this->_stack[count($this->_stack) - 1];
 					// close necessary nodes
-					for ($i = 0; $i <= $closecount; $i++)
-					{
-						if (!$this->_popNode())
-						{
+					for ($i = 0; $i <= $closecount; $i++) {
+						if (!$this->_popNode()) {
 							return false;
 						}
 					}
-					if (!$this->_pushNode($mynode))
-					{
+					if (!$this->_pushNode($mynode)) {
 						return false;
 					}
 				}
@@ -898,39 +771,30 @@ class StringParser_BBCode extends StringParser
 	 * @access protected
 	 * @return bool
 	 */
-	function _openElement($type = 0)
-	{
+	function _openElement($type = 0) {
 		$name = $this->_topNode('name');
-		if (!isset($this->_codes[$name]))
-		{
-			if (isset($this->_codes[strtolower($name)]) && (!$this->getCodeFlag(strtolower($name), 'case_sensitive', 'boolean', true) || !$this->_caseSensitive))
-			{
+		if (!isset($this->_codes[$name])) {
+			if (isset($this->_codes[strtolower($name)]) && (!$this->getCodeFlag(strtolower($name), 'case_sensitive', 'boolean', true) || !$this->_caseSensitive)) {
 				$name = strtolower($name);
-			}
-			else
-			{
+			} else {
 				return $this->_reparseAfterCurrentBlock();
 			}
 		}
 		$occ_type = $this->getCodeFlag($name, 'occurrence_type', 'string');
-		if ($occ_type !== null && isset($this->_maxOccurrences[$occ_type]))
-		{
+		if ($occ_type !== null && isset($this->_maxOccurrences[$occ_type])) {
 			$max_occs = $this->_maxOccurrences[$occ_type];
 			$occs = $this->_root->getNodeCountByCriterium('flag:occurrence_type', $occ_type);
-			if ($occs >= $max_occs)
-			{
+			if ($occs >= $max_occs) {
 				return $this->_reparseAfterCurrentBlock();
 			}
 		}
 		$closecount = 0;
 		$this->_topNode('setCodeInfo', $this->_codes[$name]);
-		if (!$this->_isOpenable($name, $closecount))
-		{
+		if (!$this->_isOpenable($name, $closecount)) {
 			return $this->_reparseAfterCurrentBlock();
 		}
 		$this->_setStatus(0);
-		switch ($type)
-		{
+		switch ($type) {
 			case 0:
 				$cond = $this->_isUseContent($this->_stack[count($this->_stack) - 1], false);
 				break;
@@ -944,39 +808,31 @@ class StringParser_BBCode extends StringParser
 				$cond = false;
 				break;
 		}
-		if ($cond)
-		{
+		if ($cond) {
 			$this->_savedCloseCount = $closecount;
 			$this->_setStatus(7);
 			return true;
 		}
-		if (!$this->_topNode('validate'))
-		{
+		if (!$this->_topNode('validate')) {
 			return $this->_reparseAfterCurrentBlock();
 		}
 		// do we have to close subnodes?
-		if ($closecount)
-		{
+		if ($closecount) {
 			// get top node
 			$mynode = & $this->_stack[count($this->_stack) - 1];
 			// close necessary nodes
-			for ($i = 0; $i <= $closecount; $i++)
-			{
-				if (!$this->_popNode())
-				{
+			for ($i = 0; $i <= $closecount; $i++) {
+				if (!$this->_popNode()) {
 					return false;
 				}
 			}
-			if (!$this->_pushNode($mynode))
-			{
+			if (!$this->_pushNode($mynode)) {
 				return false;
 			}
 		}
 
-		if ($this->_codes[$name]['callback_type'] == 'simple_replace_single' || $this->_codes[$name]['callback_type'] == 'callback_replace_single')
-		{
-			if (!$this->_popNode())
-			{
+		if ($this->_codes[$name]['callback_type'] == 'simple_replace_single' || $this->_codes[$name]['callback_type'] == 'callback_replace_single') {
+			if (!$this->_popNode()) {
 				return false;
 			}
 		}
@@ -990,23 +846,18 @@ class StringParser_BBCode extends StringParser
 	 * @access protected
 	 * @return bool
 	 */
-	function _isCloseable($name, &$closecount)
-	{
+	function _isCloseable($name, &$closecount) {
 		$node = & $this->_findNamedNode($name, false);
-		if ($node === false)
-		{
+		if ($node === false) {
 			return false;
 		}
 		$scount = count($this->_stack);
-		for ($i = $scount - 1; $i > 0; $i--)
-		{
+		for ($i = $scount - 1; $i > 0; $i--) {
 			$closecount++;
-			if ($this->_stack[$i]->equals($node))
-			{
+			if ($this->_stack[$i]->equals($node)) {
 				return true;
 			}
-			if ($this->_stack[$i]->getFlag('closetag', 'integer', BBCODE_CLOSETAG_IMPLICIT) == BBCODE_CLOSETAG_MUSTEXIST)
-			{
+			if ($this->_stack[$i]->getFlag('closetag', 'integer', BBCODE_CLOSETAG_IMPLICIT) == BBCODE_CLOSETAG_MUSTEXIST) {
 				return false;
 			}
 		}
@@ -1019,15 +870,11 @@ class StringParser_BBCode extends StringParser
 	 * @access protected
 	 * @return bool
 	 */
-	function _validateCloseTags($closecount)
-	{
+	function _validateCloseTags($closecount) {
 		$scount = count($this->_stack);
-		for ($i = $scount - 1; $i >= $scount - $closecount; $i--)
-		{
-			if ($this->_validateAgain)
-			{
-				if (!$this->_stack[$i]->validate('validate_again'))
-				{
+		for ($i = $scount - 1; $i >= $scount - $closecount; $i--) {
+			if ($this->_validateAgain) {
+				if (!$this->_stack[$i]->validate('validate_again')) {
 					return false;
 				}
 			}
@@ -1041,10 +888,8 @@ class StringParser_BBCode extends StringParser
 	 * @access protected
 	 * @return bool
 	 */
-	function _isOpenable($name, &$closecount)
-	{
-		if (!isset($this->_codes[$name]))
-		{
+	function _isOpenable($name, &$closecount) {
+		if (!isset($this->_codes[$name])) {
 			return false;
 		}
 
@@ -1054,25 +899,18 @@ class StringParser_BBCode extends StringParser
 		$not_allowed_within = $this->_codes[$name]['not_allowed_within'];
 
 		$scount = count($this->_stack);
-		if ($scount == 2)
-		{ // top level element
-			if (!in_array($this->_rootContentType, $allowed_within))
-			{
+		if ($scount == 2) { // top level element
+			if (!in_array($this->_rootContentType, $allowed_within)) {
 				return false;
 			}
-		}
-		else
-		{
-			if (!in_array($this->_stack[$scount - 2]->_codeInfo['content_type'], $allowed_within))
-			{
+		} else {
+			if (!in_array($this->_stack[$scount - 2]->_codeInfo['content_type'], $allowed_within)) {
 				return $this->_isOpenableWithClose($name, $closecount);
 			}
 		}
 
-		for ($i = 1; $i < $scount - 1; $i++)
-		{
-			if (in_array($this->_stack[$i]->_codeInfo['content_type'], $not_allowed_within))
-			{
+		for ($i = 1; $i < $scount - 1; $i++) {
+			if (in_array($this->_stack[$i]->_codeInfo['content_type'], $not_allowed_within)) {
 				return $this->_isOpenableWithClose($name, $closecount);
 			}
 		}
@@ -1086,42 +924,32 @@ class StringParser_BBCode extends StringParser
 	 * @access protected
 	 * @return bool
 	 */
-	function _isOpenableWithClose($name, &$closecount)
-	{
+	function _isOpenableWithClose($name, &$closecount) {
 		$tnname = $this->_topNode('name');
-		if (isset($this->_codes[strtolower($tnname)]) && (!$this->getCodeFlag(strtolower($tnname), 'case_sensitive', 'boolean', true) || !$this->_caseSensitive))
-		{
+		if (isset($this->_codes[strtolower($tnname)]) && (!$this->getCodeFlag(strtolower($tnname), 'case_sensitive', 'boolean', true) || !$this->_caseSensitive)) {
 			$tnname = strtolower($tnname);
 		}
-		if (!in_array($this->getCodeFlag($tnname, 'closetag', 'integer', BBCODE_CLOSETAG_IMPLICIT), array(BBCODE_CLOSETAG_FORBIDDEN, BBCODE_CLOSETAG_OPTIONAL)))
-		{
+		if (!in_array($this->getCodeFlag($tnname, 'closetag', 'integer', BBCODE_CLOSETAG_IMPLICIT), array(BBCODE_CLOSETAG_FORBIDDEN, BBCODE_CLOSETAG_OPTIONAL))) {
 			return false;
 		}
 		$node = & $this->_findNamedNode($name, true);
-		if ($node === false)
-		{
+		if ($node === false) {
 			return false;
 		}
 		$scount = count($this->_stack);
-		if ($scount < 3)
-		{
+		if ($scount < 3) {
 			return false;
 		}
-		for ($i = $scount - 2; $i > 0; $i--)
-		{
+		for ($i = $scount - 2; $i > 0; $i--) {
 			$closecount++;
-			if ($this->_stack[$i]->equals($node))
-			{
+			if ($this->_stack[$i]->equals($node)) {
 				return true;
 			}
-			if (in_array($this->_stack[$i]->getFlag('closetag', 'integer', BBCODE_CLOSETAG_IMPLICIT), array(BBCODE_CLOSETAG_IMPLICIT_ON_CLOSE_ONLY, BBCODE_CLOSETAG_MUSTEXIST)))
-			{
+			if (in_array($this->_stack[$i]->getFlag('closetag', 'integer', BBCODE_CLOSETAG_IMPLICIT), array(BBCODE_CLOSETAG_IMPLICIT_ON_CLOSE_ONLY, BBCODE_CLOSETAG_MUSTEXIST))) {
 				return false;
 			}
-			if ($this->_validateAgain)
-			{
-				if (!$this->_stack[$i]->validate('validate_again'))
-				{
+			if ($this->_validateAgain) {
+				if (!$this->_stack[$i]->validate('validate_again')) {
 					return false;
 				}
 			}
@@ -1134,27 +962,21 @@ class StringParser_BBCode extends StringParser
 	 * Abstract method: Close remaining blocks
 	 * @access protected
 	 */
-	function _closeRemainingBlocks()
-	{
+	function _closeRemainingBlocks() {
 		// everything closed
-		if (count($this->_stack) == 1)
-		{
+		if (count($this->_stack) == 1) {
 			return true;
 		}
 		// not everything close
-		if ($this->strict)
-		{
+		if ($this->strict) {
 			return false;
 		}
-		while (count($this->_stack) > 1)
-		{
-			if ($this->_topNode('getFlag', 'closetag', 'integer', BBCODE_CLOSETAG_IMPLICIT) == BBCODE_CLOSETAG_MUSTEXIST)
-			{
+		while (count($this->_stack) > 1) {
+			if ($this->_topNode('getFlag', 'closetag', 'integer', BBCODE_CLOSETAG_IMPLICIT) == BBCODE_CLOSETAG_MUSTEXIST) {
 				return false; // sorry
 			}
 			$res = $this->_popNode();
-			if (!$res)
-			{
+			if (!$res) {
 				return false;
 			}
 		}
@@ -1167,35 +989,25 @@ class StringParser_BBCode extends StringParser
 	 * @access protected
 	 * @return mixed
 	 */
-	function &_findNamedNode($name, $searchdeeper = false)
-	{
+	function &_findNamedNode($name, $searchdeeper = false) {
 		$lname = strtolower($name);
-		if (isset($this->_codes[$lname]) && (!$this->getCodeFlag($lname, 'case_sensitive', 'boolean', true) || !$this->_caseSensitive))
-		{
+		if (isset($this->_codes[$lname]) && (!$this->getCodeFlag($lname, 'case_sensitive', 'boolean', true) || !$this->_caseSensitive)) {
 			$name = $lname;
 			$case_sensitive = false;
-		}
-		else
-		{
+		} else {
 			$case_sensitive = true;
 		}
 		$scount = count($this->_stack);
-		if ($searchdeeper)
-		{
+		if ($searchdeeper) {
 			$scount--;
 		}
-		for ($i = $scount - 1; $i > 0; $i--)
-		{
-			if (!$case_sensitive)
-			{
+		for ($i = $scount - 1; $i > 0; $i--) {
+			if (!$case_sensitive) {
 				$cmp_name = strtolower($this->_stack[$i]->name());
-			}
-			else
-			{
+			} else {
 				$cmp_name = $this->_stack[$i]->name();
 			}
-			if ($cmp_name == $name)
-			{
+			if ($cmp_name == $name) {
 				return $this->_stack[$i];
 			}
 		}
@@ -1208,15 +1020,12 @@ class StringParser_BBCode extends StringParser
 	 * @access protected
 	 * @return bool
 	 */
-	function _outputTree()
-	{
-		if ($this->_noOutput)
-		{
+	function _outputTree() {
+		if ($this->_noOutput) {
 			return true;
 		}
 		$output = $this->_outputNode($this->_root);
-		if (is_string($output))
-		{
+		if (is_string($output)) {
 			$this->_output = $this->_applyPostfilters($output);
 			unset($output);
 			return true;
@@ -1230,92 +1039,73 @@ class StringParser_BBCode extends StringParser
 	 * @access protected
 	 * @return bool
 	 */
-	function _outputNode(&$node)
-	{
+	function _outputNode(&$node) {
 		$output = '';
-		if ($node->_type == STRINGPARSER_BBCODE_NODE_PARAGRAPH || $node->_type == STRINGPARSER_BBCODE_NODE_ELEMENT || $node->_type == STRINGPARSER_NODE_ROOT)
-		{
+		if ($node->_type == STRINGPARSER_BBCODE_NODE_PARAGRAPH || $node->_type == STRINGPARSER_BBCODE_NODE_ELEMENT || $node->_type == STRINGPARSER_NODE_ROOT) {
 			$ccount = count($node->_children);
-			for ($i = 0; $i < $ccount; $i++)
-			{
+			for ($i = 0; $i < $ccount; $i++) {
 				$suboutput = $this->_outputNode($node->_children[$i]);
-				if (!is_string($suboutput))
-				{
+				if (!is_string($suboutput)) {
 					return false;
 				}
 				$output .= $suboutput;
 			}
-			if ($node->_type == STRINGPARSER_BBCODE_NODE_PARAGRAPH)
-			{
+			if ($node->_type == STRINGPARSER_BBCODE_NODE_PARAGRAPH) {
 				return $this->_paragraphHandling['start_tag'] . $output . $this->_paragraphHandling['end_tag'];
 			}
-			if ($node->_type == STRINGPARSER_BBCODE_NODE_ELEMENT)
-			{
+			if ($node->_type == STRINGPARSER_BBCODE_NODE_ELEMENT) {
 				return $node->getReplacement($output);
 			}
 			return $output;
-		}
-		else if ($node->_type == STRINGPARSER_NODE_TEXT)
-		{
+		} else if ($node->_type == STRINGPARSER_NODE_TEXT) {
 			$output = $node->content;
 			$before = '';
 			$after = '';
 			$ol = strlen($output);
-			switch ($node->getFlag('newlinemode.begin', 'integer', BBCODE_NEWLINE_PARSE))
-			{
+			switch ($node->getFlag('newlinemode.begin', 'integer', BBCODE_NEWLINE_PARSE)) {
 				case BBCODE_NEWLINE_IGNORE:
-					if ($ol && $output{0} == "\n")
-					{
+					if ($ol && $output{0} == "\n") {
 						$before = "\n";
 					}
 				// don't break!
 				case BBCODE_NEWLINE_DROP:
-					if ($ol && $output{0} == "\n")
-					{
+					if ($ol && $output{0} == "\n") {
 						$output = substr($output, 1);
 						$ol--;
 					}
 					break;
 			}
-			switch ($node->getFlag('newlinemode.end', 'integer', BBCODE_NEWLINE_PARSE))
-			{
+			switch ($node->getFlag('newlinemode.end', 'integer', BBCODE_NEWLINE_PARSE)) {
 				case BBCODE_NEWLINE_IGNORE:
-					if ($ol && $output{$ol - 1} == "\n")
-					{
+					if ($ol && $output{$ol - 1} == "\n") {
 						$after = "\n";
 					}
 				// don't break!
 				case BBCODE_NEWLINE_DROP:
-					if ($ol && $output{$ol - 1} == "\n")
-					{
+					if ($ol && $output{$ol - 1} == "\n") {
 						$output = substr($output, 0, -1);
 						$ol--;
 					}
 					break;
 			}
 			// can't do anything
-			if ($node->_parent === null)
-			{
+			if ($node->_parent === null) {
 				return $before . $output . $after;
 			}
-			if ($node->_parent->_type == STRINGPARSER_BBCODE_NODE_PARAGRAPH)
-			{
+			if ($node->_parent->_type == STRINGPARSER_BBCODE_NODE_PARAGRAPH) {
 				$parent = & $node->_parent;
 				unset($node);
 				$node = & $parent;
 				unset($parent);
 				// if no parent for this paragraph
-				if ($node->_parent === null)
-				{
+				if ($node->_parent === null) {
 					return $before . $output . $after;
 				}
 			}
-			if ($node->_parent->_type == STRINGPARSER_NODE_ROOT)
-			{
+			if ($node->_parent->_type == STRINGPARSER_NODE_ROOT) {
 				return $before . $this->_applyParsers($this->_rootContentType, $output) . $after;
 			}
-			if ($node->_parent->_type == STRINGPARSER_BBCODE_NODE_ELEMENT)
-			{
+			if ($node->_parent->_type == STRINGPARSER_BBCODE_NODE_ELEMENT) {
 				return $before . $this->_applyParsers($node->_parent->_codeInfo['content_type'], $output) . $after;
 			}
 			return $before . $output . $after;
@@ -1327,49 +1117,39 @@ class StringParser_BBCode extends StringParser
 	 * @access protected
 	 * @return bool
 	 */
-	function _modifyTree()
-	{
+	function _modifyTree() {
 		// first pass: try to do newline handling
 		$nodes = & $this->_root->getNodesByCriterium('needsTextNodeModification', true);
 		$nodes_count = count($nodes);
-		for ($i = 0; $i < $nodes_count; $i++)
-		{
+		for ($i = 0; $i < $nodes_count; $i++) {
 			$v = $nodes[$i]->getFlag('opentag.before.newline', 'integer', BBCODE_NEWLINE_PARSE);
-			if ($v != BBCODE_NEWLINE_PARSE)
-			{
+			if ($v != BBCODE_NEWLINE_PARSE) {
 				$n = & $nodes[$i]->findPrevAdjentTextNode();
-				if (!is_null($n))
-				{
+				if (!is_null($n)) {
 					$n->setFlag('newlinemode.end', $v);
 				}
 				unset($n);
 			}
 			$v = $nodes[$i]->getFlag('opentag.after.newline', 'integer', BBCODE_NEWLINE_PARSE);
-			if ($v != BBCODE_NEWLINE_PARSE)
-			{
+			if ($v != BBCODE_NEWLINE_PARSE) {
 				$n = & $nodes[$i]->firstChildIfText();
-				if (!is_null($n))
-				{
+				if (!is_null($n)) {
 					$n->setFlag('newlinemode.begin', $v);
 				}
 				unset($n);
 			}
 			$v = $nodes[$i]->getFlag('closetag.before.newline', 'integer', BBCODE_NEWLINE_PARSE);
-			if ($v != BBCODE_NEWLINE_PARSE)
-			{
+			if ($v != BBCODE_NEWLINE_PARSE) {
 				$n = & $nodes[$i]->lastChildIfText();
-				if (!is_null($n))
-				{
+				if (!is_null($n)) {
 					$n->setFlag('newlinemode.end', $v);
 				}
 				unset($n);
 			}
 			$v = $nodes[$i]->getFlag('closetag.after.newline', 'integer', BBCODE_NEWLINE_PARSE);
-			if ($v != BBCODE_NEWLINE_PARSE)
-			{
+			if ($v != BBCODE_NEWLINE_PARSE) {
 				$n = & $nodes[$i]->findNextAdjentTextNode();
-				if (!is_null($n))
-				{
+				if (!is_null($n)) {
 					$n->setFlag('newlinemode.begin', $v);
 				}
 				unset($n);
@@ -1377,11 +1157,9 @@ class StringParser_BBCode extends StringParser
 		}
 
 		// second pass a: do paragraph handling on root element
-		if ($this->_rootParagraphHandling)
-		{
+		if ($this->_rootParagraphHandling) {
 			$res = $this->_handleParagraphs($this->_root);
-			if (!$res)
-			{
+			if (!$res) {
 				return false;
 			}
 		}
@@ -1390,11 +1168,9 @@ class StringParser_BBCode extends StringParser
 		unset($nodes);
 		$nodes = & $this->_root->getNodesByCriterium('flag:paragraphs', true);
 		$nodes_count = count($nodes);
-		for ($i = 0; $i < $nodes_count; $i++)
-		{
+		for ($i = 0; $i < $nodes_count; $i++) {
 			$res = $this->_handleParagraphs($nodes[$i]);
-			if (!$res)
-			{
+			if (!$res) {
 				return false;
 			}
 		}
@@ -1403,15 +1179,12 @@ class StringParser_BBCode extends StringParser
 		unset($nodes);
 		$nodes = & $this->_root->getNodesByCriterium('empty', true);
 		$nodes_count = count($nodes);
-		if (isset($parent))
-		{
+		if (isset($parent)) {
 			unset($parent);
 			$parent = null;
 		}
-		for ($i = 0; $i < $nodes_count; $i++)
-		{
-			if ($nodes[$i]->_type != STRINGPARSER_BBCODE_NODE_PARAGRAPH)
-			{
+		for ($i = 0; $i < $nodes_count; $i++) {
+			if ($nodes[$i]->_type != STRINGPARSER_BBCODE_NODE_PARAGRAPH) {
 				continue;
 			}
 			unset($parent);
@@ -1428,40 +1201,32 @@ class StringParser_BBCode extends StringParser
 	 * @param object $node The node to handle
 	 * @return bool
 	 */
-	function _handleParagraphs(&$node)
-	{
-		// if this node is already a subnode of a paragraph node, do NOT 
+	function _handleParagraphs(&$node) {
+		// if this node is already a subnode of a paragraph node, do NOT
 		// do paragraph handling on this node!
-		if ($this->_hasParagraphAncestor($node))
-		{
+		if ($this->_hasParagraphAncestor($node)) {
 			return true;
 		}
 		$dest_nodes = array();
 		$last_node_was_paragraph = false;
 		$prevtype = STRINGPARSER_NODE_TEXT;
 		$paragraph = null;
-		while (count($node->_children))
-		{
+		while (count($node->_children)) {
 			$mynode = & $node->_children[0];
 			$node->removeChild($mynode);
 			$subprevtype = $prevtype;
 			$sub_nodes = & $this->_breakupNodeByParagraphs($mynode);
-			for ($i = 0; $i < count($sub_nodes); $i++)
-			{
-				if (!$last_node_was_paragraph || ($prevtype == $sub_nodes[$i]->_type && ($i != 0 || $prevtype != STRINGPARSER_BBCODE_NODE_ELEMENT)))
-				{
+			for ($i = 0; $i < count($sub_nodes); $i++) {
+				if (!$last_node_was_paragraph || ($prevtype == $sub_nodes[$i]->_type && ($i != 0 || $prevtype != STRINGPARSER_BBCODE_NODE_ELEMENT))) {
 					unset($paragraph);
 					$paragraph = new StringParser_BBCode_Node_Paragraph ();
 				}
 				$prevtype = $sub_nodes[$i]->_type;
-				if ($sub_nodes[$i]->_type != STRINGPARSER_BBCODE_NODE_ELEMENT || $sub_nodes[$i]->getFlag('paragraph_type', 'integer', BBCODE_PARAGRAPH_ALLOW_BREAKUP) != BBCODE_PARAGRAPH_BLOCK_ELEMENT)
-				{
+				if ($sub_nodes[$i]->_type != STRINGPARSER_BBCODE_NODE_ELEMENT || $sub_nodes[$i]->getFlag('paragraph_type', 'integer', BBCODE_PARAGRAPH_ALLOW_BREAKUP) != BBCODE_PARAGRAPH_BLOCK_ELEMENT) {
 					$paragraph->appendChild($sub_nodes[$i]);
 					$dest_nodes[] = & $paragraph;
 					$last_node_was_paragraph = true;
-				}
-				else
-				{
+				} else {
 					$dest_nodes[] = & $sub_nodes[$i];
 					$last_onde_was_paragraph = false;
 					unset($paragraph);
@@ -1470,8 +1235,7 @@ class StringParser_BBCode extends StringParser
 			}
 		}
 		$count = count($dest_nodes);
-		for ($i = 0; $i < $count; $i++)
-		{
+		for ($i = 0; $i < $count; $i++) {
 			$node->appendChild($dest_nodes[$i]);
 		}
 		unset($dest_nodes);
@@ -1485,15 +1249,12 @@ class StringParser_BBCode extends StringParser
 	 * @param object $node The node to analyze
 	 * @return bool
 	 */
-	function _hasParagraphAncestor(&$node)
-	{
-		if ($node->_parent === null)
-		{
+	function _hasParagraphAncestor(&$node) {
+		if ($node->_parent === null) {
 			return false;
 		}
 		$parent = & $node->_parent;
-		if ($parent->_type == STRINGPARSER_BBCODE_NODE_PARAGRAPH)
-		{
+		if ($parent->_type == STRINGPARSER_BBCODE_NODE_PARAGRAPH) {
 			return true;
 		}
 		return $this->_hasParagraphAncestor($parent);
@@ -1505,33 +1266,23 @@ class StringParser_BBCode extends StringParser
 	 * @param object $node The node to break up
 	 * @return array
 	 */
-	function &_breakupNodeByParagraphs(&$node)
-	{
+	function &_breakupNodeByParagraphs(&$node) {
 		$detect_string = $this->_paragraphHandling['detect_string'];
 		$dest_nodes = array();
 		// text node => no problem
-		if ($node->_type == STRINGPARSER_NODE_TEXT)
-		{
+		if ($node->_type == STRINGPARSER_NODE_TEXT) {
 			$cpos = 0;
-			while (($npos = strpos($node->content, $detect_string, $cpos)) !== false)
-			{
+			while (($npos = strpos($node->content, $detect_string, $cpos)) !== false) {
 				$subnode = new StringParser_Node_Text(substr($node->content, $cpos, $npos - $cpos), $node->occurredAt + $cpos);
 				// copy flags
-				foreach ($node->_flags as $flag => $value)
-				{
-					if ($flag == 'newlinemode.begin')
-					{
-						if ($cpos == 0)
-						{
+				foreach ($node->_flags as $flag => $value) {
+					if ($flag == 'newlinemode.begin') {
+						if ($cpos == 0) {
 							$subnode->setFlag($flag, $value);
 						}
-					}
-					else if ($flag == 'newlinemode.end')
-					{
+					} else if ($flag == 'newlinemode.end') {
 						// do nothing
-					}
-					else
-					{
+					} else {
 						$subnode->setFlag($flag, $value);
 					}
 				}
@@ -1540,17 +1291,14 @@ class StringParser_BBCode extends StringParser
 				$cpos = $npos + strlen($detect_string);
 			}
 			$subnode = new StringParser_Node_Text(substr($node->content, $cpos), $node->occurredAt + $cpos);
-			if ($cpos == 0)
-			{
+			if ($cpos == 0) {
 				$value = $node->getFlag('newlinemode.begin', 'integer', null);
-				if ($value !== null)
-				{
+				if ($value !== null) {
 					$subnode->setFlag('newlinemode.begin', $value);
 				}
 			}
 			$value = $node->getFlag('newlinemode.end', 'integer', null);
-			if ($value !== null)
-			{
+			if ($value !== null) {
 				$subnode->setFlag('newlinemode.end', $value);
 			}
 			$dest_nodes[] = & $subnode;
@@ -1558,28 +1306,23 @@ class StringParser_BBCode extends StringParser
 			return $dest_nodes;
 		}
 		// not a text node or an element node => no way
-		if ($node->_type != STRINGPARSER_BBCODE_NODE_ELEMENT)
-		{
+		if ($node->_type != STRINGPARSER_BBCODE_NODE_ELEMENT) {
 			$dest_nodes[] = & $node;
 			return $dest_nodes;
 		}
-		if ($node->getFlag('paragraph_type', 'integer', BBCODE_PARAGRAPH_ALLOW_BREAKUP) != BBCODE_PARAGRAPH_ALLOW_BREAKUP || !count($node->_children))
-		{
+		if ($node->getFlag('paragraph_type', 'integer', BBCODE_PARAGRAPH_ALLOW_BREAKUP) != BBCODE_PARAGRAPH_ALLOW_BREAKUP || !count($node->_children)) {
 			$dest_nodes[] = & $node;
 			return $dest_nodes;
 		}
 		$dest_node = & $node->duplicate();
 		$nodecount = count($node->_children);
 		// now this node allows breakup - do it
-		for ($i = 0; $i < $nodecount; $i++)
-		{
+		for ($i = 0; $i < $nodecount; $i++) {
 			$firstnode = & $node->_children[0];
 			$node->removeChild($firstnode);
 			$sub_nodes = & $this->_breakupNodeByParagraphs($firstnode);
-			for ($j = 0; $j < count($sub_nodes); $j++)
-			{
-				if ($j != 0)
-				{
+			for ($j = 0; $j < count($sub_nodes); $j++) {
+				if ($j != 0) {
 					$dest_nodes[] = & $dest_node;
 					unset($dest_node);
 					$dest_node = & $node->duplicate();
@@ -1599,46 +1342,34 @@ class StringParser_BBCode extends StringParser
 	 * @param bool $check_attrs Also check whether 'usecontent?'-attributes exist
 	 * @return bool
 	 */
-	function _isUseContent(&$node, $check_attrs = false)
-	{
+	function _isUseContent(&$node, $check_attrs = false) {
 		$name = strtolower($node->name());
-		if ($this->_codes[$name]['callback_type'] == 'usecontent')
-		{
+		if ($this->_codes[$name]['callback_type'] == 'usecontent') {
 			return true;
 		}
 		$result = false;
-		if ($this->_codes[$name]['callback_type'] == 'callback_replace?')
-		{
+		if ($this->_codes[$name]['callback_type'] == 'callback_replace?') {
 			$result = true;
-		}
-		else if ($this->_codes[$name]['callback_type'] != 'usecontent?')
-		{
+		} else if ($this->_codes[$name]['callback_type'] != 'usecontent?') {
 			return false;
 		}
-		if ($check_attrs === false)
-		{
-			return!$result;
+		if ($check_attrs === false) {
+			return !$result;
 		}
 		$attributes = array_keys($this->_topNodeVar('_attributes'));
 		$p = @$this->_codes[$name]['callback_params']['usecontent_param'];
-		if (is_array($p))
-		{
-			foreach ($p as $param)
-			{
-				if (in_array($param, $attributes))
-				{
+		if (is_array($p)) {
+			foreach ($p as $param) {
+				if (in_array($param, $attributes)) {
 					return $result;
 				}
 			}
-		}
-		else
-		{
-			if (in_array($p, $attributes))
-			{
+		} else {
+			if (in_array($p, $attributes)) {
 				return $result;
 			}
 		}
-		return!$result;
+		return !$result;
 	}
 
 }
@@ -1660,12 +1391,11 @@ define('STRINGPARSER_BBCODE_NODE_PARAGRAPH', 33);
  *
  * @package stringparser
  */
-class StringParser_BBCode_Node_Paragraph extends StringParser_Node
-{
+class StringParser_BBCode_Node_Paragraph extends StringParser_Node {
 
 	/**
 	 * The type of this node.
-	 * 
+	 *
 	 * This node is a bbcode paragraph node.
 	 *
 	 * @access protected
@@ -1682,43 +1412,33 @@ class StringParser_BBCode_Node_Paragraph extends StringParser_Node
 	 * @param mixed $value The value that is to be compared
 	 * @return bool True if this node matches that criterium
 	 */
-	function matchesCriterium($criterium, $value)
-	{
-		if ($criterium == 'empty')
-		{
-			if (!count($this->_children))
-			{
+	function matchesCriterium($criterium, $value) {
+		if ($criterium == 'empty') {
+			if (!count($this->_children)) {
 				return true;
 			}
-			if (count($this->_children) > 1)
-			{
+			if (count($this->_children) > 1) {
 				return false;
 			}
-			if ($this->_children[0]->_type != STRINGPARSER_NODE_TEXT)
-			{
+			if ($this->_children[0]->_type != STRINGPARSER_NODE_TEXT) {
 				return false;
 			}
-			if (!strlen($this->_children[0]->content))
-			{
+			if (!strlen($this->_children[0]->content)) {
 				return true;
 			}
-			if (strlen($this->_children[0]->content) > 2)
-			{
+			if (strlen($this->_children[0]->content) > 2) {
 				return false;
 			}
 			$f_begin = $this->_children[0]->getFlag('newlinemode.begin', 'integer', BBCODE_NEWLINE_PARSE);
 			$f_end = $this->_children[0]->getFlag('newlinemode.end', 'integer', BBCODE_NEWLINE_PARSE);
 			$content = $this->_children[0]->content;
-			if ($f_begin != BBCODE_NEWLINE_PARSE && $content{0} == "\n")
-			{
+			if ($f_begin != BBCODE_NEWLINE_PARSE && $content{0} == "\n") {
 				$content = substr($content, 1);
 			}
-			if ($f_end != BBCODE_NEWLINE_PARSE && $content{strlen($content) - 1} == "\n")
-			{
+			if ($f_end != BBCODE_NEWLINE_PARSE && $content{strlen($content) - 1} == "\n") {
 				$content = substr($content, 0, -1);
 			}
-			if (!strlen($content))
-			{
+			if (!strlen($content)) {
 				return true;
 			}
 			return false;
@@ -1732,12 +1452,11 @@ class StringParser_BBCode_Node_Paragraph extends StringParser_Node
  *
  * @package stringparser
  */
-class StringParser_BBCode_Node_Element extends StringParser_Node
-{
+class StringParser_BBCode_Node_Element extends StringParser_Node {
 
 	/**
 	 * The type of this node.
-	 * 
+	 *
 	 * This node is a bbcode element node.
 	 *
 	 * @access protected
@@ -1745,6 +1464,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @see STRINGPARSER_BBCODE_NODE_ELEMENT
 	 */
 	public $_type = STRINGPARSER_BBCODE_NODE_ELEMENT;
+
 	/**
 	 * Element name
 	 *
@@ -1755,20 +1475,23 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @see StringParser_BBCode_Node_Element::appendToName
 	 */
 	public $_name = '';
+
 	/**
 	 * Element flags
-	 * 
+	 *
 	 * @access protected
 	 * @var array
 	 */
 	public $_flags = array();
+
 	/**
 	 * Element attributes
-	 * 
+	 *
 	 * @access protected
 	 * @var array
 	 */
 	public $_attributes = array();
+
 	/**
 	 * Had a close tag
 	 *
@@ -1776,6 +1499,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @var bool
 	 */
 	public $_hadCloseTag = false;
+
 	/**
 	 * Was processed by paragraph handling
 	 *
@@ -1792,8 +1516,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @return object
 	 */
-	function &duplicate()
-	{
+	function &duplicate() {
 		$newnode = new StringParser_BBCode_Node_Element($this->occurredAt);
 		$newnode->_name = $this->_name;
 		$newnode->_flags = $this->_flags;
@@ -1810,8 +1533,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @return string
 	 */
-	function name()
-	{
+	function name() {
 		return $this->_name;
 	}
 
@@ -1821,8 +1543,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @param string $name The new name of the element
 	 */
-	function setName($name)
-	{
+	function setName($name) {
 		$this->_name = $name;
 		return true;
 	}
@@ -1833,8 +1554,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @param string $chars The chars to append to the name of the element
 	 */
-	function appendToName($chars)
-	{
+	function appendToName($chars) {
 		$this->_name .= $chars;
 		return true;
 	}
@@ -1846,10 +1566,8 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @param string $name The name of the attribute
 	 * @param string $chars The chars to append to the attribute of the element
 	 */
-	function appendToAttribute($name, $chars)
-	{
-		if (!isset($this->_attributes[$name]))
-		{
+	function appendToAttribute($name, $chars) {
+		if (!isset($this->_attributes[$name])) {
 			$this->_attributes[$name] = $chars;
 			return true;
 		}
@@ -1864,8 +1582,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @param string $name The name of the attribute
 	 * @param string $value The new value of the attribute
 	 */
-	function setAttribute($name, $value)
-	{
+	function setAttribute($name, $value) {
 		$this->_attributes[$name] = $value;
 		return true;
 	}
@@ -1876,8 +1593,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @param array $info The code info array
 	 */
-	function setCodeInfo($info)
-	{
+	function setCodeInfo($info) {
 		$this->_codeInfo = $info;
 		$this->_flags = $info['flags'];
 		return true;
@@ -1889,10 +1605,8 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @param string $name The name of the attribute
 	 */
-	function attribute($name)
-	{
-		if (!isset($this->_attributes[$name]))
-		{
+	function attribute($name) {
+		if (!isset($this->_attributes[$name])) {
 			return null;
 		}
 		return $this->_attributes[$name];
@@ -1903,8 +1617,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 *
 	 * @access public
 	 */
-	function setHadCloseTag()
-	{
+	function setHadCloseTag() {
 		$this->_hadCloseTag = true;
 	}
 
@@ -1913,8 +1626,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 *
 	 * @access public
 	 */
-	function setParagraphHandled()
-	{
+	function setParagraphHandled() {
 		$this->_paragraphHandled = true;
 	}
 
@@ -1924,8 +1636,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @return bool
 	 */
-	function paragraphHandled()
-	{
+	function paragraphHandled() {
 		return $this->_paragraphHandled;
 	}
 
@@ -1935,8 +1646,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @return bool
 	 */
-	function hadCloseTag()
-	{
+	function hadCloseTag() {
 		return $this->_hadCloseTag;
 	}
 
@@ -1948,33 +1658,26 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @param mixed $value The value that is to be compared
 	 * @return bool True if this node matches that criterium
 	 */
-	function matchesCriterium($criterium, $value)
-	{
-		if ($criterium == 'tagName')
-		{
+	function matchesCriterium($criterium, $value) {
+		if ($criterium == 'tagName') {
 			return ($value == $this->_name);
 		}
-		if ($criterium == 'needsTextNodeModification')
-		{
+		if ($criterium == 'needsTextNodeModification') {
 			return (($this->getFlag('opentag.before.newline', 'integer', BBCODE_NEWLINE_PARSE) != BBCODE_NEWLINE_PARSE || $this->getFlag('opentag.after.newline', 'integer', BBCODE_NEWLINE_PARSE) != BBCODE_NEWLINE_PARSE || ($this->_hadCloseTag && ($this->getFlag('closetag.before.newline', 'integer', BBCODE_NEWLINE_PARSE) != BBCODE_NEWLINE_PARSE || $this->getFlag('closetag.after.newline', 'integer', BBCODE_NEWLINE_PARSE) != BBCODE_NEWLINE_PARSE))) == (bool) $value);
 		}
-		if (substr($criterium, 0, 5) == 'flag:')
-		{
+		if (substr($criterium, 0, 5) == 'flag:') {
 			$criterium = substr($criterium, 5);
 			return ($this->getFlag($criterium) == $value);
 		}
-		if (substr($criterium, 0, 6) == '!flag:')
-		{
+		if (substr($criterium, 0, 6) == '!flag:') {
 			$criterium = substr($criterium, 6);
 			return ($this->getFlag($criterium) != $value);
 		}
-		if (substr($criterium, 0, 6) == 'flag=:')
-		{
+		if (substr($criterium, 0, 6) == 'flag=:') {
 			$criterium = substr($criterium, 6);
 			return ($this->getFlag($criterium) === $value);
 		}
-		if (substr($criterium, 0, 7) == '!flag=:')
-		{
+		if (substr($criterium, 0, 7) == '!flag=:') {
 			$criterium = substr($criterium, 7);
 			return ($this->getFlag($criterium) !== $value);
 		}
@@ -1987,15 +1690,12 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @return mixed
 	 */
-	function &firstChildIfText()
-	{
+	function &firstChildIfText() {
 		$ret = & $this->firstChild();
-		if (is_null($ret))
-		{
+		if (is_null($ret)) {
 			return $ret;
 		}
-		if ($ret->_type != STRINGPARSER_NODE_TEXT)
-		{
+		if ($ret->_type != STRINGPARSER_NODE_TEXT) {
 			// DON'T DO $ret = null WITHOUT unset BEFORE!
 			// ELSE WE WILL ERASE THE NODE ITSELF! EVIL!
 			unset($ret);
@@ -2010,26 +1710,20 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @return mixed
 	 */
-	function &lastChildIfText()
-	{
+	function &lastChildIfText() {
 		$ret = & $this->lastChild();
-		if (is_null($ret))
-		{
+		if (is_null($ret)) {
 			return $ret;
 		}
-		if ($ret->_type != STRINGPARSER_NODE_TEXT || !$this->_hadCloseTag)
-		{
+		if ($ret->_type != STRINGPARSER_NODE_TEXT || !$this->_hadCloseTag) {
 			// DON'T DO $ret = null WITHOUT unset BEFORE!
 			// ELSE WE WILL ERASE THE NODE ITSELF! EVIL!
-			if ($ret->_type != STRINGPARSER_NODE_TEXT && !$ret->hadCloseTag())
-			{
+			if ($ret->_type != STRINGPARSER_NODE_TEXT && !$ret->hadCloseTag()) {
 				$ret2 = & $ret->_findPrevAdjentTextNodeHelper();
 				unset($ret);
 				$ret = & $ret2;
 				unset($ret2);
-			}
-			else
-			{
+			} else {
 				unset($ret);
 				$ret = null;
 			}
@@ -2045,41 +1739,32 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @return mixed
 	 */
-	function &findNextAdjentTextNode()
-	{
+	function &findNextAdjentTextNode() {
 		$ret = null;
-		if (is_null($this->_parent))
-		{
+		if (is_null($this->_parent)) {
 			return $ret;
 		}
-		if (!$this->_hadCloseTag)
-		{
+		if (!$this->_hadCloseTag) {
 			return $ret;
 		}
 		$ccount = count($this->_parent->_children);
 		$found = false;
-		for ($i = 0; $i < $ccount; $i++)
-		{
-			if ($this->_parent->_children[$i]->equals($this))
-			{
+		for ($i = 0; $i < $ccount; $i++) {
+			if ($this->_parent->_children[$i]->equals($this)) {
 				$found = $i;
 				break;
 			}
 		}
-		if ($found === false)
-		{
+		if ($found === false) {
 			return $ret;
 		}
-		if ($found < $ccount - 1)
-		{
-			if ($this->_parent->_children[$found + 1]->_type == STRINGPARSER_NODE_TEXT)
-			{
+		if ($found < $ccount - 1) {
+			if ($this->_parent->_children[$found + 1]->_type == STRINGPARSER_NODE_TEXT) {
 				return $this->_parent->_children[$found + 1];
 			}
 			return $ret;
 		}
-		if ($this->_parent->_type == STRINGPARSER_BBCODE_NODE_ELEMENT && !$this->_parent->hadCloseTag())
-		{
+		if ($this->_parent->_type == STRINGPARSER_BBCODE_NODE_ELEMENT && !$this->_parent->hadCloseTag()) {
 			$ret = & $this->_parent->findNextAdjentTextNode();
 			return $ret;
 		}
@@ -2094,35 +1779,27 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access public
 	 * @return mixed
 	 */
-	function &findPrevAdjentTextNode()
-	{
+	function &findPrevAdjentTextNode() {
 		$ret = null;
-		if (is_null($this->_parent))
-		{
+		if (is_null($this->_parent)) {
 			return $ret;
 		}
 		$ccount = count($this->_parent->_children);
 		$found = false;
-		for ($i = 0; $i < $ccount; $i++)
-		{
-			if ($this->_parent->_children[$i]->equals($this))
-			{
+		for ($i = 0; $i < $ccount; $i++) {
+			if ($this->_parent->_children[$i]->equals($this)) {
 				$found = $i;
 				break;
 			}
 		}
-		if ($found === false)
-		{
+		if ($found === false) {
 			return $ret;
 		}
-		if ($found > 0)
-		{
-			if ($this->_parent->_children[$found - 1]->_type == STRINGPARSER_NODE_TEXT)
-			{
+		if ($found > 0) {
+			if ($this->_parent->_children[$found - 1]->_type == STRINGPARSER_NODE_TEXT) {
 				return $this->_parent->_children[$found - 1];
 			}
-			if (!$this->_parent->_children[$found - 1]->hadCloseTag())
-			{
+			if (!$this->_parent->_children[$found - 1]->hadCloseTag()) {
 				$ret = & $this->_parent->_children[$found - 1]->_findPrevAdjentTextNodeHelper();
 			}
 			return $ret;
@@ -2137,19 +1814,14 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * if the element node did not have an open tag, it calls itself
 	 * recursively.
 	 */
-	function &_findPrevAdjentTextNodeHelper()
-	{
+	function &_findPrevAdjentTextNodeHelper() {
 		$lastnode = & $this->lastChild();
-		if ($lastnode->_type == STRINGPARSER_NODE_TEXT)
-		{
+		if ($lastnode->_type == STRINGPARSER_NODE_TEXT) {
 			return $lastnode;
 		}
-		if (!$lastnode->hadCloseTag())
-		{
+		if (!$lastnode->hadCloseTag()) {
 			$ret = & $lastnode->_findPrevAdjentTextNodeHelper();
-		}
-		else
-		{
+		} else {
 			$ret = null;
 		}
 		return $ret;
@@ -2164,15 +1836,12 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @param mixed $default The default return value
 	 * @return mixed
 	 */
-	function getFlag($flag, $type = 'mixed', $default = null)
-	{
-		if (!isset($this->_flags[$flag]))
-		{
+	function getFlag($flag, $type = 'mixed', $default = null) {
+		if (!isset($this->_flags[$flag])) {
 			return $default;
 		}
 		$return = $this->_flags[$flag];
-		if ($type != 'mixed')
-		{
+		if ($type != 'mixed') {
 			settype($return, $type);
 		}
 		return $return;
@@ -2185,8 +1854,7 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @param string $name The name of the flag
 	 * @param mixed $value The value of the flag
 	 */
-	function setFlag($name, $value)
-	{
+	function setFlag($name, $value) {
 		$this->_flags[$name] = $value;
 		return true;
 	}
@@ -2200,36 +1868,29 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 *                       second validation (optional))
 	 * @return bool
 	 */
-	function validate($action = 'validate')
-	{
-		if ($action != 'validate' && $action != 'validate_again')
-		{
+	function validate($action = 'validate') {
+		if ($action != 'validate' && $action != 'validate_again') {
 			return false;
 		}
-		if ($this->_codeInfo['callback_type'] != 'simple_replace' && $this->_codeInfo['callback_type'] != 'simple_replace_single')
-		{
-			if (!is_callable($this->_codeInfo['callback_func']))
-			{
+		if ($this->_codeInfo['callback_type'] != 'simple_replace' && $this->_codeInfo['callback_type'] != 'simple_replace_single') {
+			if (!is_callable($this->_codeInfo['callback_func'])) {
 				return false;
 			}
 
-			if (($this->_codeInfo['callback_type'] == 'usecontent' || $this->_codeInfo['callback_type'] == 'usecontent?' || $this->_codeInfo['callback_type'] == 'callback_replace?') && count($this->_children) == 1 && $this->_children[0]->_type == STRINGPARSER_NODE_TEXT)
-			{
+			if (($this->_codeInfo['callback_type'] == 'usecontent' || $this->_codeInfo['callback_type'] == 'usecontent?' || $this->_codeInfo['callback_type'] == 'callback_replace?') && count($this->_children) == 1 && $this->_children[0]->_type == STRINGPARSER_NODE_TEXT) {
 				// we have to make sure the object gets passed on as a reference
 				// if we do call_user_func(..., &$this) this will clash with PHP5
 				$callArray = array($action, $this->_attributes, $this->_children[0]->content, $this->_codeInfo['callback_params']);
 				$callArray[] = & $this;
 				$res = call_user_func_array($this->_codeInfo['callback_func'], $callArray);
-				if ($res)
-				{
+				if ($res) {
 					// ok, now, if we've got a usecontent type, set a flag that
 					// this may not be broken up by paragraph handling!
 					// but PLEASE do NOT change if already set to any other setting
 					// than BBCODE_PARAGRAPH_ALLOW_BREAKUP because we could
 					// override e.g. BBCODE_PARAGRAPH_BLOCK_ELEMENT!
 					$val = $this->getFlag('paragraph_type', 'integer', BBCODE_PARAGRAPH_ALLOW_BREAKUP);
-					if ($val == BBCODE_PARAGRAPH_ALLOW_BREAKUP)
-					{
+					if ($val == BBCODE_PARAGRAPH_ALLOW_BREAKUP) {
 						$this->_flags['paragraph_type'] = BBCODE_PARAGRAPH_ALLOW_INSIDE;
 					}
 				}
@@ -2252,14 +1913,10 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @param string $subcontent The content of all sub-nodes
 	 * @return string
 	 */
-	function getReplacement($subcontent)
-	{
-		if ($this->_codeInfo['callback_type'] == 'simple_replace' || $this->_codeInfo['callback_type'] == 'simple_replace_single')
-		{
-			if ($this->_codeInfo['callback_type'] == 'simple_replace_single')
-			{
-				if (strlen($subcontent))
-				{ // can't be!
+	function getReplacement($subcontent) {
+		if ($this->_codeInfo['callback_type'] == 'simple_replace' || $this->_codeInfo['callback_type'] == 'simple_replace_single') {
+			if ($this->_codeInfo['callback_type'] == 'simple_replace_single') {
+				if (strlen($subcontent)) { // can't be!
 					return false;
 				}
 				return $this->_codeInfo['callback_params']['start_tag'];
@@ -2281,19 +1938,15 @@ class StringParser_BBCode_Node_Element extends StringParser_Node
 	 * @access protected
 	 * @return string
 	 */
-	function _dumpToString()
-	{
+	function _dumpToString() {
 		$str = "bbcode \"" . substr(preg_replace('/\s+/', ' ', $this->_name), 0, 40) . "\"";
-		if (count($this->_attributes))
-		{
+		if (count($this->_attributes)) {
 			$attribs = array_keys($this->_attributes);
 			sort($attribs);
 			$str .= ' (';
 			$i = 0;
-			foreach ($attribs as $attrib)
-			{
-				if ($i != 0)
-				{
+			foreach ($attribs as $attrib) {
+				if ($i != 0) {
 					$str .= ', ';
 				}
 				$str .= $attrib . '="';

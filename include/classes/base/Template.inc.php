@@ -8,14 +8,12 @@ $__userrights[] = array('name' => 'templateadmin', 'desc' => 'can edit templates
 /**
  * @package base
  */
-class Template extends AbstractClass
-{
+class Template extends AbstractClass {
 
 	protected $layout;
 	protected $tags = array();
 
-	function contenttypeoptionlist($class, $layout)
-	{
+	function contenttypeoptionlist($class, $layout) {
 		global $mysql;
 		$list[] = "text/html";
 		$list[] = "text/plain";
@@ -25,8 +23,7 @@ class Template extends AbstractClass
 		$result = $mysql->select("SELECT contenttype FROM template WHERE class='$class' AND layout='$layout'");
 		$contenttype = $result[0][0];
 		$return = "";
-		foreach ($list as $item)
-		{
+		foreach ($list as $item) {
 			$SELECTED = "";
 			if ($item == $contenttype)
 				$SELECTED = "selected='selectetd'";
@@ -35,8 +32,7 @@ class Template extends AbstractClass
 		return $return;
 	}
 
-	function idbyname($name)
-	{
+	function idbyname($name) {
 
 	}
 
@@ -47,8 +43,7 @@ class Template extends AbstractClass
 	 * @param	String	$method	function to test
 	 * @return	boolean	true if allowed, else false
 	 */
-	function acl($method)
-	{
+	function acl($method) {
 		if ($method == 'clearcache')
 			return true;
 		return false;
@@ -57,8 +52,7 @@ class Template extends AbstractClass
 	/**
 	 * remove all templates from cache
 	 */
-	function clearcache()
-	{
+	function clearcache() {
 		if (get_config('cache_enabled', false)) {
 			Session::removeCookie('template');
 		}
@@ -70,8 +64,7 @@ class Template extends AbstractClass
 	 *
 	 * @param	String	$template	template contents
 	 */
-	function removeLostTags(& $template)
-	{
+	function removeLostTags(& $template) {
 		$suchmuster = '/\$\{.*\}/i';
 		$template = preg_replace($suchmuster, '', $template);
 	}
@@ -81,14 +74,12 @@ class Template extends AbstractClass
 	 *
 	 * @param	String	$template	template contents
 	 */
-	function parseTags($template)
-	{
+	function parseTags($template) {
 		$result = array();
 		$suchmuster = '/\$\{(\w*):(\w*\|?\w+)\}/i';
 		$temp = array();
 		preg_match_all($suchmuster, $template, $temp, PREG_SET_ORDER);
-		foreach ($temp as $item)
-		{
+		foreach ($temp as $item) {
 			$result[$item[1] . ':' . $item[2]] = array('type' => $item[1], 'value' => $item[2]);
 		}
 		$this->tags = $result;
@@ -100,8 +91,7 @@ class Template extends AbstractClass
 	 * @param	String	$class	category
 	 * @param	String	$layout	name
 	 */
-	function deleteTemplate($class, $layout)
-	{
+	function deleteTemplate($class, $layout) {
 		global $mysql;
 		$class = $mysql->escape($class);
 		$layout = $mysql->escape($layout);
@@ -115,8 +105,7 @@ class Template extends AbstractClass
 	 * @param	String	$class	category
 	 * @param	String	$layout	name
 	 */
-	function createTemplate($class, $layout)
-	{
+	function createTemplate($class, $layout) {
 		global $mysql;
 		$class = $mysql->escape($class);
 		$layout = $mysql->escape($layout);
@@ -135,8 +124,7 @@ class Template extends AbstractClass
 	 *
 	 * @return	String[]	all categories sorted
 	 */
-	function getClasses()
-	{
+	function getClasses() {
 		global $template_classes;
 		if (!isset($template_classes) || empty($template_classes))
 			$template_classes = array();
@@ -150,20 +138,17 @@ class Template extends AbstractClass
 	 * @param	String	$class	category
 	 * @return	String[]	all layouts
 	 */
-	function getLayouts($class)
-	{
+	function getLayouts($class) {
 		global $mysql;
 		$class = $mysql->escape($class);
 		$result = $mysql->select("SELECT layout, id FROM template WHERE class='$class';");
 		return $result;
 	}
 
-	public function getLayoutOptions($class, $default)
-	{
+	public function getLayoutOptions($class, $default) {
 		$list = Template::getLayouts($class);
 		$return = "<option value='0'></option>";
-		foreach ($list as $layout)
-		{
+		foreach ($list as $layout) {
 			$selected = "";
 			if ($layout[1] == $default)
 				$selected = "SELECTED='SELECTED'";
@@ -211,8 +196,7 @@ class Template extends AbstractClass
 	 * @param	boolean	$nocache	if false, take template from session cache
 	 * @return	String	template as string
 	 */
-	function getLayout($class, $layout, $array = array(), $noparse = false, $vars = array(), $nocache = false)
-	{
+	function getLayout($class, $layout, $array = array(), $noparse = false, $vars = array(), $nocache = false) {
 		global $mysql;
 		$class = $mysql->escape($class);
 		$layout = $mysql->escape($layout);
@@ -222,47 +206,42 @@ class Template extends AbstractClass
 
 		if (!$nocache && $this->getCachedLayout($class, $layout))
 			$string = $this->getCachedLayout($class, $layout);
-		else
-		{
+		else {
 			$result = $mysql->select("SELECT content FROM template WHERE class='$class' AND layout='$layout'");
 			if (isset($result[0]) && isset($result[0][0]))
 				$string = $result[0][0];
 			if (get_config('cache_enabled', false))
-				$this->setCachedLayout ($class, $layout, $string);
+				$this->setCachedLayout($class, $layout, $string);
 		}
 		if ($noparse)
 			return $string;
 		$string = html_entity_decode($string, ENT_COMPAT, Setting::read('charset', 'UTF-8'));
 		$string = HTML::convert_specialchars($string);
 		$keys = array_keys($array);
-		foreach ($keys as $key)
-		{
+		foreach ($keys as $key) {
 			$string = stripcslashes(str_replace('${' . $key . '}', $array[$key], $string));
 		}
 		$this->parseTags($string);
-		foreach ($this->tags as $key => $item)
-		{
+		foreach ($this->tags as $key => $item) {
 			$type = $mysql->escape($item['type']);
 			$value = $mysql->escape($item['value']);
 			if ($type == 'image')
 				$array[$key] = '?image/show/' . $value;
-			else
-			{
+			else {
 				$obj = new $type($value);
 				$temp = $obj->show($vars);
-				/*if ($this->loggedIn()) // debuginfo
-					$temp = "<!-- start $type/$value -->" . $temp . "<!-- end $type/$value -->";*/
+				/* if ($this->loggedIn()) // debuginfo
+				  $temp = "<!-- start $type/$value -->" . $temp . "<!-- end $type/$value -->"; */
 				$array[$key] = $temp;
 			}
 		}
 		$keys = array_keys($array);
-		foreach ($keys as $key)
-		{
+		foreach ($keys as $key) {
 			$string = str_replace('${' . $key . '}', $array[$key], $string);
 		}
 		$this->removeLostTags($string);
-		/*if ($this->loggedIn()) // debuginfo
-			$string = "<!-- start $class/$layout -->" . $string . "<!-- end $class/$layout -->";*/
+		/* if ($this->loggedIn()) // debuginfo
+		  $string = "<!-- start $class/$layout -->" . $string . "<!-- end $class/$layout -->"; */
 		return $string;
 	}
 

@@ -5,19 +5,16 @@ Setting::write('mission_defaultpagelimit', '', 'Mission Default Pagelimit', fals
 /**
  * @package w40k
  */
-class Mission extends W40K
-{
+class Mission extends W40K {
 
-	public function acl($method)
-	{
+	public function acl($method) {
 		return parent::acl($method);
 	}
 
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'name',
 			'type' => 'string',
 			'size' => 100,
@@ -64,43 +61,37 @@ class Mission extends W40K
 		return $fields;
 	}
 
-	function view(&$vars)
-	{
+	function view(&$vars) {
 		return parent::show($vars, 'mission_view', array());
 	}
 
-	function showlist(&$vars)
-	{
+	function showlist(&$vars) {
 		$orderby = "name";
 		if (isset($vars['orderby']))
 			$orderby = $this->escape($vars['orderby']);
 		$limit = Setting::read('mission_defaultpagelimit');
-		if (isset($vars['limit']) && !empty($vars['limit']))
-		{
+		if (isset($vars['limit']) && !empty($vars['limit'])) {
 			$limit = $this->escape($vars['limit']);
 			$limitstart = $this->escape($vars['limitstart']);
-		}
-		else if (isset($vars['limit']))
+		} else if (isset($vars['limit']))
 			$limit = '';
 
 		$where = array();
 		if (isset($vars['gamesystem']) && ($vars['gamesystem'] != ''))
 			$where[] = array('key' => 'gamesystem', 'value' => $vars['gamesystem']);
 
-		$list = $this->getlist('', true, $orderby,
-				array('id',
-					'name',
-					'comment',
-					'rounds',
-					'category',
+		$list = $this->getlist('', true, $orderby, array('id',
+			'name',
+			'comment',
+			'rounds',
+			'category',
 				), $limitstart, $limit, $where);
 		$array['orderby'] = $orderby;
 		$array['prevlimit'] = '';
 		$array['nextlimit'] = '';
 		$array['limit'] = '';
 		$array['limitstart'] = '';
-		if ($limit != '')
-		{
+		if ($limit != '') {
 			$array['prevlimit'] = $limitstart - $limit;
 			if ($array['prevlimit'] < 0)
 				$array['prevlimit'] = 0;
@@ -116,8 +107,7 @@ class Mission extends W40K
 		$array['gamesystemoptionlist'] = $gs->getOptionList($vars['gamesystem']);
 		$array['gamesystem'] = $vars['gamesystem'];
 
-		foreach ($list as $entry)
-		{
+		foreach ($list as $entry) {
 			if (strlen($entry['comment']) > 50)
 				$entry['comment'] = substr(strip_tags($entry['comment']), 0, 50) . " [...]";
 			$rows .= parent::show($vars, 'mission_list_row', $entry);

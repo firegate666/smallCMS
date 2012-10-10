@@ -5,24 +5,21 @@ $template_classes[] = 'admin';
 
 /**
  * This is a page
- * 
+ *
  * @package cms
  */
-class Page extends AbstractClass
-{
+class Page extends AbstractClass {
 
 	protected $name = '';
 	protected $tags = '';
 
-	function acl($method)
-	{
+	function acl($method) {
 		if ($method == 'show')
 			return true;
 		return false;
 	}
 
-	function __construct($name='')
-	{
+	function __construct($name = '') {
 		parent::__construct($name);
 		$this->name = $name;
 	}
@@ -30,8 +27,7 @@ class Page extends AbstractClass
 	/**
 	 * if admin is logged in, show adminbar
 	 */
-	function adminbar($layout)
-	{
+	function adminbar($layout) {
 		$result = '';
 		$attr = array(
 			'href' => 'index.php?admin&template&tpl_class=page&tpl_layout=' . $layout,
@@ -51,8 +47,7 @@ class Page extends AbstractClass
 		return HTML::tag('span', $result, array('class' => 'adminbar'));
 	}
 
-	function show(&$vars)
-	{
+	function show(&$vars) {
 		if ($this->name == '')
 			return error("Pagename not given", $this->class_name(), "show");
 		$output = $this->getLayout(array(), $this->name, $vars);
@@ -61,8 +56,7 @@ class Page extends AbstractClass
 		return $output;
 	}
 
-	function contenttype($contenttype = 'text/html')
-	{
+	function contenttype($contenttype = 'text/html') {
 		global $mysql;
 		if ($this->name == '')
 			return error("Pagename not given", $this->class_name(), "show");

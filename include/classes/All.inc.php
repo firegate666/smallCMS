@@ -9,8 +9,7 @@ if (get_config("cms", false))
 if (get_config("questionaire", false))
 	require_once dirname(__FILE__) . '/questionaire/All.inc.php';
 
-if (get_config("game", false))
-{
+if (get_config("game", false)) {
 	require_once dirname(__FILE__) . '/game/All.inc.php';
 }
 

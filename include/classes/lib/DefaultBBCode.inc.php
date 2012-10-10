@@ -5,11 +5,9 @@
  *
  * @package lib
  */
-class BBCode
-{
+class BBCode {
 
-	public function Parse($string)
-	{
+	public function Parse($string) {
 		global $bbcode;
 		if (get_config('bbcode', false))
 			return $bbcode->parse($string);
@@ -19,35 +17,28 @@ class BBCode
 
 }
 
-function convertlinebreaks($text)
-{
+function convertlinebreaks($text) {
 	return preg_replace("/\015\012|\015|\012/", "\n", $text);
 }
 
 // Alles bis auf Neuezeile-Zeichen entfernen
-function bbcode_stripcontents($text)
-{
+function bbcode_stripcontents($text) {
 	return preg_replace("/[^\n]/", '', $text);
 }
 
-function do_bbcode_url($action, $attributes, $content, $params, $node_object)
-{
-	if ($action == 'validate')
-	{
+function do_bbcode_url($action, $attributes, $content, $params, $node_object) {
+	if ($action == 'validate') {
 		return true;
 	}
-	if (!isset($attributes['default']))
-	{
+	if (!isset($attributes['default'])) {
 		return '<a href="' . htmlspecialchars($content) . '" target="_blank">' . htmlspecialchars($content) . '</a>';
 	}
 	return '<a href="' . htmlspecialchars($attributes['default']) . '" target="_blank">' . $content . '</a>';
 }
 
 // Funktion zum Einbinden von Bildern
-function do_bbcode_img($action, $attributes, $content, $params, $node_object)
-{
-	if ($action == 'validate')
-	{
+function do_bbcode_img($action, $attributes, $content, $params, $node_object) {
+	if ($action == 'validate') {
 		return true;
 	}
 	return '<img src="' . htmlspecialchars($content) . '" alt="">';

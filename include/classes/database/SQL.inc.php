@@ -1,16 +1,16 @@
 <?php
 
 /**
- * This class is supposed to be seen as Interface for different database connections 
+ * This class is supposed to be seen as Interface for different database connections
  * Abstract class, no functionality
- * 
+ *
  * @package database
  */
-abstract class SQL
-{
+abstract class SQL {
 
 	/** all queries are stored */
 	protected $queries;
+
 	/**
 	 * db ressource connection
 	 */
@@ -20,16 +20,14 @@ abstract class SQL
 	 * returns number of queries executed
 	 * @return	int	number of queries
 	 */
-	public function getQuerycount()
-	{
+	public function getQuerycount() {
 		return count($this->queries);
 	}
 
 	/**
 	 * Return all queries of this instance
 	 */
-	public function getQueries()
-	{
+	public function getQueries() {
 		return $this->queries;
 	}
 

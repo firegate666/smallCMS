@@ -3,11 +3,9 @@
 /**
  * @package cms
  */
-class Newsletter extends AbstractClass
-{
+class Newsletter extends AbstractClass {
 
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'subject', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'body', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'from', 'type' => 'String', 'notnull' => true);
@@ -15,8 +13,7 @@ class Newsletter extends AbstractClass
 		return $fields;
 	}
 
-	public function acl($method)
-	{
+	public function acl($method) {
 		if ($method == 'subscribe')
 			return true;
 		if ($method == 'unsubscribe')
@@ -24,14 +21,13 @@ class Newsletter extends AbstractClass
 		return false;
 	}
 
-	function send()
-	{
+	function send() {
 		// alle subscriber auslesen
 		$subscribers = array();
 		// better fetch this from any settings
 		$headers = 'From: ' . $this->data['from'] . "\r\n" .
-			'Reply-To: ' . $this->data['replyto'] . "\r\n" .
-			'X-Mailer: PHP/' . phpversion();
+				'Reply-To: ' . $this->data['replyto'] . "\r\n" .
+				'X-Mailer: PHP/' . phpversion();
 		foreach ($subscribers as $to)
 			mail($to, $this->data['subject'], $this->data['body'], $headers);
 	}
@@ -39,26 +35,22 @@ class Newsletter extends AbstractClass
 	/**
 	 * subsribe to newsletter
 	 */
-	function subscribe(&$vars)
-	{
-		
+	function subscribe(&$vars) {
+
 	}
 
 	/**
 	 * unsubscribe from newsletter
 	 */
-	function unsubscribe(&$vars)
-	{
-		
+	function unsubscribe(&$vars) {
+
 	}
 
 }
 
-class NewsletterSubscription extends AbstractClass
-{
+class NewsletterSubscription extends AbstractClass {
 
-	function getFields()
-	{
+	function getFields() {
 		$fields[] = array('name' => 'userid', 'type' => 'integer', 'notnull' => true);
 		return $fields;
 	}

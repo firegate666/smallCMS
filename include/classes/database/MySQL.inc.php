@@ -4,16 +4,14 @@
  * MySQL Wrapper
  * in fact, this isn't yet a wrapper, much improved has
  * to be done
- * 
+ *
  * @package database
  */
-class MySQL extends SQL
-{
+class MySQL extends SQL {
 
 	protected $failed = false;
 
-	protected function addlog($msg, $loglevel)
-	{
+	protected function addlog($msg, $loglevel) {
 		FileLogger::write("QUERY: " . $msg, $loglevel);
 	}
 
@@ -26,8 +24,7 @@ class MySQL extends SQL
 	 *
 	 * @return	Ressource	databaselink
 	 */
-	function connect()
-	{
+	function connect() {
 		global $dbserver;
 		global $dbuser;
 		global $dbpassword;
@@ -36,8 +33,7 @@ class MySQL extends SQL
 
 		if (($this->dblink != null) && mysql_ping($this->dblink)) // connection still exists?
 			return;
-		else
-		{
+		else {
 			$flags = MYSQL_CLIENT_COMPRESS + MYSQL_CLIENT_INTERACTIVE;
 			$this->dblink = MYSQL_CONNECT($dbserver, $dbuser, $dbpassword, false, $flags) or die("<H3>MySQL error: Databaseserver not responding.</H3>");
 			MYSQL_SELECT_DB($dbdatabase) or die("<H3>MySQL error: Database not available.</H3>");
@@ -48,8 +44,7 @@ class MySQL extends SQL
 	 * Disconnects database
 	 * @param	Ressource $dblink	databaselink
 	 */
-	function disconnect()
-	{
+	function disconnect() {
 		if ($this->dblink != null)
 			MYSQL_CLOSE($this->dblink);
 	}
@@ -59,8 +54,7 @@ class MySQL extends SQL
 	 * @param	String	$query	sql query
 	 * @return	int	last insert id
 	 */
-	function insert($query, $seq = null)
-	{
+	function insert($query, $seq = null) {
 		$this->connect();
 		$this->queries[] = $query;
 		$this->addlog($query, 8);
@@ -75,8 +69,7 @@ class MySQL extends SQL
 	 * @param	boolean	$assoc	if false, return array is numeric
 	 * @return	String[][]	result set as array
 	 */
-	function select($query, $assoc = false)
-	{
+	function select($query, $assoc = false) {
 		$this->connect();
 		$this->queries[] = $query;
 		$this->addlog($query, 9);
@@ -97,8 +90,7 @@ class MySQL extends SQL
 	 * @param	String	$query	sql query
 	 * @return	String[]	result set with single row
 	 */
-	function executeSql($query)
-	{
+	function executeSql($query) {
 		$this->connect();
 		$this->queries[] = $query;
 		$this->addlog($query, 9);
@@ -107,8 +99,7 @@ class MySQL extends SQL
 		return $result;
 	}
 
-	function failed()
-	{
+	function failed() {
 		$this->failed = true;
 	}
 
@@ -117,8 +108,7 @@ class MySQL extends SQL
 	 * @param	String	$query	update statement
 	 * @return	int	number of affected rows
 	 */
-	function update($query, $mayfail = false)
-	{
+	function update($query, $mayfail = false) {
 		$this->connect();
 		$this->queries[] = $query;
 		$this->addlog($query, 5);
@@ -133,14 +123,12 @@ class MySQL extends SQL
 		return $rows;
 	}
 
-	public function print_error($method, $query)
-	{
+	public function print_error($method, $query) {
 		$msg = mysql_error() . "<br/><b>Query:</b> $query";
 		error($msg, "MySQL", $method);
 	}
 
-	public function escape($string)
-	{
+	public function escape($string) {
 		return mysql_escape_string($string);
 	}
 

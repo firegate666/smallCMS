@@ -7,15 +7,13 @@ Setting::write('charset', 'UTF-8', 'Charset', false);
  *
  * @package lib
  */
-class XML
-{
+class XML {
 
 	protected $output;
 
-	function &body(&$content, $root=null, $doctype=null, $version=null)
-	{
+	function &body(&$content, $root = null, $doctype = null, $version = null) {
 		$xmldef = "<?xml version=\"1.0\" encoding=\"" .
-			Setting::read('charset', 'UTF-8') . '"?>' . "\n";
+				Setting::read('charset', 'UTF-8') . '"?>' . "\n";
 		if (is_null($root) || ($root === true))
 			$root = 'seawars';
 		$version_attr = '';
@@ -27,54 +25,42 @@ class XML
 		$doctypetag = '';
 		if (!empty($doctype))
 			$doctypetag = '<!DOCTYPE ' . $doctype['name'] . ' SYSTEM "'
-				. $doctype['dtd'] . '" >' . "\n";
+					. $doctype['dtd'] . '" >' . "\n";
 		return $xmldef . $doctypetag . $content;
 	}
 
 	/* transform an array to xml */
 
-	function get(&$array, $root = true, $indent = 1, $doctype=null, $version=null)
-	{
+	function get(&$array, $root = true, $indent = 1, $doctype = null, $version = null) {
 		$content = '';
-		foreach ($array as $k => $v)
-		{
-			if (is_array($v))
-			{
+		foreach ($array as $k => $v) {
+			if (is_array($v)) {
 				if (!count($v))
 					continue;
 				/* numeric arrays are just a repetition of the current key ... */
-				if (is_numeric(key($v)))
-				{
+				if (is_numeric(key($v))) {
 					$b = array();
-					foreach ($v as $row)
-					{
+					foreach ($v as $row) {
 						$b[$k] = $row;
 						$content .= str_repeat('  ', $indent) . "\n" .
-							XML::get($b, false, $indent + 1) . "\n";
+								XML::get($b, false, $indent + 1) . "\n";
 					}
-				}
-				else
-				{
+				} else {
 					$p = "\n" . XML::get($v, false, $indent +
-							1) . str_repeat('  ', $indent);
+									1) . str_repeat('  ', $indent);
 					$content .= str_repeat('  ', $indent) .
-						XML::tag($k, array(), $p, false) . "\n";
+							XML::tag($k, array(), $p, false) . "\n";
 				}
-			}
-			else
-			{
-				if (substr($k, 0, 8) == '__rawxml')
-				{
+			} else {
+				if (substr($k, 0, 8) == '__rawxml') {
 					// FIXME this is a database xml field. this should
 					// really be exported another way by the db so that
 					// it can also be converted to other output types
 					// easily
 					$k = substr($k, 8);
-					$content .= str_repeat('  ', $indent) . XML::tag($k,
-							array(), $v) . "\n";
+					$content .= str_repeat('  ', $indent) . XML::tag($k, array(), $v) . "\n";
 				} else
-					$content .= str_repeat('  ', $indent) . XML::tag($k,
-							array(), XML::escape($v)) . "\n";
+					$content .= str_repeat('  ', $indent) . XML::tag($k, array(), XML::escape($v)) . "\n";
 			}
 		}
 		if ($root !== false)
@@ -91,14 +77,11 @@ class XML
 	  escaped before calling!!
 	 * @param boolean    $cansingle    this tag can be ended by />
 	 */
-	function &tag($tagname, $param, &$content, $cansingle = true)
-	{
+	function &tag($tagname, $param, &$content, $cansingle = true) {
 		$tagname = strtolower($tagname);
 		$r = '<' . $tagname;
-		if (count($param) > 0)
-		{
-			foreach ($param as $k => $v)
-			{
+		if (count($param) > 0) {
+			foreach ($param as $k => $v) {
 				$r .= '
 ' . XML::escape($k) . '="' . addslashes(XML::escape($v)) . '"';
 			}
@@ -116,13 +99,11 @@ class XML
 	 *
 	 * @param string    $content    contents to be escaped
 	 */
-	function &escape(&$content)
-	{
+	function &escape(&$content) {
 		return htmlspecialchars($content);
 	}
 
-	function __construct()
-	{
+	function __construct() {
 		$this->output = '';
 	}
 

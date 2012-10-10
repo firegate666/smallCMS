@@ -1,11 +1,9 @@
 <?php
 
-class Allianz extends AbstractClass
-{
+class Allianz extends AbstractClass {
 
-	function setname($newname)
-	{
-		
+	function setname($newname) {
+
 	}
 
 }

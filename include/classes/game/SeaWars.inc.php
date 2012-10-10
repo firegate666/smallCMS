@@ -8,8 +8,7 @@ $template_classes[] = 'seawars';
  * Main Class of the game, only layout purpose
  * has to removed as soon as navigation
  */
-class SeaWars extends AbstractClass
-{
+class SeaWars extends AbstractClass {
 
 	protected $navigation = '';
 	protected $mainbody = '';
@@ -17,29 +16,25 @@ class SeaWars extends AbstractClass
 
 	/**
 	 * return id of logged in player
-	 * 
+	 *
 	 * @return	int	spieler id
 	 */
-	function player()
-	{
+	function player() {
 		$playerid = Session::getCookie('spieler_id');
 		if (empty($playerid))
 			$playerid = 0;
 		return $playerid;
 	}
 
-	function SeaWars($layout='main')
-	{
+	function SeaWars($layout = 'main') {
 		$this->layoutname = $layout;
 	}
 
-	function setNavigation($string)
-	{
+	function setNavigation($string) {
 		$this->navigation = $string;
 	}
 
-	function setMainBody($string)
-	{
+	function setMainBody($string) {
 		$this->mainbody = $string;
 	}
 
@@ -47,12 +42,10 @@ class SeaWars extends AbstractClass
 	 * Show game frame
 	 * @param	String[]	$vars	request parameter
 	 */
-	function show(&$vars)
-	{
+	function show(&$vars) {
 		$array = array("navigation" => $this->navigation, "content" => $this->mainbody);
 		$spieler = new Spieler(Session::getCookie("spieler_id"));
-		if (Login::isLoggedIn())
-		{
+		if (Login::isLoggedIn()) {
 			$array['username'] = $spieler->get('username');
 			$array['punkte'] = $spieler->getPunkte();
 		}

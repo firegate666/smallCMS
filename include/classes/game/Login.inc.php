@@ -9,11 +9,9 @@ $template_classes[] = 'login';
 /**
  * Userlogin, maybe this can be moved to spieler sometime
  */
-class Login extends AbstractNoNavigationClass
-{
+class Login extends AbstractNoNavigationClass {
 
-	function getMainLayout()
-	{
+	function getMainLayout() {
 		return 'login_logout';
 	}
 
@@ -22,8 +20,7 @@ class Login extends AbstractNoNavigationClass
 	 * @username	username
 	 * @return		true/false
 	 */
-	function playerExists($username)
-	{
+	function playerExists($username) {
 		global $mysql;
 		$username = $mysql->escape($username);
 		$array = $mysql->executeSql("SELECT id, username FROM spieler WHERE username='" . $username . "';");
@@ -35,8 +32,7 @@ class Login extends AbstractNoNavigationClass
 	 * @email	email
 	 * @return	true/false
 	 */
-	function emailExists($email)
-	{
+	function emailExists($email) {
 		global $mysql;
 		$email = $mysql->escape($email);
 		$array = $mysql->executeSql("SELECT id, username FROM spieler WHERE email='" . $email . "';");
@@ -48,8 +44,7 @@ class Login extends AbstractNoNavigationClass
 	 * @param	String	$password	password as String
 	 * @return	boolean	true if correct, false if not
 	 */
-	function checkpasswordstyle($password)
-	{
+	function checkpasswordstyle($password) {
 		$pattern = Setting::read('pwdstyle', '');
 		if (!empty($pattern))
 			if (!preg_match('/' . $pattern . '/', $password))
@@ -63,8 +58,7 @@ class Login extends AbstractNoNavigationClass
 	 * register player
 	 * redirect to login or show error
 	 */
-	function register2(& $vars)
-	{
+	function register2(& $vars) {
 		global $mysql;
 		if (isset($vars['username']))
 			Session :: setCookie('register_username', $vars['username']);
@@ -84,8 +78,7 @@ class Login extends AbstractNoNavigationClass
 			$error .= 'Email bereits vergeben<br>';
 		if (isset($error))
 			$target = "index.php?class=login&method=register&error=$error";
-		else
-		{
+		else {
 			$spieler = new Spieler();
 			$spieler->set("username", $vars['username']);
 			$spieler->set("password", myencrypt($vars['password']));
@@ -106,15 +99,13 @@ class Login extends AbstractNoNavigationClass
 		return redirect($target);
 	}
 
-	function confirm(&$vars)
-	{
+	function confirm(&$vars) {
 		global $mysql;
 		$spieler_id = mysql_real_escape_string($vars['spieler_id']);
 		$spieler = new Spieler($vars['spieler_id']);
 		if ($spieler->get('confirmed') == 1)
 			error("Dieser Spieler wurde bereits verifiziert", 'Login', 'confirm');
-		if ((isset($vars['hash']) && !empty($vars['hash'])))
-		{
+		if ((isset($vars['hash']) && !empty($vars['hash']))) {
 			$hash = $mysql->escape($vars['hash']);
 			if ($hash != $spieler->get('hash'))
 				error("Falscher Link, falsche Security ID übermittelt.", 'Login', 'confirm');
@@ -137,8 +128,7 @@ class Login extends AbstractNoNavigationClass
 	/**
 	 * show register dialog
 	 */
-	function register(& $vars)
-	{
+	function register(& $vars) {
 		$array['username'] = Session :: getCookie("register_username");
 		$array['password'] = Session :: getCookie("register_password");
 		$array['password2'] = Session :: getCookie("register_password2");
@@ -148,35 +138,21 @@ class Login extends AbstractNoNavigationClass
 		return $layout;
 	}
 
-	function acl($method)
-	{
+	function acl($method) {
 		$method = strtolower($method);
-		if ($method == 'register')
-		{
+		if ($method == 'register') {
 			return true;
-		}
-		else if ($method == 'register2')
-		{
+		} else if ($method == 'register2') {
 			return true;
-		}
-		else if ($method == 'logout')
-		{
+		} else if ($method == 'logout') {
 			return true;
-		}
-		else if ($method == 'login')
-		{
+		} else if ($method == 'login') {
 			return true;
-		}
-		else if ($method == 'show')
-		{
+		} else if ($method == 'show') {
 			return true;
-		}
-		else if ($method == 'confirm')
-		{
+		} else if ($method == 'confirm') {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -184,18 +160,16 @@ class Login extends AbstractNoNavigationClass
 	/**
 	 * is there a logged in player?
 	 */
-	function isLoggedIn()
-	{
+	function isLoggedIn() {
 		$spieler_id = Session::getCookie('spieler_id');
-		return!empty($spieler_id);
+		return !empty($spieler_id);
 	}
 
 	/**
 	 * show denied if login fails
 	 * bad style, has to be improved
 	 */
-	function denied()
-	{
+	function denied() {
 		return error("Zugang verweigert", $this->class_name, "denied");
 	}
 
@@ -203,8 +177,7 @@ class Login extends AbstractNoNavigationClass
 	 * logout player, reset session has to be
 	 * implemented in session
 	 */
-	function logout(& $vars)
-	{
+	function logout(& $vars) {
 		Session::unsetCookie("username");
 		Session::unsetCookie("spieler_id");
 		return redirect("index.php");
@@ -213,8 +186,7 @@ class Login extends AbstractNoNavigationClass
 	/**
 	 * login player
 	 */
-	function login(& $vars)
-	{
+	function login(& $vars) {
 		global $mysql;
 		if ($this->isLoggedIn())
 			$this->logout($vars);
@@ -224,23 +196,19 @@ class Login extends AbstractNoNavigationClass
 		$array = $mysql->select("SELECT id FROM spieler WHERE username='$username' AND password='$password' AND confirmed=1");
 		$result['content'] = "URL";
 		$target = '';
-		if (count($array) == 1)
-		{
+		if (count($array) == 1) {
 			Session::setCookie("username", $username, NULL);
 			Session::setCookie("spieler_id", $array[0][0], NULL);
 			$result['target'] = "index.php?class=inselliste&mode=OWN";
 			$target = "index.php?class=Inselliste";
-		}
-		else
-		{
+		} else {
 			$result['target'] = "index.php?class=Login&method=denied";
 			$target = "index.php?class=Login&method=denied";
 		}
 		return redirect($target);
 	}
 
-	function show(& $vars)
-	{
+	function show(& $vars) {
 		$array = array("title" => "Login", "lbl_username" => "Benutzername", "lbl_password" => "Passwort", "lbl_login" => "Anmelden");
 		return $this->getLayout($array, "login_window", $vars);
 	}

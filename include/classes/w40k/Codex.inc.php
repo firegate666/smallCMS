@@ -5,14 +5,12 @@ Setting::write('codex_defaultpagelimit', '', 'Codex Default Pagelimit', false);
 /**
  * @package w40k
  */
-class Codex extends W40K
-{
+class Codex extends W40K {
 
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'name',
 			'type' => 'string',
 			'size' => 100,
@@ -106,46 +104,39 @@ class Codex extends W40K
 		return $fields;
 	}
 
-	public function acl($method)
-	{
+	public function acl($method) {
 		return parent::acl($method);
 	}
 
-	function view(&$vars)
-	{
+	function view(&$vars) {
 		return parent::show($vars, 'codex_view', array());
 	}
 
-	function showlist(&$vars)
-	{
+	function showlist(&$vars) {
 		$orderby = "name";
 		if (isset($vars['orderby']) && !empty($vars['orderby']))
 			$orderby = $this->escape($vars['orderby']);
 
 		$limit = Setting::read('codex_defaultpagelimit');
 		$limitstart = '';
-		if (isset($vars['limit']) && !empty($vars['limit']))
-		{
+		if (isset($vars['limit']) && !empty($vars['limit'])) {
 			$limit = $this->escape($vars['limit']);
 			$limitstart = $this->escape($vars['limitstart']);
-		}
-		else if (isset($vars['limit']))
+		} else if (isset($vars['limit']))
 			$limit = '';
 
 		$where = array();
 		if (isset($vars['gamesystem']) && ($vars['gamesystem'] != ''))
 			$where[] = array('key' => 'gamesystem', 'value' => $vars['gamesystem']);
 
-		$list = $this->getlist('', true, $orderby,
-				array('*',
+		$list = $this->getlist('', true, $orderby, array('*',
 				), $limitstart, $limit, $where);
 		$array['orderby'] = $orderby;
 		$array['prevlimit'] = '';
 		$array['nextlimit'] = '';
 		$array['limit'] = '';
 		$array['limitstart'] = '';
-		if ($limit != '')
-		{
+		if ($limit != '') {
 			$array['prevlimit'] = $limitstart - $limit;
 			if ($array['prevlimit'] < 0)
 				$array['prevlimit'] = 0;
@@ -161,8 +152,7 @@ class Codex extends W40K
 		$array['gamesystemoptionlist'] = $gs->getOptionList($vars['gamesystem']);
 		$array['gamesystem'] = $vars['gamesystem'];
 
-		foreach ($list as $entry)
-		{
+		foreach ($list as $entry) {
 			if (strlen($entry['comment']) > 50)
 				$entry['comment'] = substr(strip_tags($entry['comment']), 0, 50) . " [...]";
 			$rows .= parent::show($vars, 'codex_list_row', $entry);

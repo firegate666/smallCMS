@@ -2,16 +2,17 @@
 
 /**
  * The main features everyone should know
- * 
+ *
  * @package base
  */
-abstract class AbstractClass
-{
+abstract class AbstractClass {
 
 	/** main data array */
 	protected $data = array();
+
 	/** if set, get list data from view instead of table */
 	protected $viewname = null;
+
 	/** auto id of object */
 	protected $id;
 
@@ -21,8 +22,7 @@ abstract class AbstractClass
 	 * @param	String $msg
 	 * @param 	int	loglevel
 	 */
-	protected function addlog($msg, $loglevel=0)
-	{
+	protected function addlog($msg, $loglevel = 0) {
 		FileLogger::write("QUERY: " . $msg, $loglevel);
 	}
 
@@ -32,28 +32,24 @@ abstract class AbstractClass
 	 * @param	String	name of field
 	 * @return String HTML Form
 	 */
-	public function getInputField($field)
-	{
+	public function getInputField($field) {
 		$return = '';
-		switch ($field['htmltype'])
-		{
+		switch ($field['htmltype']) {
 			case 'input': $return = "<input type='text' name='{$field['name']}' value='" . $this->get($field['name'], true) . "' size='75'/>";
 				break;
 			case 'textarea': $return = "<textarea name='{$field['name']}' cols='75' rows='5'>" . $this->get($field['name'], true) . "</textarea>";
 				break;
 			case 'select':
 				$return = "<select name='{$field['name']}'>\n";
-				if (is_array($field['join']))
-				{
-					foreach ($field['join'] as $key => $value)
-					{
+				if (is_array($field['join'])) {
+					foreach ($field['join'] as $key => $value) {
 						$SELECTED = '';
 						if ($this->get($field['name']) == $value)
 							$SELECTED = 'selected="selected"';
 						$return .= '<option ' . $SELECTED . ' value="' . $value . '">' . $key . '</option>' . "\n";
 					}
-				} else
-				{
+				}
+				else {
 					$obj = new $field['join']();
 					$cannull = !(isset($field['notnull']) && ($field['notnull'] === true));
 					$return .= $obj->getOptionList($this->get($field['name']), $cannull);
@@ -71,18 +67,17 @@ abstract class AbstractClass
 	 * @param	boolean $prefer_view if true prefer database view
 	 * @return	String	lowercase class name
 	 */
-	public function class_name($prefer_view=false)
-	{
-		if ($prefer_view && !empty($this->viewname))
+	public function class_name($prefer_view = false) {
+		if ($prefer_view && !empty($this->viewname)) {
 			return $this->viewname;
+		}
 		return strtolower(get_class($this));
 	}
 
 	/**
 	 * return sequence name, postgres only
 	 */
-	public function sequence_name()
-	{
+	public function sequence_name() {
 		return strtolower(get_class($this)) . '_id_seq';
 	}
 
@@ -90,8 +85,7 @@ abstract class AbstractClass
 	 * return xml document of all items
 	 * @todo permission checks
 	 */
-	function xmllist()
-	{
+	function xmllist() {
 		global $mysql;
 		$result[$this->class_name()] = $mysql->select("SELECT * FROM " . $this->class_name, true);
 		$output = XML::get($result);
@@ -104,8 +98,7 @@ abstract class AbstractClass
 	 * @param String	$userright to test
 	 * @return boolean
 	 */
-	public function hasright($right)
-	{
+	public function hasright($right) {
 		return User::hasright($right);
 	}
 
@@ -122,8 +115,7 @@ abstract class AbstractClass
 	 *
 	 * @return	String[][]	all known fields or false if no fields are set
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		return true;
 		// not yet used
 		// if activated
@@ -143,41 +135,52 @@ abstract class AbstractClass
 	 * @param	String	$boolop	bool operator for where clause
 	 * @return	String[][]	complete result
 	 */
-	function getlist($classname='', $ascending=true, $orderby = 'id', $fields = array('id'), $limitstart='', $limit='', $wherea=array(), $boolop = 'AND', $comp = "=")
-	{
+	function getlist($classname = '', $ascending = true, $orderby = 'id', $fields = array('id'), $limitstart = '', $limit = '', $wherea = array(), $boolop = 'AND', $comp = "=") {
 		global $mysql;
 		$where = null;
-		if (!empty($wherea) && is_array($wherea))
-			foreach ($wherea as $cond)
-				if (isset($cond['key']))
-				{
+		if (!empty($wherea) && is_array($wherea)) {
+			foreach ($wherea as $cond) {
+				if (isset($cond['key'])) {
 					$value = "'" . $this->escape($cond['value']) . "'";
-					if ($cond['value'] === null)
+					if ($cond['value'] === null) {
 						$value = "null";
-					if (!empty($cond['comp']))
+					}
+
+					if (!empty($cond['comp'])) {
 						$comp = $cond['comp'];
+					}
+
 					$where[] = " {$cond['key']} $comp $value ";
 				}
-		if (!empty($where))
-			$where = " WHERE " . implode($boolop, $where);
+			}
+		}
 
-		if (empty($classname))
+		if (!empty($where)) {
+			$where = " WHERE " . implode($boolop, $where);
+		}
+
+		if (empty($classname)) {
 			$classname = $this->class_name(true);
+		}
+
 		$orderdir = "ORDER BY " . $this->escape($orderby) . " ";
 		$fields = implode(',', $fields);
-		if ($ascending)
+		if ($ascending) {
 			$orderdir .= "ASC";
-		else
+		} else {
 			$orderdir .= "DESC";
-		$limits = '';
-		if ($limitstart != '')
-		{
-			$limits = 'LIMIT ' . $this->escape($limitstart);
-			if ($limit != '')
-				$limits .= ', ' . $this->escape($limit);
 		}
-		else if ($limit != '')
+
+		$limits = '';
+		if ($limitstart != '') {
+			$limits = 'LIMIT ' . $this->escape($limitstart);
+			if ($limit != '') {
+				$limits .= ', ' . $this->escape($limit);
+			}
+		} else if ($limit != '') {
 			$limits = 'LIMIT ' . $this->escape($limit);
+		}
+
 		$query = "SELECT " . $fields . " FROM " . $this->escape($classname) . " $where $orderdir $limits;";
 		$result = $mysql->select($query, true);
 		return $result;
@@ -189,8 +192,7 @@ abstract class AbstractClass
 	 * @param	String	$key	name of attribute
 	 * @param	String	$value	value of attribute
 	 */
-	public function set($key, $value)
-	{
+	public function set($key, $value) {
 		$this->data[$key] = $value;
 	}
 
@@ -201,36 +203,38 @@ abstract class AbstractClass
 	 * @param	bool	$raw	return without conversion (bbcode f.e)
 	 * @return	String	value of attribute
 	 */
-	public function get($key, $raw = false)
-	{
-		if ($key == 'id')
+	public function get($key, $raw = false) {
+		if ($key == 'id') {
 			return $this->id;
-		if (!isset($this->data[$key]))
+		}
+
+		if (!isset($this->data[$key])) {
 			return null;
-		if (!$raw && get_config('bbcode', true))
-		{
+		}
+
+		if (!$raw && get_config('bbcode', true)) {
 			$value = $this->data[$key];
 			$value = Image::ReplaceEmoticons($value);
 			return BBCode::parse($value);
-		} else
+		} else {
 			return $this->data[$key];
+		}
 	}
 
 	/**
 	 * return data array
 	 */
-	public function getData()
-	{
+	public function getData() {
 		return $this->data;
 	}
 
 	/**
 	 * copy data from source to this
 	 */
-	public function copy($source)
-	{
-		if (get_class($this) != get_class($source))
+	public function copy($source) {
+		if (get_class($this) != get_class($source)) {
 			error("Source (" . get_class($source) . ") and destination (" . get_class($this) . ") must be from same class for copy", get_class($this), "copy");
+		}
 		$this->data = $source->getData();
 	}
 
@@ -238,8 +242,7 @@ abstract class AbstractClass
 	 * not used yet
 	 * not sure if used anywhen
 	 */
-	function load_language($language, $class)
-	{
+	function load_language($language, $class) {
 
 	}
 
@@ -248,20 +251,20 @@ abstract class AbstractClass
 	 *
 	 * @return	boolean	true, if $this->id exists
 	 */
-	function exists()
-	{
-		return!empty($this->id);
+	function exists() {
+		return !empty($this->id);
 	}
 
 	/**
 	 * load object from database
 	 */
-	function load()
-	{
+	function load() {
 		global $mysql;
 		$id = $mysql->escape($this->id);
-		if (empty($id))
+		if (empty($id)) {
 			return;
+		}
+
 		$tablename = $this->class_name();
 		$this->data = $mysql->executeSql("SELECT * FROM " . $tablename . " WHERE id=$id;");
 		$this->id = $this->data['id'];
@@ -271,11 +274,11 @@ abstract class AbstractClass
 	/**
 	 * delete me, remove record from database
 	 */
-	function delete($mayfail = false)
-	{
+	function delete($mayfail = false) {
 		global $mysql;
-		if (empty($this->id))
+		if (empty($this->id)) {
 			return;
+		}
 		$tablename = $this->class_name();
 		$id = $this->id;
 		$query = "DELETE FROM $tablename WHERE id=$id";
@@ -287,8 +290,7 @@ abstract class AbstractClass
 	 *
 	 * @return	integer	userid
 	 */
-	protected function loggedIn()
-	{
+	protected function loggedIn() {
 		return User::loggedIn();
 	}
 
@@ -299,24 +301,23 @@ abstract class AbstractClass
 	 *
 	 * @return	int	id of object
 	 */
-	function store()
-	{
+	function store() {
 		global $mysql;
 		// set timestamps
 		$datenow = Date::now();
-		if ($this->id == '')
+		if ($this->id == '') {
 			$this->data['__createdon'] = $datenow;
+		}
+
 		$this->data['__changedon'] = $datenow;
 
 		// Seperate keys from values
 		$keys = array_keys($this->data);
 		$values = array_values($this->data);
-		for ($i = 0; $i < count($values); $i++)
-		{
-			if ($values[$i] === null)
+		for ($i = 0; $i < count($values); $i++) {
+			if ($values[$i] === null) {
 				$nextval = 'null';
-			else
-			{
+			} else {
 				$nextval = $this->escape($values[$i]);
 				$nextval = "'$nextval'";
 			}
@@ -324,13 +325,10 @@ abstract class AbstractClass
 		}
 		// CREATE SQL Statement
 		$tablename = $this->class_name();
-		if ($this->id == '')
-		{
+		if ($this->id == '') {
 			$query = "INSERT INTO $tablename (" . implode(",", $keys) . ") VALUES (" . implode(",", $values) . ");";
 			$this->id = $mysql->insert($query, $this->sequence_name());
-		}
-		else
-		{
+		} else {
 			$query = "UPDATE $tablename SET";
 			$query .= " " . $keys[0] . "=" . $values[0];
 			for ($i = 1; $i < count($values); $i++)
@@ -344,8 +342,7 @@ abstract class AbstractClass
 	/**
 	 * print myself to console
 	 */
-	function printout()
-	{
+	function printout() {
 		print_a($this);
 	}
 
@@ -354,8 +351,7 @@ abstract class AbstractClass
 	 *
 	 * @param	int	$id	id of object
 	 */
-	public function __construct($id='')
-	{
+	public function __construct($id = '') {
 		if (!$this->getFields())
 			error("No fields set", $this->class_name(), 'Constructor');
 		if (empty($id) || !is_numeric($id))
@@ -371,8 +367,7 @@ abstract class AbstractClass
 	 * @param	String	$method	function to test
 	 * @return	boolean	true if allowed, else false
 	 */
-	public function acl($method)
-	{
+	public function acl($method) {
 		// more rights have to be checked at this place
 		//if($method == 'xmllist') return true;
 		return false;
@@ -386,8 +381,7 @@ abstract class AbstractClass
 	 * @param	String[]	parameters from request
 	 * @return	String	layout
 	 */
-	function getLayout($array, $layout, &$vars)
-	{
+	function getLayout($array, $layout, &$vars) {
 		$t = new Template();
 
 		// add some basic tags to parse
@@ -407,10 +401,8 @@ abstract class AbstractClass
 	 * @param	String[]	$vars	request parameters
 	 * @return	String	output
 	 */
-	function show(&$vars, $layout = 'page', $array = array(), $raw = false)
-	{
-		foreach ($this->data as $key => $value)
-		{
+	function show(&$vars, $layout = 'page', $array = array(), $raw = false) {
+		foreach ($this->data as $key => $value) {
 			if (!isset($array[$key]))
 				$array[$key] = $this->get($key, $raw);
 		}
@@ -426,33 +418,27 @@ abstract class AbstractClass
 	 * @param	Array	$vars	input data
 	 * @return	Array/boolean	false if no error or array with error msg
 	 */
-	function parsefields($vars)
-	{
+	function parsefields($vars) {
 		$err = false;
-		if (!$this->getFields())
-		{
+		if (!$this->getFields()) {
 			$this->data = $vars;
 			return true;
 		}
-		foreach ($this->getFields() as $field)
-		{
+		foreach ($this->getFields() as $field) {
 			// set some defaults
 			if (!isset($field['type']))
 				$field['type'] = "string";
 			if (!isset($field['notnull']))
 				$field['notnull'] = false;
-			if (isset($vars[$field['name']]) && ($vars[$field['name']] !== null))
-			{
+			if (isset($vars[$field['name']]) && ($vars[$field['name']] !== null)) {
 				$value = $vars[$field['name']];
 				if ($field['notnull'] && empty($value))
 					$err[] = "{$field['name']} is null";
-				if ($field['type'] == 'date')
-				{
+				if ($field['type'] == 'date') {
 					$darray = explode("-", $value);
 					if (count($darray) != 3)
 						$err[] = "Unknown date format: $value";
-					else
-					{
+					else {
 						if (@checkdate($darray[1], $darray[2], $darray[0]) === false)
 							$err[] = "illegal date: $value";
 					}
@@ -466,8 +452,7 @@ abstract class AbstractClass
 					if (strlen($value) < $field['min'])
 						$err[] = "{$field['name']} too short. Min.: " . $field['min'];
 				$this->data[$field['name']] = $value;
-			} else
-			{
+			} else {
 				if (isset($field['default']))
 					$this->data[$field['name']] = $field['default'];
 				else if (($field['notnull'] || $field['password']))
@@ -490,8 +475,7 @@ abstract class AbstractClass
 	 * @param	String[]	$vars	request parameters
 	 * @return	String	form
 	 */
-	function getForm($content='', $class='', $method='show', $name='MyForm', $vars=array(), $enctype='')
-	{
+	function getForm($content = '', $class = '', $method = 'show', $name = 'MyForm', $vars = array(), $enctype = '') {
 		if (empty($class))
 			$class = $this->class_name();
 		$o = '<!--getform start-->';
@@ -501,16 +485,14 @@ abstract class AbstractClass
 		$o2 = '';
 		if (is_string($content))
 			$o .= $content;
-		else
-		{
+		else {
 			$o .= '<table>' . "\n";
-			foreach ($content as $input)
-			{
+			foreach ($content as $input) {
 				if ($input['descr'] == '')
 					$o2 .= $input['input'];
 				else
 					$o .= HTML::tr('<td>' . $input['descr'] . '</td>' .
-							'<td>' . $input['input'] . '</td>');
+									'<td>' . $input['input'] . '</td>');
 			}
 			$o .= '</table>' . "\n";
 		}
@@ -518,11 +500,10 @@ abstract class AbstractClass
 		return $o2 . $o;
 	}
 
-	public function advsearch($where=array(), $fields=array('id'), $boolop = 'AND')
-	{
+	public function advsearch($where = array(), $fields = array('id'), $boolop = 'AND') {
 		global $mysql;
 		$query = "SELECT " . implode(",", $fields) . " FROM " . ($this->class_name()) .
-			" WHERE " . implode(" $boolop ", $where) . ";";
+				" WHERE " . implode(" $boolop ", $where) . ";";
 		return $mysql->select($query, true);
 	}
 
@@ -531,8 +512,7 @@ abstract class AbstractClass
 	 * @param String $sfield searchfield
 	 * @param String $fields return fields
 	 */
-	public function search($where, $sfield='id', $fields='id')
-	{
+	public function search($where, $sfield = 'id', $fields = 'id') {
 		global $mysql;
 		if ($where == null)
 			$this->error('Error in where clause', 'search');
@@ -544,12 +524,11 @@ abstract class AbstractClass
 			$this->error('Error in where clause (fields)', 'search');
 		$fields = implode(",", $fields);
 		$query = "SELECT " . $fields . " FROM " . ($this->class_name()) .
-			" WHERE " . $sfield . " = '" . $where . "';";
+				" WHERE " . $sfield . " = '" . $where . "';";
 		return $mysql->select($query, true);
 	}
 
-	protected function error($msg, $action)
-	{
+	protected function error($msg, $action) {
 		error($msg, get_class($this), $action);
 	}
 
@@ -557,14 +536,12 @@ abstract class AbstractClass
 	 * preload data from $vars and store into $this->data
 	 * works only with $this->getFields()
 	 */
-	public function preloaddata($vars)
-	{
+	public function preloaddata($vars) {
 		$fields = $this->getFields();
 		if (!$fields)
 			return;
 
-		foreach ($fields as $field)
-		{
+		foreach ($fields as $field) {
 			if (isset($vars[$field['name']]))
 				$this->set($field['name'], $vars[$field['name']]);
 		}
@@ -582,28 +559,23 @@ abstract class AbstractClass
 	 * @param	Array	$where		where array @see getlist()
 	 * @return	String	HTML-optionlist
 	 */
-	public function getOptionList($default = 0, $cannull = false, $field = 'name', $asc= true, $orderby='id', $value = 'id', $where = array())
-	{
+	public function getOptionList($default = 0, $cannull = false, $field = 'name', $asc = true, $orderby = 'id', $value = 'id', $where = array()) {
 		$list = $this->getlist('', $asc, $orderby, array('id'), '', '', $where);
 		$options = "";
 		if ($cannull)
 			$options = "<option value=''></option>";
-		foreach ($list as $item)
-		{
+		foreach ($list as $item) {
 			$obj = new $this($item['id']);
 			$selected = "";
-			if (is_array($default))
-			{
+			if (is_array($default)) {
 				if (in_array($obj->get($value), $default))
 					$selected = "selected='selected'";
 			} else
 			if ($obj->get($value) == $default)
 				$selected = "selected='selected'";
 			$opt_desc = "";
-			if (is_array($field))
-			{
-				foreach ($field as $name)
-				{
+			if (is_array($field)) {
+				foreach ($field as $name) {
 					$opt_desc[] = $obj->get($name);
 				}
 				$opt_desc = implode(', ', $opt_desc);
@@ -617,8 +589,7 @@ abstract class AbstractClass
 	/**
 	 * dbescape String, depends on DB System
 	 */
-	function escape($string)
-	{
+	function escape($string) {
 		global $mysql;
 		return $mysql->escape($string);
 	}

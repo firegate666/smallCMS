@@ -18,7 +18,7 @@ $body = $_REQUEST['body'];
 $name = $_REQUEST['name'];
 $body = "Nachricht von $name:\n$body";
 $headers = 'From: ' . $from . "\r\n" .
-	'Reply-To: ' . $from . "\r\n" .
-	'X-Mailer: PHP/' . phpversion();
+		'Reply-To: ' . $from . "\r\n" .
+		'X-Mailer: PHP/' . phpversion();
 mail($to, $subject, $body, $headers);
 header("Location: " . $_REQUEST['ref']);

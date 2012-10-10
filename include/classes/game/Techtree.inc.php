@@ -6,15 +6,14 @@ $template_classes[] = 'techtree';
  * Main Tech-Tree class
  * Tech know which TTEntries a user knows and
  * what he can learn next
- * 
+ *
  * Design Info: Every Tech has to depend on something.
  * There is a root tech with id=0, everyone has to know
  * but it is never displayed
- * 
+ *
  * TODO: Forschungswarteschlange
  */
-class TechTree extends AbstractNavigationClass
-{
+class TechTree extends AbstractNavigationClass {
 
 	protected $categories;
 	protected $techtree;
@@ -22,17 +21,14 @@ class TechTree extends AbstractNavigationClass
 	/**
 	 * Update techtree, calculate all running researches for logged in player
 	 */
-	public function update()
-	{
+	public function update() {
 		global $mysql;
 		// get all running
 		$spieler_id = SeaWars::player();
 		$query = "SELECT * FROM ttexplored WHERE finished=0 AND spieler_id=" . $spieler_id . ";";
 		$result = $mysql->select($query, true);
-		foreach ($result as $item)
-		{
-			if (strtotime($item['end']) <= strtotime(Date::now()))
-			{
+		foreach ($result as $item) {
+			if (strtotime($item['end']) <= strtotime(Date::now())) {
 				$ttex = new TTExplored($item['id']);
 				$ttex->set('finished', 1);
 				$ttex->store();
@@ -46,19 +42,14 @@ class TechTree extends AbstractNavigationClass
 	 *
 	 * @param	String[]	$vars	request parameters
 	 */
-	public function research(&$vars)
-	{
-		if (isset($vars['ttentryid']) && !empty($vars['ttentryid']))
-		{
+	public function research(&$vars) {
+		if (isset($vars['ttentryid']) && !empty($vars['ttentryid'])) {
 			if (is_array($this->techtree['running']))
 				$error = 'Forschung am Laufen, erst alte Forschung beenden';
-			else if (in_array($vars['ttentryid'], $this->techtree['avail']))
-			{
+			else if (in_array($vars['ttentryid'], $this->techtree['avail'])) {
 				$ttentry = new TTEntry($vars['ttentryid']);
 				$ttentry->learn();
-			}
-			else
-			{
+			} else {
 				$error = "Diese Forschung kannst Du nicht lernen.";
 			}
 		}
@@ -68,27 +59,23 @@ class TechTree extends AbstractNavigationClass
 
 	/**
 	 * show techtree using template page
-	 * 
+	 *
 	 * @param	String[]	$vars	request parameters
 	 */
-	function show(&$vars)
-	{
+	function show(&$vars) {
 		$catlayout = '';
-		foreach ($this->categories as $catid)
-		{
+		foreach ($this->categories as $catid) {
 			$cat = new TTCategory($catid['id']);
 			$catlayout .= $this->getLayout(array('categoryname' => $cat->get('name')), "category_deactivated ", $vars);
 		}
 
 		// know techs
 		if (isset($this->techtree['known']))
-			foreach ($this->techtree['known'] as $techid)
-			{
+			foreach ($this->techtree['known'] as $techid) {
 				$tech = new TTEntry($techid);
 				$array['name'] = $tech->get('name');
 				$array['beschreibung'] = $tech->get('description');
-				if ($tech->get('imageid') != 0)
-				{
+				if ($tech->get('imageid') != 0) {
 					$i = new Image($tech->get('imageid'));
 					$array['image'] = $i->get('url');
 				} else
@@ -98,16 +85,14 @@ class TechTree extends AbstractNavigationClass
 
 		// running techs
 		if (isset($this->techtree['running']))
-			foreach ($this->techtree['running'] as $techid)
-			{
+			foreach ($this->techtree['running'] as $techid) {
 				$tech = new TTEntry($techid);
 				$array['name'] = $tech->get('name');
 				$array['beschreibung'] = $tech->get('description');
 				$now = strtotime(Date::now());
 				$end = strtotime($tech->getend());
 				$array['dauer'] = ($end - $now);
-				if ($tech->get('imageid') != 0)
-				{
+				if ($tech->get('imageid') != 0) {
 					$i = new Image($tech->get('imageid'));
 					$array['image'] = $i->get('url');
 				} else
@@ -119,16 +104,14 @@ class TechTree extends AbstractNavigationClass
 		// getPopulation
 		$population = 100;
 		if (isset($this->techtree['avail']))
-			foreach ($this->techtree['avail'] as $techid)
-			{
+			foreach ($this->techtree['avail'] as $techid) {
 				$tech = new TTEntry($techid);
 				$array = array();
 				$array['id'] = $tech->get('id');
 				$array['name'] = $tech->get('name');
 				$array['dauer'] = ($tech->get('aufwand') / $population);
 				$array['beschreibung'] = $tech->get('description');
-				if ($tech->get('imageid') != 0)
-				{
+				if ($tech->get('imageid') != 0) {
 					$i = new Image($tech->get('imageid'));
 					$array['image'] = $i->get('url');
 				} else
@@ -147,8 +130,7 @@ class TechTree extends AbstractNavigationClass
 	 * @param	String	$method	method to test
 	 * @return	boolean	true/false
 	 */
-	public function acl($method)
-	{
+	public function acl($method) {
 		if ($method == 'show')
 			return Login::isLoggedIn();
 		if ($method == 'research')
@@ -161,8 +143,7 @@ class TechTree extends AbstractNavigationClass
 	/**
 	 * remove alle explored tech for logged in player
 	 */
-	function dropall()
-	{
+	function dropall() {
 		global $mysql;
 		$spieler_id = SeaWars::player();
 
@@ -175,8 +156,7 @@ class TechTree extends AbstractNavigationClass
 	/**
 	 * public constructore, initialize Tech-Tree for logged in player
 	 */
-	function __construct()
-	{
+	function __construct() {
 		parent::__construct();
 		$this->update();
 		$this->load();
@@ -187,24 +167,20 @@ class TechTree extends AbstractNavigationClass
 	 * Fetches Tech-Tree as array including all known and available techs
 	 * @return	int[]	ttentry ids
 	 */
-	function getTechTree()
-	{
+	function getTechTree() {
 		global $mysql;
 		$known_techs = TTExplored::getExplored();
 		$result = array();
-		foreach ($known_techs as $tech)
-		{
+		foreach ($known_techs as $tech) {
 			$result['known'][] = $tech['techtree_entry_id'];
 		}
 		$running_techs = TTExplored::getRunning();
-		foreach ($running_techs as $tech)
-		{
+		foreach ($running_techs as $tech) {
 			$result['running'][] = $tech['techtree_entry_id'];
 		}
 
 		$avail_techs = TTExplored::getAvailable($result['known'], $result['running']);
-		foreach ($avail_techs as $tech)
-		{
+		foreach ($avail_techs as $tech) {
 			$result['avail'][] = $tech['entry_id'];
 		}
 		return $result;
@@ -215,8 +191,7 @@ class TechTree extends AbstractNavigationClass
 	 * there have to be work arounds for load and save.
 	 * MySQL does not support views I'm afraid
 	 */
-	function load()
-	{
+	function load() {
 		// get techtree, know/available/running
 		$this->techtree = $this->getTechTree();
 
@@ -230,9 +205,8 @@ class TechTree extends AbstractNavigationClass
 	 * there have to be work arounds for load and save.
 	 * MySQL does not support views I'm afraid
 	 */
-	function save()
-	{
-		
+	function save() {
+
 	}
 
 }
@@ -241,14 +215,12 @@ class TechTree extends AbstractNavigationClass
  * Diese Klasse regelt die Zuordnung des konkreten Rohstoffes zur abstrakten
  * Kategorie aus TTEntry
  */
-class TTEntryRohstoff extends AbstractClass
-{
+class TTEntryRohstoff extends AbstractClass {
 
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'rohstoffid', 'type' => 'Integer', 'notnull' => true);
 		$fields[] = array('name' => 'ttentry_resid', 'type' => 'Integer', 'notnull' => true);
 	}
@@ -258,26 +230,23 @@ class TTEntryRohstoff extends AbstractClass
 /**
  * This class knows, which entry depends depends on whom
  */
-class TTEntryDependson extends AbstractClass
-{
+class TTEntryDependson extends AbstractClass {
 
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'entry_id', 'type' => 'Integer', 'notnull' => true);
 		$fields[] = array('name' => 'dependson_id', 'type' => 'Integer', 'notnull' => true);
 	}
 
 	/**
 	 * returns all ttentry ids a ttentry depends on
-	 * 
+	 *
 	 * @param	int	$ttenryid	Tech-Entry id
 	 * @return int['dependson_id']	array of tech ids
 	 */
-	function get($ttentryid)
-	{
+	function get($ttentryid) {
 		global $mysql;
 		$query = "SELECT dependson_id WHERE entry_id=" . $ttentryid . ";";
 		return $mysql->select($query, true);
@@ -288,17 +257,15 @@ class TTEntryDependson extends AbstractClass
 /**
  * This class knows, who knows what and where and when
  */
-class TTExplored extends AbstractClass
-{
+class TTExplored extends AbstractClass {
 
 	/**
 	 * returns all tech ids from techs a player knows
-	 * 
+	 *
 	 * @param	int	$spieler_id	player id, if empty logged in player
 	 * @return	int['techtree_entry_id']	array of ids
 	 */
-	function getExplored($spieler_id = '')
-	{
+	function getExplored($spieler_id = '') {
 		global $mysql;
 		if (empty($spieler_id))
 			$spieler_id = SeaWars::player();
@@ -309,12 +276,11 @@ class TTExplored extends AbstractClass
 
 	/**
 	 * returns all tech ids from techs a player ist exploring
-	 * 
+	 *
 	 * @param	int	$spieler_id	player id, if empty logged in player
 	 * @return	int['techtree_entry_id']	array of ids
 	 */
-	function getRunning($spieler_id = '')
-	{
+	function getRunning($spieler_id = '') {
 		global $mysql;
 		if (empty($spieler_id))
 			$spieler_id = SeaWars::player();
@@ -325,14 +291,13 @@ class TTExplored extends AbstractClass
 
 	/**
 	 * returns all tech ids from techs a player can research
-	 * 
+	 *
 	 * @param	int[]	$techids	known tech ids
 	 * @param	int[]	$runningtech	running tech ids
 	 * @param	int	$spieler_id	player id, if empty logged in player
 	 * @return	int['techtree_entry_id']	array of ids
 	 */
-	function getAvailable($techids, $runningtechs, $spieler_id = '')
-	{
+	function getAvailable($techids, $runningtechs, $spieler_id = '') {
 		global $mysql;
 
 		// ignore known techs
@@ -344,16 +309,15 @@ class TTExplored extends AbstractClass
 		if (empty($spieler_id))
 			$spieler_id = SeaWars::player();
 		$spieler_id = $mysql->escape($spieler_id);
-		$query = "SELECT *, COUNT(`techtree_entry_id`) AS erfuellt, COUNT(*) AS Abh�ngigkeiten 
-					FROM `ttentrydependson` 
+		$query = "SELECT *, COUNT(`techtree_entry_id`) AS erfuellt, COUNT(*) AS Abh�ngigkeiten
+					FROM `ttentrydependson`
 					LEFT JOIN `ttexplored` ON `dependson_id`=`techtree_entry_id`
     				WHERE spieler_id=$spieler_id GROUP BY `ttentrydependson`.`entry_id`
 	  				HAVING Abh�ngigkeiten=erfuellt $techids;";
 		$temp = $mysql->select($query, true);
 		$result = array();
 		if (is_array($runningtechs))
-			foreach ($temp as $item)
-			{
+			foreach ($temp as $item) {
 				if (!in_array($item['entry_id'], $runningtechs))
 					$result[] = $item;
 			}
@@ -367,14 +331,12 @@ class TTExplored extends AbstractClass
 /**
  * Categories for techs, no functionality, only gui use
  */
-class TTCategory extends AbstractClass
-{
+class TTCategory extends AbstractClass {
 
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'name', 'type' => 'String', 'notnull' => true);
 		return $fields;
 	}
@@ -384,14 +346,12 @@ class TTCategory extends AbstractClass
 /**
  * the tech himself
  */
-class TTEntry extends AbstractClass
-{
+class TTEntry extends AbstractClass {
 
 	/**
 	 * learn this TTEntry
 	 */
-	public function learn()
-	{
+	public function learn() {
 		// getPopulation
 		$population = 100;
 		$start = Date::now();
@@ -404,8 +364,7 @@ class TTEntry extends AbstractClass
 		$ttex->store();
 	}
 
-	public function getend()
-	{
+	public function getend() {
 		global $mysql;
 		$query = "SELECT end FROM ttexplored, ttentry WHERE ttexplored.techtree_entry_id =" . $this->id . " AND spieler_id=" . SeaWars::player() . ";";
 		$result = $mysql->executeSql($query);
@@ -415,8 +374,7 @@ class TTEntry extends AbstractClass
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'name', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'description', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'image_id', 'type' => 'Integer', 'notnull' => true);
@@ -434,14 +392,12 @@ class TTEntry extends AbstractClass
 /**
  * tech type of tech
  */
-class TTType extends AbstractClass
-{
+class TTType extends AbstractClass {
 
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'name', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'beschreibung', 'type' => 'String', 'notnull' => true);
 		return $fields;

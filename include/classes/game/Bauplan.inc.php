@@ -1,6 +1,5 @@
 <?php
 
-class Bauplan extends AbstractClass
-{
+class Bauplan extends AbstractClass {
 
 }

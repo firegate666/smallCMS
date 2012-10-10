@@ -3,8 +3,7 @@
 /**
  * Decode URI class/method/id/param=value/param2=value/...
  */
-function decodeURI($qs, &$class, &$method, &$id='', &$vars=array())
-{
+function decodeURI($qs, &$class, &$method, &$id = '', &$vars = array()) {
 	$qs = urldecode($qs);
 	$qs = explode("/", $qs);
 	if (isset($qs[0]))
@@ -17,16 +16,13 @@ function decodeURI($qs, &$class, &$method, &$id='', &$vars=array())
 	else
 		return;
 	unset($qs[1]);
-	if (isset($qs[2]))
-	{
+	if (isset($qs[2])) {
 		$id = $qs[2];
 		unset($qs[2]);
 	}
-	foreach ($qs as $var)
-	{
+	foreach ($qs as $var) {
 		$var = explode("=", $var);
-		if (isset($var[0]))
-		{
+		if (isset($var[0])) {
 			$vars[$var[0]] = '';
 			if (isset($var[1]))
 				$vars[$var[0]] = $var[1];
@@ -34,8 +30,7 @@ function decodeURI($qs, &$class, &$method, &$id='', &$vars=array())
 	}
 }
 
-function leadingzero($source, $digits=2, $zero = "0")
-{
+function leadingzero($source, $digits = 2, $zero = "0") {
 	while (strlen($source) < $digits)
 		$source = $zero . $source;
 	return $source;
@@ -48,8 +43,7 @@ function leadingzero($source, $digits=2, $zero = "0")
  * @param	String	$default	if not found return this
  * @return	String	config value
  */
-function get_config($name, $default = '')
-{
+function get_config($name, $default = '') {
 	global $_CONFIG;
 	if (isset($_CONFIG[$name]))
 		return $_CONFIG[$name];
@@ -63,8 +57,7 @@ function get_config($name, $default = '')
  * @param	String	$password	plain-text password
  * @return	String	modified password
  */
-function myencrypt($password)
-{
+function myencrypt($password) {
 	if (get_config('encryptpwd', false))
 		return sha1($password);
 	else
@@ -75,17 +68,15 @@ function myencrypt($password)
  * return random string
  * @param	int	name_laenge		length of string
  */
-function randomstring($name_laenge)
-{
+function randomstring($name_laenge) {
 	$zeichen = "abcdefghijklnmopqrstuvwxyzABCDEFGHIJKLNMOPQRSTUVWXYZ0123456789";
 	$name_neu = "";
 
 	mt_srand((double) microtime() * 1000000);
-	for ($i = 0; $i < $name_laenge; $i++)
-	{
+	for ($i = 0; $i < $name_laenge; $i++) {
 		$name_neu .= $zeichen {
-			mt_rand(0, strlen($zeichen))
-			};
+				mt_rand(0, strlen($zeichen))
+				};
 	}
 	return $name_neu;
 }
@@ -93,8 +84,7 @@ function randomstring($name_laenge)
 /**
  * create redirect
  */
-function redirect($target)
-{
+function redirect($target) {
 	$result = array('content' => 'URL', 'target' => $target);
 	return $result;
 }
@@ -102,8 +92,7 @@ function redirect($target)
 /**
  * xml output
  */
-function xml($output)
-{
+function xml($output) {
 	$result = array('content' => 'XML', 'output' => $output);
 	return $result;
 }
@@ -111,12 +100,10 @@ function xml($output)
 /**
  * Create error
  */
-function error($error, $class, $method, $vars=array())
-{
+function error($error, $class, $method, $vars = array()) {
 	global $mysql;
 	FileLogger::write("ERROR: $class/$method - $error");
-	if (class_exists('Error'))
-	{
+	if (class_exists('Error')) {
 		$error = new Error($error, $class, $method);
 		print $error->show($vars);
 		$mysql->disconnect();
@@ -128,10 +115,9 @@ function error($error, $class, $method, $vars=array())
 /**
  * improved print_r
  */
-function print_a()
-{
+function print_a() {
 	echo ("<pre>\n");
-	foreach(func_get_args() as $arg)
+	foreach (func_get_args() as $arg)
 		var_dump($arg);
 	echo ("</pre>\n");
 }
@@ -145,8 +131,7 @@ function print_a()
  * @param $y2 y2
  * @return distance
  */
-function distance($x1, $y1, $x2, $y2)
-{
+function distance($x1, $y1, $x2, $y2) {
 	$diff_x = pow(x2 - x1, 2);
 	$diff_y = pow(y2 - y1, 2);
 	$result = sqrt(diff_x + diff_y);
@@ -157,13 +142,11 @@ function distance($x1, $y1, $x2, $y2)
  * Gets client IP
  * @return IP as String
  */
-function getClientIP()
-{
+function getClientIP() {
 	return $_SERVER['REMOTE_ADDR'];
 }
 
-function std2impDate($date)
-{
+function std2impDate($date) {
 	$date_temp = explode("-", $date);
 	if (count($date_temp) != 3)
 		return "";
@@ -185,16 +168,13 @@ function std2impDate($date)
 		$maxdays = 365;
 	$jt = intval((1000 / $maxdays) * $day_of_year);
 	// Beautify
-	while (strlen($jz) < 3)
-	{
+	while (strlen($jz) < 3) {
 		$jz = "0" . $jz;
 	}
-	while (strlen($jt) < 3)
-	{
+	while (strlen($jt) < 3) {
 		$jt = "0" . $jt;
 	}
-	while (strlen($m) < 2)
-	{
+	while (strlen($m) < 2) {
 		$m = "0" . $m;
 	}
 	return "$pz-$jt.$jz/M$m";

@@ -5,11 +5,9 @@
  *
  * @package cms
  */
-class Image extends AbstractClass
-{
+class Image extends AbstractClass {
 
-	public function ReplaceEmoticons($string)
-	{
+	public function ReplaceEmoticons($string) {
 		global $mysql;
 		$list = $mysql->select("SELECT name, url FROM image WHERE emoticon=1;", true);
 		foreach ($list as $item)
@@ -17,25 +15,21 @@ class Image extends AbstractClass
 		return $string;
 	}
 
-	public function acl($method)
-	{
+	public function acl($method) {
 		if ($method == 'show')
 			return true;
 		return false;
 	}
 
-	public function getTypeOptionList($default = 0, $cannull = false)
-	{
+	public function getTypeOptionList($default = 0, $cannull = false) {
 		global $mysql;
 		$list = $mysql->select("SELECT DISTINCT type FROM image ORDER BY type ASC;", true); //$this->getlist('', $asc, $orderby);
 		$options = "";
 		if ($cannull)
 			$options = "<option></option>";
-		foreach ($list as $item)
-		{
+		foreach ($list as $item) {
 			$selected = "";
-			if (is_array($default))
-			{
+			if (is_array($default)) {
 				if (in_array($item['type'], $default))
 					$selected = "SELECTED='SELECTED'";
 			} else
@@ -46,18 +40,15 @@ class Image extends AbstractClass
 		return $options;
 	}
 
-	public function getEmoOptionList($default = 0, $cannull = false)
-	{
+	public function getEmoOptionList($default = 0, $cannull = false) {
 		$list[] = array('value' => '0', 'name' => 'ohne Emoticons');
 		$list[] = array('value' => '1', 'name' => 'nur Emoticons');
 		$options = "";
 		if ($cannull)
 			$options = "<option></option>";
-		foreach ($list as $item)
-		{
+		foreach ($list as $item) {
 			$selected = "";
-			if (is_array($default))
-			{
+			if (is_array($default)) {
 				if (in_array($item['value'], $default))
 					$selected = "SELECTED='SELECTED'";
 			} else
@@ -68,8 +59,7 @@ class Image extends AbstractClass
 		return $options;
 	}
 
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'parent',
 			'type' => 'string',
 			'size' => 100,
@@ -104,8 +94,7 @@ class Image extends AbstractClass
 		return $fields;
 	}
 
-	public function parsefields($vars, $parent = '0', $parentid = '0')
-	{
+	public function parsefields($vars, $parent = '0', $parentid = '0') {
 		$vars['parent'] = $parent;
 		$vars['parentid'] = $parentid;
 		$err = false;
@@ -122,8 +111,7 @@ class Image extends AbstractClass
 		$vars['name'] = str_replace("�", "Ue", $vars['name']);
 		$vars['name'] = str_replace("�", "ss", $vars['name']);
 		$url = get_config("uploadpath") . randomstring(25) . "-" . $parent . "-" . $parentid . "-" . $vars['name'];
-		if ($err === false)
-		{
+		if ($err === false) {
 			$res = copy($vars['tmp_name'], $url);
 			if (!$res)
 				$err[] = "Copy faild";
@@ -138,8 +126,7 @@ class Image extends AbstractClass
 	/**
 	 * delete Image from database and filesystem
 	 */
-	function delete()
-	{
+	function delete() {
 		if (!isset($this->data['url']) || empty($this->data['url']))
 			return;
 		@unlink($this->data['url']);
@@ -149,8 +136,7 @@ class Image extends AbstractClass
 	/**
 	 * returns all know images
 	 */
-	function getImageList($where="")
-	{
+	function getImageList($where = "") {
 		global $mysql;
 		if (is_array($where))
 			$where = " WHERE " . implode(' AND ', $where);
@@ -163,8 +149,7 @@ class Image extends AbstractClass
 	 * load image by known name
 	 * @param     String   $name             name of image
 	 */
-	function loadbyname($name)
-	{
+	function loadbyname($name) {
 		global $mysql;
 		$name = $mysql->escape($name);
 		$query = "SELECT id FROM image WHERE name='$name';";
@@ -173,14 +158,12 @@ class Image extends AbstractClass
 		$this->load();
 	}
 
-	function getExtension()
-	{
+	function getExtension() {
 		$ext = substr(strrchr($this->get('url'), "."), 1);
 		return $ext;
 	}
 
-	function show(& $vars, $layout = '', $array = array())
-	{
+	function show(& $vars, $layout = '', $array = array()) {
 		if ($layout != '')
 			return parent::show($vars, $layout, $array);
 		header('Content-Description: File Transfer');
@@ -189,16 +172,14 @@ class Image extends AbstractClass
 
 		if (!empty($vars['x']) || !empty($vars['y']))
 			$this->resize($vars);
-		else
-		{
+		else {
 			header('Content-Length: ' . filesize($this->get('url')));
 			header('Content-Type: ' . $this->get('type'));
 			@readfile($this->get('url')) or die("Error while downloading webfile");
 		}
 	}
 
-	function resize($vars)
-	{
+	function resize($vars) {
 		$x = -1;
 		$y = -1;
 		if (!empty($vars['x']))
@@ -209,8 +190,7 @@ class Image extends AbstractClass
 		$src_im = null;
 		$imgname = $this->get('url');
 		$cachekey = md5($x . "-" . $y . "-" . $imgname);
-		if (file_exists('./cache/files/' . $cachekey))
-		{
+		if (file_exists('./cache/files/' . $cachekey)) {
 			$this->addlog("Read image from cache: " . $cachekey, 10);
 			header("Content-type: " . $this->get('type'));
 			header('Content-Length: ' . filesize('./cache/files/' . $cachekey));
@@ -218,16 +198,11 @@ class Image extends AbstractClass
 			die;
 		}
 
-		if ((($this->get('type') == 'image/jpeg') || ($this->get('type') == 'image/pjpeg')) && function_exists('imagecreatefromjpeg'))
-		{
+		if ((($this->get('type') == 'image/jpeg') || ($this->get('type') == 'image/pjpeg')) && function_exists('imagecreatefromjpeg')) {
 			$src_im = imagecreatefromjpeg($imgname);
-		}
-		else if (($this->get('type') == 'image/gif') && function_exists('imagecreatefromgif'))
-		{
+		} else if (($this->get('type') == 'image/gif') && function_exists('imagecreatefromgif')) {
 			$src_im = imagecreatefromgif($imgname);
-		}
-		else if (($this->get('type') == 'image/png') && function_exists('imagecreatefrompng'))
-		{
+		} else if (($this->get('type') == 'image/png') && function_exists('imagecreatefrompng')) {
 			$src_im = imagecreatefrompng($imgname);
 		}
 
@@ -237,13 +212,11 @@ class Image extends AbstractClass
 		$newwidth = imagesx($src_im);
 		$newheight = imagesy($src_im);
 
-		if (($y != -1) && ($y < $newheight))
-		{
+		if (($y != -1) && ($y < $newheight)) {
 			$newwidth = round($newwidth / $newheight * $y);
 			$newheight = $y;
 		}
-		if (($x != -1) && ($x < $newwidth))
-		{
+		if (($x != -1) && ($x < $newwidth)) {
 			$newheight = round($newheight / $newwidth * $x);
 			$newwidth = $x;
 		}
@@ -251,23 +224,16 @@ class Image extends AbstractClass
 		$dest_im = imagecreatetruecolor($newwidth, $newheight);
 		imagecopyresized($dest_im, $src_im, 0, 0, 0, 0, $newwidth, $newheight, imagesx($src_im), imagesy($src_im));
 
-		if (($this->get('type') == 'image/jpeg') && function_exists('imagejpeg'))
-		{
+		if (($this->get('type') == 'image/jpeg') && function_exists('imagejpeg')) {
 			header("Content-type: image/jpeg");
 			imagejpeg($dest_im, './cache/files/' . $cachekey, 100);
-		}
-		else if (($this->get('type') == 'image/pjpeg') && function_exists('imagejpeg'))
-		{
+		} else if (($this->get('type') == 'image/pjpeg') && function_exists('imagejpeg')) {
 			header("Content-type: image/jpeg");
 			imagejpeg($dest_im, './cache/files/' . $cachekey, 100);
-		}
-		else if (($this->get('type') == 'image/png') && function_exists('imagepng'))
-		{
+		} else if (($this->get('type') == 'image/png') && function_exists('imagepng')) {
 			header("Content-type: image/png");
 			imagepng($dest_im, './cache/files/' . $cachekey, 100);
-		}
-		else if (($this->get('type') == 'image/gif') && function_exists('imagegif'))
-		{
+		} else if (($this->get('type') == 'image/gif') && function_exists('imagegif')) {
 			header("Content-type: image/gif");
 			imagegif($dest_im, './cache/files/' . $cachekey, 100);
 		} else // image not supported or not recognized
@@ -279,18 +245,12 @@ class Image extends AbstractClass
 		die;
 	}
 
-	function __construct($nameorid = '')
-	{
-		if (empty($nameorid))
-		{
+	function __construct($nameorid = '') {
+		if (empty($nameorid)) {
 			// do nothing
-		}
-		else if (is_numeric($nameorid))
-		{
+		} else if (is_numeric($nameorid)) {
 			parent::__construct($nameorid);
-		}
-		else
-		{
+		} else {
 			$this->loadbyname($nameorid);
 		}
 	}

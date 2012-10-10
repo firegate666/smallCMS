@@ -1,6 +1,5 @@
 <?php
 
-class Kartenabschnitt extends AbstractClass
-{
+class Kartenabschnitt extends AbstractClass {
 
 }

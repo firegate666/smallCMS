@@ -3,16 +3,13 @@
 /**
  * The main features everyone should know
  */
-abstract class AbstractNoNavigationClass extends AbstractClass
-{
+abstract class AbstractNoNavigationClass extends AbstractClass {
 
-	function getMainLayout()
-	{
+	function getMainLayout() {
 		return 'main';
 	}
 
-	function getNavigation(&$vars)
-	{
+	function getNavigation(&$vars) {
 		return "&nbsp;";
 	}
 

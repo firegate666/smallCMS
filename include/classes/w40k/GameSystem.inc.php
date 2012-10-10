@@ -3,19 +3,16 @@
 /**
  * @package w40k
  */
-class GameSystem extends W40K
-{
+class GameSystem extends W40K {
 
-	public function acl($method)
-	{
+	public function acl($method) {
 		return false;
 	}
 
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'name',
 			'type' => 'string',
 			'size' => 100,

@@ -2,14 +2,12 @@
 
 $template_classes[] = 'mitteilung';
 
-class Mitteilung extends AbstractNoNavigationClass
-{
+class Mitteilung extends AbstractNoNavigationClass {
 
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'sender', 'type' => 'Integer', 'notnull' => true);
 		$fields[] = array('name' => 'empfaenger', 'type' => 'integer', 'notnull' => true);
 		$fields[] = array('name' => 'betreff', 'type' => 'String', 'size' => 100, 'notnull' => false);
@@ -26,33 +24,28 @@ class Mitteilung extends AbstractNoNavigationClass
 	 * @param	String	$method	method to test
 	 * @return	boolean	true/false
 	 */
-	public function acl($method)
-	{
+	public function acl($method) {
 		return Login::isLoggedIn();
 	}
 
 	/**
-	 * Show Messenger using template messenger/page 
+	 * Show Messenger using template messenger/page
 	 * @param	String[]	$vars	request parameter
 	 */
-	public function show($vars)
-	{
+	public function show($vars) {
 		return "test";
 	}
 
 	/**
-	 * Converts Message to string 
+	 * Converts Message to string
 	 * Only for Debugging
 	 */
-	public function __toString()
-	{
-		if (!($this->exists()))
-		{
+	public function __toString() {
+		if (!($this->exists())) {
 			$keys = array_keys($this->data);
 			$values = array_values($this->data);
 			$result = "";
-			for ($i = 0; $i < count($values); $i++)
-			{
+			for ($i = 0; $i < count($values); $i++) {
 				$result.=" " . $keys[$i] . "=" . $values[$i];
 			}
 			return $result;
@@ -64,13 +57,12 @@ class Mitteilung extends AbstractNoNavigationClass
 	/**
 	 * parst die Formulareingabe zum erzeugen einer neuen Nachricht
 	 * liefert unbekannten Fehler!
-	 * 
+	 *
 	 * @param	String[]	$vars	request parameter
 	 * @return  String		Beschreibung des aufgetretenen Fehlers oder den Text: "Nachricht gesendet"
 	 *                      im Falle des Erfolges
 	 */
-	public function parse_html_imput($vars)
-	{
+	public function parse_html_imput($vars) {
 		if (!isset($vars["empfaenger"]) or empty($vars["empfaenger"]))
 			return "kein Empfaenger angegeben!";
 		if (!isset($vars["betreff"]) or empty($vars["betreff"]))
@@ -87,14 +79,12 @@ class Mitteilung extends AbstractNoNavigationClass
 	 * Stellt sich als mit dem Template dar
 	 * noch nicht fertig!
 	 */
-	public function show_as_table()
-	{
+	public function show_as_table() {
 		$n = array();
 		$n["betreff"] = $this->data["betreff"];
 		$n["inhalt"] = $this->data["inhalt"];
 		$n["datum"] = $this->data["__createdon"];
-		switch ($this->data["art"])
-		{
+		switch ($this->data["art"]) {
 			case 0:
 				$n["art"] = "System";
 				break;

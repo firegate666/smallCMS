@@ -9,15 +9,13 @@ session_start();
 require_once dirname(__FILE__) . '/include/All.inc.php';
 $s = new Session();
 
-if (!empty($email))
-{
+if (!empty($_REQUEST['email'])) {
 	global $mysql;
-	$query = "INSERT INTO newsletter(email) VALUES('$email');";
+	$query = "INSERT INTO newsletter(email) VALUES('{$_REQUEST['email']}');";
 	$id = $mysql->insert($query, 'newsletter_id_seq');
 	$to = 'marco@firegate.de';
-	$email = $_REQUEST['email'];
 	$subject = "Newslettereintrag";
-	$body = "Eine neue Newsletteranmeldung liegt vor von $email";
+	$body = "Eine neue Newsletteranmeldung liegt vor von {$_REQUEST['email']}";
 	$headers = 'From: ' . $to . "\r\n" . 'Reply-To: ' . $to . "\r\n" . 'X-Mailer: PHP/' . phpversion();
 	mail($to, $subject, $body, $headers);
 	header("Location: " . $_REQUEST['ref']);

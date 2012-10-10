@@ -5,7 +5,6 @@ $__userrights[] = array('name' => 'admin', 'desc' => 'can use all admin');
 /**
  * @package cms
  */
-class Admin extends Page
-{
+class Admin extends Page {
 
 }

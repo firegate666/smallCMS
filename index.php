@@ -23,8 +23,7 @@ $s = new Session(User::loggedIn());
 Session::writeClose();
 
 // if admincall load admin scene
-if (isset($_REQUEST["admin"]))
-{
+if (isset($_REQUEST["admin"])) {
 	require ('admin/admin.php');
 	$mysql->disconnect();
 	die();
@@ -32,16 +31,13 @@ if (isset($_REQUEST["admin"]))
 
 // decode query string
 $vars = array();
-if (isset($_REQUEST['class']) || isset($_REQUEST['method']) || isset($_REQUEST['id']))
-{
+if (isset($_REQUEST['class']) || isset($_REQUEST['method']) || isset($_REQUEST['id'])) {
 	// old style, used in HTML forms
 	$class = isset($_REQUEST["class"]) ? $_REQUEST["class"] : '';
 	$method = isset($_REQUEST["method"]) ? $_REQUEST["method"] : '';
 	$id = isset($_REQUEST["id"]) ? $_REQUEST["id"] : '';
 	$vars = array_merge(array(), $_REQUEST);
-}
-else
-{
+} else {
 	// new style
 	$qs = $_SERVER['QUERY_STRING'];
 	decodeURI($qs, $class, $method, $id, $vars);
@@ -56,8 +52,7 @@ if (empty($vars['ref']))
 	$vars['ref'] = $_SERVER['REQUEST_URI'];
 
 // default handling
-if (get_config('usedefaults', true))
-{
+if (get_config('usedefaults', true)) {
 	if (empty($class) or ($class == ''))
 		$class = get_config("default_class");
 	if (empty($method) or ($method == ''))
@@ -67,16 +62,13 @@ if (get_config('usedefaults', true))
 }
 
 // Class and method invoking
-if (class_exists($class))
-{ // is there a class with that name?
+if (class_exists($class)) { // is there a class with that name?
 	$newclass = new $class($id);
-	if (method_exists($newclass, $method))
-	{ // is there a method with that name for that class
+	if (method_exists($newclass, $method)) { // is there a method with that name for that class
 		if (!$newclass->acl($method))  // are you allowed to call?
 			error("DENIED", $class, $method);
 		$result = $newclass->$method($vars);
-		if ((strtolower($class) == "page") || (strtolower($class) == "admin"))
-		{ // are you a page
+		if ((strtolower($class) == "page") || (strtolower($class) == "admin")) { // are you a page
 			/* count statistic */
 			$ps = new PageStatistic();
 			$ps->set('template', $id);
@@ -85,20 +77,16 @@ if (class_exists($class))
 			$ct = $newclass->contenttype();
 			header("Content-Type: $ct;");
 			print $result;
-		}
-		else // no page? who are you?
+		} else // no page? who are you?
 		if (is_string($result)) // results a string?
 			print $result;
 		else
-		if (is_array($result))
-		{ // results an array?
-			switch (strtoupper($result['content']))
-			{
+		if (is_array($result)) { // results an array?
+			switch (strtoupper($result['content'])) {
 				case "URL" :
 					header("Location: " . $result['target']);
 					die;
-				case "XML" :
-					{
+				case "XML" : {
 						header("Content-Type: text/xml; charset=" . Setting :: get('charset', ''));
 						print $result['output'];
 						die;
@@ -109,13 +97,11 @@ if (class_exists($class))
 		}
 	} else
 		error("Method not not found", $class, $method);
-} else
-{
+} else {
 	error("Class not found", $class, $method);
 }
 // debug output, this one has to be moved to parseTags in template as it destroys layout
-if (get_config('debug', false))
-{
+if (get_config('debug', false)) {
 	print "<hr><b>Queries executed:</b> " . ($mysql->getQuerycount());
 	print " - ";
 	print '<a href="?class=template&method=clearcache">Clear Cache</a>';

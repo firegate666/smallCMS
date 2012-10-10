@@ -7,11 +7,9 @@ $template_classes[] = 'spieler';
 /**
  * there he is, the player himself
  */
-class Spieler extends AbstractNavigationClass
-{
+class Spieler extends AbstractNavigationClass {
 
-	function getPunkte($spieler_id = '')
-	{
+	function getPunkte($spieler_id = '') {
 		if (empty($spieler_id))
 			$spieler_id = $this->id;
 		$spieler = new Spieler($spieler_id);
@@ -21,8 +19,7 @@ class Spieler extends AbstractNavigationClass
 		return $result;
 	}
 
-	function ttpoints($spieler_id = '')
-	{
+	function ttpoints($spieler_id = '') {
 		global $mysql;
 		if (empty($spieler_id))
 			$spieler_id = $this->id;
@@ -37,8 +34,7 @@ class Spieler extends AbstractNavigationClass
 	 * get all player ids
 	 * private function I guess
 	 */
-	function playerids()
-	{
+	function playerids() {
 		global $mysql;
 		$result = $mysql->select("SELECT id FROM spieler", true);
 		return $result;
@@ -48,12 +44,10 @@ class Spieler extends AbstractNavigationClass
 	 * show highscore table
 	 * @param	String[]	$vars	request parameter
 	 */
-	function highscore(&$vars)
-	{
+	function highscore(&$vars) {
 		$ids = $this->playerids();
 		$result = '';
-		foreach ($ids as $id)
-		{
+		foreach ($ids as $id) {
 			$p = new Spieler($id['id']);
 			$array['spieler'] = $p->data['username'];
 			$array['punkte'] = $p->getPunkte();
@@ -63,8 +57,7 @@ class Spieler extends AbstractNavigationClass
 		return $this->getLayout($array, "highscore", $vars);
 	}
 
-	function acl($method)
-	{
+	function acl($method) {
 		if ($method == 'highscore')
 			return true;
 		return false;

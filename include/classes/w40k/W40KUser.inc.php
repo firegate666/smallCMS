@@ -5,14 +5,12 @@ Setting::write('w40kuser_defaultpagelimit', '', 'W40K User Default Pagelimit', f
 /**
  * @package w40k
  */
-class W40KUser extends W40K
-{
+class W40KUser extends W40K {
 
 	protected $user;
 	protected $armies;
 
-	function acl($method)
-	{
+	function acl($method) {
 		if ($method == 'view')
 			return $this->loggedIn();
 		if ($method == 'showlist')
@@ -20,8 +18,7 @@ class W40KUser extends W40K
 		return false;
 	}
 
-	function view($vars)
-	{
+	function view($vars) {
 		$array = $this->user->getData();
 		if ($this->user->get('show_email') == '0')
 			$array['email'] = '';
@@ -30,8 +27,7 @@ class W40KUser extends W40K
 
 		$armyrows = '';
 		$army = new Army();
-		foreach ($this->armies as $entry)
-		{
+		foreach ($this->armies as $entry) {
 			$codex = new Codex($entry['codex']);
 			$entry['codexname'] = $codex->get('name');
 			$entry['username'] = $this->user->get('login');
@@ -46,39 +42,32 @@ class W40KUser extends W40K
 		return parent::show($vars, 'user_view', $array);
 	}
 
-	public function __construct($id='')
-	{
+	public function __construct($id = '') {
 		$this->user = new User($id);
 		$this->data['id'] = $this->user->get('id');
 
 		$army = new Army();
-		$this->armies = $army->getlist('', true, 'id', array('*'), '', '',
-				array(array('key' => 'userid', 'value' => $this->user->get('id'))));
+		$this->armies = $army->getlist('', true, 'id', array('*'), '', '', array(array('key' => 'userid', 'value' => $this->user->get('id'))));
 	}
 
-	function showlist(&$vars)
-	{
+	function showlist(&$vars) {
 		$orderby = "id";
 		if (isset($vars['orderby']))
 			$orderby = $this->escape($vars['orderby']);
 		$limit = Setting::read('w40kuser_defaultpagelimit');
-		if (isset($vars['limit']) && !empty($vars['limit']))
-		{
+		if (isset($vars['limit']) && !empty($vars['limit'])) {
 			$limit = $this->escape($vars['limit']);
 			$limitstart = $this->escape($vars['limitstart']);
-		}
-		else if (isset($vars['limit']))
+		} else if (isset($vars['limit']))
 			$limit = '';
-		$list = $this->user->getlist('', true, $orderby,
-				array('*',
+		$list = $this->user->getlist('', true, $orderby, array('*',
 				), $limitstart, $limit);
 		$array['orderby'] = $orderby;
 		$array['prevlimit'] = '';
 		$array['nextlimit'] = '';
 		$array['limit'] = '';
 		$array['limitstart'] = '';
-		if ($limit != '')
-		{
+		if ($limit != '') {
 			$array['prevlimit'] = $limitstart - $limit;
 			if ($array['prevlimit'] < 0)
 				$array['prevlimit'] = 0;

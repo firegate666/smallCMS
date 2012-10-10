@@ -3,27 +3,23 @@
 /**
  * @package w40k
  */
-class BattleType extends W40K
-{
+class BattleType extends W40K {
 
-	public function __construct($id='')
-	{
+	public function __construct($id = '') {
 		parent::__construct($id);
 		$this->set('sortfirst', 'score');
 		$this->set('sortsecond', 'punkte');
 		$this->set('sortthird', 'anzahl');
 	}
 
-	public function acl($method)
-	{
+	public function acl($method) {
 		return false;
 	}
 
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'name',
 			'type' => 'string',
 			'size' => 100,
@@ -63,13 +59,11 @@ class BattleType extends W40K
 		return $fields;
 	}
 
-	function parsefields($vars)
-	{
+	function parsefields($vars) {
 		if (($this->get('id') != '') && ($vars['parent'] == $this->get('id')))
 			return array("Recursion detected, parent can not be itself");
 
-		if (!empty($vars['parent']))
-		{
+		if (!empty($vars['parent'])) {
 			$parent = new BattleType($vars['parent']);
 			$nextparent = $parent->get('parent');
 			if (!empty($nextparent))

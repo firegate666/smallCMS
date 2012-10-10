@@ -3,9 +3,9 @@
 /**
  * Encapsulates the use of the mysql database
  * Queries are build from given arrays
- * 
- * TODO WORK IN PROGRESS !! 
- * 
+ *
+ * TODO WORK IN PROGRESS !!
+ *
  * @package database
  */
 /*
@@ -18,13 +18,11 @@
   $orderby[]= array('orderby'=>'id', 'orderdir'=>'DESC');
   $mysqli->select($fields, $tables, array(), $orderby));
  */
-class MySQLInterface
-{
+class MySQLInterface {
 
 	private $mysql;
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->mysql = new MySQL();
 	}
 
@@ -36,8 +34,7 @@ class MySQLInterface
 	 * @param	String[][]	$where	array(array('field', 'comp', 'val',
 	 * 'next')), where default for comparator is = and next is AND
 	 */
-	public function select($fields, $tables, $where=array(), $orderby=array())
-	{
+	public function select($fields, $tables, $where = array(), $orderby = array()) {
 		$fields = $this->createFields($fields, "", '*');
 		$tables = $this->createFields($tables, "", null);
 		$orderby = $this->createOrderby($orderby);
@@ -47,27 +44,22 @@ class MySQLInterface
 		return $this->mysql->select($statement);
 	}
 
-	private function buildStatement($fields, $tables, $where, $orderby)
-	{
+	private function buildStatement($fields, $tables, $where, $orderby) {
 		$result = '';
 		$result .= 'SELECT ' . implode(',', $fields);
 		$result .= ' FROM ' . implode(',', $tables);
-		if (!empty($where))
-		{
+		if (!empty($where)) {
 			$result .= ' WHERE ' . implode('', $where);
 		}
-		if (!empty($orderby))
-		{
+		if (!empty($orderby)) {
 			$result .= ' ORDER BY ' . implode(',', $orderby);
 		}
 		return $result;
 	}
 
-	private function createWhere($where)
-	{
+	private function createWhere($where) {
 		$result = array();
-		for ($i = 0; $i < count($where); $i++)
-		{
+		for ($i = 0; $i < count($where); $i++) {
 			$next = $where[$i];
 			if (!isset($next['field']) || empty($next['field']))
 				error("field must be set for where-claus", 'MySQLInterface', 'createWhere');
@@ -95,16 +87,12 @@ class MySQLInterface
 		return $result;
 	}
 
-	private function createFields($fields, $surround = '', $default = null)
-	{
+	private function createFields($fields, $surround = '', $default = null) {
 		$result = array();
-		if (is_array($fields) && !empty($fields) && ($fields != null))
-		{
+		if (is_array($fields) && !empty($fields) && ($fields != null)) {
 			foreach ($fields as $field)
 				$result[] = "$surround" . mysql_escape_string($field) . "$surround";
-		}
-		else
-		{
+		} else {
 			if ($default == null)
 				error("no elements submitted and no default set", 'MySQLInterface', 'create fields');
 			$result = array($default);
@@ -112,11 +100,9 @@ class MySQLInterface
 		return $result;
 	}
 
-	private function createOrderby($orderby)
-	{
+	private function createOrderby($orderby) {
 		$result = array();
-		foreach ($orderby as $item)
-		{
+		foreach ($orderby as $item) {
 			if (!isset($item['orderby']))
 				error("missing orderby in statement", 'MySQLInterface', 'createOrderby');
 			else

@@ -2,19 +2,16 @@
 
 /**
  * expand object with unlimited number of extra fields
- * 
+ *
  * @package base
  */
-class Extendible extends AbstractClass
-{
+class Extendible extends AbstractClass {
 
-	public function acl($method)
-	{
+	public function acl($method) {
 		return false;
 	}
 
-	function store()
-	{
+	function store() {
 		$class = $this->get('parent');
 		$id = $this->get('parentid');
 		$obj = new $class($id);
@@ -26,8 +23,7 @@ class Extendible extends AbstractClass
 	/**
 	 * all fields used in class
 	 */
-	public function getFields()
-	{
+	public function getFields() {
 		$fields[] = array('name' => 'parent',
 			'type' => 'string',
 			'size' => 100,
