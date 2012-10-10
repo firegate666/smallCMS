@@ -23,6 +23,7 @@ class Lager extends AbstractClass {
 		$array = $mysql->select("SELECT r.sem_id, l.anzahl
                                         FROM lagerenthaelt l, rohstoff r
                                         WHERE r.id = l.rohstoff_id AND l.lager_id=" . $this->id . ";");
+		$res = array();
 		foreach ($array as $item) {
 			$res[$item[0]] = $item[1];
 		}
