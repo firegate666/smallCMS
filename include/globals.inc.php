@@ -101,9 +101,12 @@ function xml($output) {
  * Create error
  */
 function error($error, $class, $method, $vars = array()) {
+	static $recursed;
+
 	global $mysql;
-	FileLogger::write("ERROR: $class/$method - $error");
-	if (class_exists('Error')) {
+	if ($recursed === null && class_exists('Error')) {
+		FileLogger::write("ERROR: $class/$method - $error");
+		$recursed = true;
 		$error = new Error($error, $class, $method);
 		print $error->show($vars);
 		$mysql->disconnect();
