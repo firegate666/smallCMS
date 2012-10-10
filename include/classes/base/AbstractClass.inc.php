@@ -305,11 +305,12 @@ abstract class AbstractClass {
 		global $mysql;
 		// set timestamps
 		$datenow = Date::now();
+
 		if ($this->id == '') {
 			$this->data['__createdon'] = $datenow;
+		} else {
+			$this->data['__changedon'] = $datenow;
 		}
-
-		$this->data['__changedon'] = $datenow;
 
 		// Seperate keys from values
 		$keys = array_keys($this->data);
