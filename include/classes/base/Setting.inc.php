@@ -1,7 +1,7 @@
 <?php
 
-$__userrights[] = array('name' => 'configadmin', 'desc' => 'can view config');
-$__userrights[] = array('name' => 'settingsadmin', 'desc' => 'can edit settings');
+UserPrivileges::add('configadmin', 'can view config');
+UserPrivileges::add('settingsadmin', 'can edit settings');
 
 /**
  * @package base

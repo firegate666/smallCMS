@@ -1,8 +1,8 @@
 <?php
 
 TemplateClasses::add('user');
-$__userrights[] = array('name' => 'useradmin', 'desc' => 'can edit users');
-$__userrights[] = array('name' => 'disabled', 'desc' => 'denied login');
+UserPrivileges::add('useradmin', 'can edit users');
+UserPrivileges::add('disabled', 'denied login');
 
 /**
  * @package base

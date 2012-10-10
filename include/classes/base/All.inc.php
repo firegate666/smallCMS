@@ -3,6 +3,7 @@
 $d = dirname(__FILE__) . '/';
 
 require_once $d . 'TemplateClasses.inc.php';
+require_once $d . 'UserPrivileges.inc.php';
 
 require_once $d . 'Logger.inc.php';
 

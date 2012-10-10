@@ -66,7 +66,6 @@ if (!isset($_REQUEST['id']))
 }
 if (isset($_REQUEST['id']))
 {
-	global $__userrights;
 	$ug = new Usergroup($_REQUEST['id']);
 ?>
 	<a name="edit"></a>
@@ -90,7 +89,7 @@ if (isset($_REQUEST['id']))
 			<td>
 <?php
 				$rights = $ug->getUserrights();
-				foreach ($__userrights as $priv)
+				foreach (UserPrivileges::get() as $priv)
 				{
 					$checked = "";
 					if (in_array($priv['name'], $rights))

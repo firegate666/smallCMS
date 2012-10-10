@@ -1,8 +1,8 @@
 <?php
 
 TemplateClasses::add('questionaire');
-$__userrights[] = array('name' => 'questionaireadmin', 'desc' => 'can edit own questionaires');
-$__userrights[] = array('name' => 'questionairesuperadmin', 'desc' => 'can edit all questionaires');
+UserPrivileges::add('questionaireadmin', 'can edit own questionaires');
+UserPrivileges::add('questionairesuperadmin', 'can edit all questionaires');
 
 /**
  * This is questionaire

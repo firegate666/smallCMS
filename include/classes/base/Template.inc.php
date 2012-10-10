@@ -3,7 +3,7 @@
 /**
  * Templatehandling
  */
-$__userrights[] = array('name' => 'templateadmin', 'desc' => 'can edit templates &amp; images');
+UserPrivileges::add('templateadmin', 'can edit templates &amp; images');
 
 /**
  * @package base

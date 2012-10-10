@@ -1,13 +1,13 @@
 <?php
 
 TemplateClasses::add('w40k');
-$__userrights[] = array('name' => 'codexadmin', 'desc' => 'can edit codices');
-$__userrights[] = array('name' => 'missionadmin', 'desc' => 'can edit missions');
-$__userrights[] = array('name' => 'battletypeadmin', 'desc' => 'can edit battle types');
-$__userrights[] = array('name' => 'gamesystemadmin', 'desc' => 'can edit game system');
-$__userrights[] = array('name' => 'w40kuser_extern', 'desc' => 'can use W40K');
-$__userrights[] = array('name' => 'w40kuser_intern', 'desc' => 'can use W40K');
-$__userrights[] = array('name' => 'w40kadmin', 'desc' => 'can edit codices & missions');
+UserPrivileges::add('codexadmin', 'can edit codices');
+UserPrivileges::add('missionadmin', 'can edit missions');
+UserPrivileges::add('battletypeadmin', 'can edit battle types');
+UserPrivileges::add('gamesystemadmin', 'can edit game system');
+UserPrivileges::add('w40kuser_extern', 'can use W40K');
+UserPrivileges::add('w40kuser_intern', 'can use W40K');
+UserPrivileges::add('w40kadmin', 'can edit codices & missions');
 
 /**
  * @package w40k

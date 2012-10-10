@@ -1,7 +1,7 @@
 <?php
 
 TemplateClasses::add('guestbook');
-$__userrights[] = array('name' => 'guestbookadmin', 'desc' => 'can edit guestbook');
+UserPrivileges::add('guestbookadmin', 'can edit guestbook');
 
 Setting::write('moderated_guestbook', '1', 'Moderated Guestbook? (1=true, 2=false)', false);
 
