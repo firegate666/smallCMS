@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'w40k';
+TemplateClasses::add('w40k');
 $__userrights[] = array('name' => 'codexadmin', 'desc' => 'can edit codices');
 $__userrights[] = array('name' => 'missionadmin', 'desc' => 'can edit missions');
 $__userrights[] = array('name' => 'battletypeadmin', 'desc' => 'can edit battle types');

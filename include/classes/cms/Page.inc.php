@@ -1,7 +1,7 @@
 <?php
 
-$template_classes[] = 'page';
-$template_classes[] = 'admin';
+TemplateClasses::add('page');
+TemplateClasses::add('admin');
 
 /**
  * This is a page

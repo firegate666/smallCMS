@@ -4,7 +4,7 @@
 Setting::write('pwdstyle', '(\w|\d){5,}', 'Password complexity (regex)', false); //
 Setting::write('systememail', 'noreply@sea-wars.de', 'System Email Address', false); //
 
-$template_classes[] = 'login';
+TemplateClasses::add('login');
 
 /**
  * Userlogin, maybe this can be moved to spieler sometime

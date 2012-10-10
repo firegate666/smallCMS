@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'mitteilung';
+TemplateClasses::add('mitteilung');
 
 class Mitteilung extends AbstractNoNavigationClass {
 

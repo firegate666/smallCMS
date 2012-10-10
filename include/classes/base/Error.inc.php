@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'error';
+TemplateClasses::add('error');
 
 /**
  * The Error-Class, gets pages for different errors

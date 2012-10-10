@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'navigation';
+TemplateClasses::add('navigation');
 
 /**
  * Navigation bar... someday there this class won't be anymore

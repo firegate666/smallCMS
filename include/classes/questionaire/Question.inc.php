@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'question';
+TemplateClasses::add('question');
 
 /**
  * a group of questions contains questions

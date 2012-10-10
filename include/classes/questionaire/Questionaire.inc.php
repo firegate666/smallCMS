@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'questionaire';
+TemplateClasses::add('questionaire');
 $__userrights[] = array('name' => 'questionaireadmin', 'desc' => 'can edit own questionaires');
 $__userrights[] = array('name' => 'questionairesuperadmin', 'desc' => 'can edit all questionaires');
 

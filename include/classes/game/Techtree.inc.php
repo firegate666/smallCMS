@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'techtree';
+TemplateClasses::add('techtree');
 
 /**
  * Main Tech-Tree class

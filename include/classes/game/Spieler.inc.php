@@ -2,7 +2,7 @@
 
 Setting::write('ttpointsfaktor', 0.1, 'Faktor mit denen erforschte Techs in die Punktzahl eingehen', false);
 
-$template_classes[] = 'spieler';
+TemplateClasses::add('spieler');
 
 /**
  * there he is, the player himself

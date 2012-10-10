@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'insel';
+TemplateClasses::add('insel');
 
 /**
  * ressourceproduction for each ressource depending on island

@@ -1,7 +1,7 @@
 <?php
 
 Setting::write('message_defaultpagelimit', '', 'Message Default Pagelimit', false);
-$template_classes[] = 'message';
+TemplateClasses::add('message');
 
 /**
  * @package base

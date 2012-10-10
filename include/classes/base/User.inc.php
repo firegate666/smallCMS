@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'user';
+TemplateClasses::add('user');
 $__userrights[] = array('name' => 'useradmin', 'desc' => 'can edit users');
 $__userrights[] = array('name' => 'disabled', 'desc' => 'denied login');
 

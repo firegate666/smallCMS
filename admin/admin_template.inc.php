@@ -41,7 +41,7 @@ if (isset($_REQUEST['tpl_delete']))
 	<?php
 	$array = array();
 	$link = "index.php?admin&template&tpl_class=";
-	$array = Template::getClasses();
+	$array = TemplateClasses::get();
 	$options = '<option value=""></option>';
 	foreach ($array as $items)
 	{

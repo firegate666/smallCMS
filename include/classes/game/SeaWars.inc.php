@@ -2,7 +2,7 @@
 
 Setting::write('gamespeed', '1', 'Game Speed Faktor', false);
 Setting::write('baseurl', 'http://www.sea-wars.de/game2/index.php', 'System Base Url', false); //
-$template_classes[] = 'seawars';
+TemplateClasses::add('seawars');
 
 /**
  * Main Class of the game, only layout purpose

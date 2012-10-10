@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'messenger';
+TemplateClasses::add('messenger');
 
 class Messenger extends AbstractNavigationClass {
 

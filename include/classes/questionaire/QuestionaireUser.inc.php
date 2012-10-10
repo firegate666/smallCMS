@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'questionaireuser';
+TemplateClasses::add('questionaireuser');
 
 /**
  * these are the users who can answer

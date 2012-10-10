@@ -1,6 +1,6 @@
 <?php
 
-$template_classes[] = 'inselliste';
+TemplateClasses::add('inselliste');
 
 /**
  * list of islands, islandlistview

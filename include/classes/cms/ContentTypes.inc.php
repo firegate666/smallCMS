@@ -86,7 +86,7 @@ class Loggedin extends ContentType {
 
 }
 
-$template_classes[] = 'userview';
+TemplateClasses::add('userview');
 
 /**
  * @package cms

@@ -120,19 +120,6 @@ class Template extends AbstractClass {
 //	}
 
 	/**
-	 * get all template classes
-	 *
-	 * @return	String[]	all categories sorted
-	 */
-	function getClasses() {
-		global $template_classes;
-		if (!isset($template_classes) || empty($template_classes))
-			$template_classes = array();
-		sort($template_classes);
-		return array_unique($template_classes);
-	}
-
-	/**
 	 * get all layouts for $class
 	 *
 	 * @param	String	$class	category
