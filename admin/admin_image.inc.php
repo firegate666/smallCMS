@@ -72,8 +72,8 @@ else
 if (isset($_REQUEST['img_show']))
 {
 	$image = new Image();
-	$optionlist = $image->getTypeOptionList($_REQUEST['filter_type']);
-	$optionlist_emo = $image->getEmoOptionList($_REQUEST['filter_emoticon']);
+	$optionlist = $image->getTypeOptionList(isset($_REQUEST['filter_type']) ? $_REQUEST['filter_type'] : null);
+	$optionlist_emo = $image->getEmoOptionList(isset($_REQUEST['filter_emoticon']) ? $_REQUEST['filter_emoticon'] : null);
 ?>
 	<form action="index.php" method="get">
 		<input type="hidden" name="admin"/>
