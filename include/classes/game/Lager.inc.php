@@ -6,7 +6,7 @@
  */
 class Lager extends AbstractClass {
 
-	protected $lagerenthaelt;
+	public $lagerenthaelt;
 
 	function __construct($id = '') {
 		if (!empty($id)) {
