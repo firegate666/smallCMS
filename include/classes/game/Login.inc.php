@@ -209,7 +209,10 @@ class Login extends AbstractNoNavigationClass {
 	}
 
 	function show(& $vars) {
-		$array = array("title" => "Login", "lbl_username" => "Benutzername", "lbl_password" => "Passwort", "lbl_login" => "Anmelden");
+		if ($this->isLoggedIn())
+			return redirect("index.php?class=Inselliste");
+
+		$array = array("title" => "Spieler Login", "lbl_username" => "Benutzername", "lbl_password" => "Passwort", "lbl_login" => "Anmelden");
 		return $this->getLayout($array, "login_window", $vars);
 	}
 
