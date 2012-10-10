@@ -194,15 +194,12 @@ class Login extends AbstractNoNavigationClass {
 		$username = $mysql->escape($vars['username']);
 		$password = myencrypt($mysql->escape($vars['password']));
 		$array = $mysql->select("SELECT id FROM spieler WHERE username='$username' AND password='$password' AND confirmed=1");
-		$result['content'] = "URL";
 		$target = '';
 		if (count($array) == 1) {
 			Session::setCookie("username", $username, NULL);
 			Session::setCookie("spieler_id", $array[0][0], NULL);
-			$result['target'] = "index.php?class=inselliste&mode=OWN";
 			$target = "index.php?class=Inselliste";
 		} else {
-			$result['target'] = "index.php?class=Login&method=denied";
 			$target = "index.php?class=Login&method=denied";
 		}
 		return redirect($target);
