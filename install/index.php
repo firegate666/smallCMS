@@ -90,36 +90,9 @@
 			echo '<p><a href="index.php?step=4">Proceed with step 4</a></p>';
 		} else if ($step == 4) {
 			// initialize database
-			require_once realpath("../config/config.inc.php");
-			$db = @mysql_connect($dbserver, $dbuser, $dbpassword) or die('Server, user or password is invalid: ' . mysql_error());
-			$db = mysql_select_db($dbdatabase, $db) or die('Database "' . $dbdatabase . '" is invalid: ' . mysql_error());
 			echo "<h3>Setup database</h3>";
-			$dir = dirname(__FILE__) . '/mysql/';
-			if ($handle = opendir($dir) !== false) {
-				$files = array();
-
-				while (false !== ($file = readdir($handle))) {
-					if (substr($file, strrpos($file, '.')) == '.sql')
-						$files[] = $file;
-				}
-				closedir($handle);
-				sort($files);
-				foreach ($files as $file) {
-					if (file_exists($dir . "/" . $file)) {
-						printf("<p>Process %s</p>", $file);
-						$sql = file_get_contents($dir . "/" . $file);
-
-						$statements = explode(';', $sql);
-						foreach ($statements as $statement) {
-							$statement = trim($statement);
-							if (!empty($statement)) {
-								mysql_query($statement) or die("ERROR: SQL (" . $dir . "/" . $file . ") fails: " . mysql_error());
-							}
-						}
-					} else
-						die("ERROR: File does not exist: " . $dir . "/" . $file);
-				}
-			}
+			echo "<p>not implemented yet</p>";
+			echo "<p>Insert manually from sql001.sql and view.sql</p>";
 		}
 		?>
 	</body>
