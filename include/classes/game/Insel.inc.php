@@ -59,9 +59,9 @@ class Insel extends AbstractNavigationClass {
 	 * returns all islands with no owner
 	 * @return	String[][]	array of islands
 	 */
-	function getStartIslands() {
+	static function getStartIslands() {
 		global $mysql;
-		$query = "SELECT insel.id FROM insel, archipel WHERE insel.spieler_id = 0 AND archipel.groessenklasse=1 AND insel.archipel_id = archipel.id;";
+		$query = "SELECT insel.id FROM insel, archipel WHERE insel.spieler_id IS NULL AND archipel.groessenklasse=1 AND insel.archipel_id = archipel.id ORDER BY rand() LIMIT 5;";
 		$result = $mysql->select($query);
 		return $result;
 	}
