@@ -60,6 +60,7 @@ class Session extends AbstractClass {
 		Session::openIfClosed();
 		$_SESSION[$name][$section] = $value;
 		return;
+		// TODO this code is broken
 		$old_cookie = Session::getSubCookie($name, $section);
 		if (empty($old_cookie) || !is_array($old_cookie)) {
 			$old_cookie = array();
