@@ -1,6 +1,7 @@
 <?php
 
 TemplateClasses::add('techtree');
+UserPrivileges::add('techtree_admin', 'can edit game tech tree');
 
 /**
  * Main Tech-Tree class
