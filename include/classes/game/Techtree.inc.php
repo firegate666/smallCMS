@@ -44,7 +44,7 @@ class TechTree extends AbstractNavigationClass {
 	 */
 	public function research(&$vars) {
 		if (isset($vars['ttentryid']) && !empty($vars['ttentryid'])) {
-			if (is_array($this->techtree['running']))
+			if (is_array($this->techtree['running']) && !empty($this->techtree['running']))
 				$error = 'Forschung am Laufen, erst alte Forschung beenden';
 			else if (in_array($vars['ttentryid'], $this->techtree['avail'])) {
 				$ttentry = new TTEntry($vars['ttentryid']);
