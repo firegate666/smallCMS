@@ -309,11 +309,11 @@ class TTExplored extends AbstractClass {
 		if (empty($spieler_id))
 			$spieler_id = SeaWars::player();
 		$spieler_id = $mysql->escape($spieler_id);
-		$query = "SELECT *, COUNT(`techtree_entry_id`) AS erfuellt, COUNT(*) AS Abh�ngigkeiten
+		$query = "SELECT *, COUNT(`techtree_entry_id`) AS erfuellt, COUNT(*) AS dependencies
 					FROM `ttentrydependson`
 					LEFT JOIN `ttexplored` ON `dependson_id`=`techtree_entry_id`
     				WHERE spieler_id=$spieler_id GROUP BY `ttentrydependson`.`entry_id`
-	  				HAVING Abh�ngigkeiten=erfuellt $techids;";
+	  				HAVING dependencies=erfuellt $techids;";
 		$temp = $mysql->select($query, true);
 		$result = array();
 		if (is_array($runningtechs))
