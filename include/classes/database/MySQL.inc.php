@@ -38,6 +38,8 @@ class MySQL extends SQL {
 			$this->dblink = MYSQL_CONNECT($dbserver, $dbuser, $dbpassword, false, $flags) or die("<H3>MySQL error: Databaseserver not responding.</H3>");
 			MYSQL_SELECT_DB($dbdatabase) or die("<H3>MySQL error: Database not available.</H3>");
 		}
+		mysql_query("SET NAMES 'utf8'");
+		mysql_query("SET CHARACTER SET 'utf8'");
 	}
 
 	/**
