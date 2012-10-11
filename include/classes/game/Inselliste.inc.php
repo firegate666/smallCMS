@@ -74,24 +74,6 @@ class Inselliste extends AbstractNavigationClass {
 		return $this->getLayout($array, "page", $vars);
 	}
 
-	function pager($limit, $limitstart, $count, $array) {
-		$array['prevlimit'] = '';
-		$array['nextlimit'] = '';
-		$array['limit'] = '';
-		$array['limitstart'] = '';
-		if ($limit != '') {
-			$array['prevlimit'] = $limitstart - $limit;
-			if ($array['prevlimit'] < 0)
-				$array['prevlimit'] = 0;
-			$array['nextlimit'] = '';
-			if ($count > $limitstart + $limit)
-				$array['nextlimit'] = $limitstart + $limit;
-			$array['limit'] = $limit;
-			$array['limitstart'] = $limitstart;
-		}
-		return $array;
-	}
-
 	function show_region(&$vars) {
 		$kartenabschnitt_id = $vars["kartenabschnitt_id"];
 	}
