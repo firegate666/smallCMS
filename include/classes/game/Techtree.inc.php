@@ -149,7 +149,7 @@ class TechTree extends AbstractNavigationClass {
 
 		$query = "DELETE FROM ttexplored WHERE `spieler_id` = $spieler_id AND `techtree_entry_id` <> 1;";
 		$mysql->update($query);
-		$error = "Alle Forschungen gel�scht";
+		$error = "Alle Forschungen gelöscht";
 		return redirect('?class=techtree&error=' . $error);
 	}
 
