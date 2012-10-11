@@ -312,13 +312,9 @@ class TTExplored extends AbstractClass {
 		global $mysql;
 
 		// ignore known techs
-		if (!empty($techids))
+		if (!empty($techids)) {
 			$techids = 'AND d.entry_id NOT IN (' . implode(',', $techids) . ')';
-		// ignore dependencies of running techs
-		if (!empty($runningtechs))
-			$techids .= ' AND dependson_id NOT IN (' . implode(',', $runningtechs) . ')';
-		if (empty($spieler_id))
-			$spieler_id = SeaWars::player();
+		}
 
 		$spieler_id = intval($spieler_id);
 		/*$query = "SELECT *, COUNT(`techtree_entry_id`) AS erfuellt, COUNT(*) AS dependencies
