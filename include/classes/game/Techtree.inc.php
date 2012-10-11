@@ -331,7 +331,7 @@ class TTExplored extends AbstractClass {
 	  				HAVING dependencies=erfuellt $techids;";*/
 
 		$query = "SELECT
-			e.id,
+			e.entry_id,
 			count(d.id) as dependencies,
 			count(ex.id) as dependencies_met
 		FROM
@@ -342,7 +342,7 @@ class TTExplored extends AbstractClass {
 			(spieler_id = {$spieler_id} OR spieler_id IS NULL)
 			{$techids}
 		GROUP BY
-			e.id
+			e.entry_id
 		HAVING
 			dependencies = dependencies_met
 		;";
