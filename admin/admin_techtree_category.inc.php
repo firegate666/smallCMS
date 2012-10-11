@@ -29,7 +29,6 @@ if (isset($_REQUEST['del']))
 	<?php
 	$ttcat = new TTCategory();
 	$result = $ttcat->getlist();
-	print_a($result);
 	foreach ($result as $item)
 	{
 		$tc = new TTCategory($item['id']);
