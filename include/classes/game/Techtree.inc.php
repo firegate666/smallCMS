@@ -72,6 +72,9 @@ class TechTree extends AbstractNavigationClass {
 		// know techs
 		if (isset($this->techtree['known']))
 			foreach ($this->techtree['known'] as $techid) {
+				if ($techid == 1) // hide the root tech
+					continue;
+
 				$tech = new TTEntry($techid);
 				$array['name'] = $tech->get('name');
 				$array['beschreibung'] = $tech->get('description');
