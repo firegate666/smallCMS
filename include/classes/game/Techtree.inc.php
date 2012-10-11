@@ -272,7 +272,7 @@ class TTExplored extends AbstractClass {
 		if (empty($spieler_id))
 			$spieler_id = SeaWars::player();
 		$spieler_id = $mysql->escape($spieler_id);
-		$query = "SELECT techtree_entry_id FROM ttexplored WHERE spieler_id=" . $spieler_id . " AND finished=1 AND techtree_entry_id <> 1;";
+		$query = "SELECT techtree_entry_id FROM ttexplored WHERE spieler_id=" . $spieler_id . " AND finished=1;";
 		return $mysql->select($query, true);
 	}
 
