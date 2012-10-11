@@ -3,25 +3,25 @@ $adminlogin = User::hasright('admin');
 if (empty($adminlogin))
 	die("DENIED");
 
-if (isset($cat) && isset($create))
+if (isset($_REQUEST['cat']) && isset($_REQUEST['create']))
 {
 	$tc = new TTCategory();
-	$tc->set('name', $vars['cat_name']);
+	$tc->set('name', $_REQUEST['cat_name']);
 	$tc->store();
 	header("Location: index.php?admin&techtree&cat");
 }
-if (isset($cat) && isset($del))
+if (isset($_REQUEST['cat']) && isset($_REQUEST['del']))
 {
-	$tc = new TTCategory($vars['id']);
+	$tc = new TTCategory($_REQUEST['id']);
 	$tc->delete();
 	header("Location: index.php?admin&techtree&cat");
 }
 ?>
 
 <h3>Tech-Tree Management</h3>
-<p><a href="?admin&techtree&cat">Kategorie</a> - <a href="?admin&techtree&entry">Eintrag</a></p>
+<p><a href="?admin=&techtree=&cat=">Kategorie</a> - <a href="?admin=&techtree=&entry=">Eintrag</a></p>
 
-<?php if (isset($cat))
+<?php if (isset($_REQUEST['cat']))
 { ?>
 	<table>
 		<tr>
@@ -36,7 +36,7 @@ if (isset($cat) && isset($del))
 		$tc = new TTCategory($item['id']);
 	?><tr>
 			<td><?php print $tc->get('name') ?></td>
-			<td><a href="?admin&techtree&cat&del&id=<?=$tc->get('id')?>">löschen</a></td>
+			<td><a href="?admin=&techtree=&cat=1&del=1&id=<?=$tc->get('id')?>">löschen</a></td>
 		</tr>
 <?php
 	}
@@ -51,7 +51,7 @@ if (isset($cat) && isset($del))
 	<input type="submit" value="Erstellen">
 </form>
 <?php }
-if (isset($entry))
+if (isset($_REQUEST['entry']))
 { ?>
 
 
