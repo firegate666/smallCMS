@@ -53,7 +53,6 @@ class TechTree extends AbstractNavigationClass {
 				$error = "Diese Forschung kannst Du nicht lernen.";
 			}
 		}
-		$techtree = new TechTree();
 		return redirect('?class=techtree&error=' . $error);
 	}
 
