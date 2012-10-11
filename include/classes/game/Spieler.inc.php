@@ -15,14 +15,27 @@ class Spieler extends AbstractNavigationClass {
 		$spieler = new Spieler($spieler_id);
 		$result = $spieler->get('punkte');
 		$result += $this->ttpoints();
+		$result += $this->islandpoints();
 		// anything else?
 		return $result;
+	}
+
+	function islandpoints($spieler_id = '') {
+		global $mysql;
+		if (empty($spieler_id))
+			$spieler_id = $this->id;
+
+		$query = 'SELECT SUM(a.groessenklasse * i.groesse) as punkte FROM archipel a, insel i WHERE i.archipel_id = a.id AND spieler_id = ' . $spieler_id;
+		$result = $mysql->executeSql($query);
+
+		return $result['punkte'] ? $result['punkte'] : 0;
 	}
 
 	function ttpoints($spieler_id = '') {
 		global $mysql;
 		if (empty($spieler_id))
 			$spieler_id = $this->id;
+
 		$query = "SELECT sum(ttentry.aufwand) as punkte FROM ttentry, ttexplored
 				WHERE techtree_entry_id = ttentry.id AND finished=1 AND spieler_id=" . $spieler_id . ";";
 		$result = $mysql->executeSql($query);
@@ -49,6 +62,7 @@ class Spieler extends AbstractNavigationClass {
 		$result = '';
 		foreach ($ids as $id) {
 			$p = new Spieler($id['id']);
+			$array['id'] = $p->id;
 			$array['spieler'] = $p->data['username'];
 			$array['punkte'] = $p->getPunkte();
 			$result .= $this->getLayout($array, "highscore_row", $vars);
