@@ -26,7 +26,7 @@ class SeaWars extends AbstractClass {
 		return $playerid;
 	}
 
-	function SeaWars($layout = 'main') {
+	function __construct($layout = 'main') {
 		$this->layoutname = $layout;
 	}
 
