@@ -120,7 +120,7 @@ class TechTree extends AbstractNavigationClass {
 				$techlayout .= $this->getLayout($array, "tech_available", $vars);
 			}
 
-		$array['error'] = $vars['error'];
+		$array['error'] = isset($vars['error']) ? $vars['error'] : '';
 		$array['categories'] = $catlayout;
 		$array['techs'] = $techlayout;
 		return $this->getLayout($array, "page", $vars);
