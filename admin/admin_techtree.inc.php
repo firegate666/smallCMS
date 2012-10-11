@@ -29,7 +29,8 @@ if (isset($cat) && isset($del))
 			<th>&nbsp;</th>
 		</tr>
 	<?php
-	$result = TTCategory::getlist('ttcategory');
+	$ttcat = new TTCategory();
+	$result = $ttcat->getlist('ttcategory');
 	foreach ($result as $item)
 	{
 		$tc = new TTCategory($item['id']);
