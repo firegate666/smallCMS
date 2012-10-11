@@ -595,4 +595,30 @@ abstract class AbstractClass {
 		return $mysql->escape($string);
 	}
 
+	/**
+	 * create pager vars
+	 *
+	 * @param integer $limit
+	 * @param integer $limitstart
+	 * @param integer $count
+	 * @param array $array
+	 * @return array
+	 */
+	function pager($limit, $limitstart, $count, $array) {
+		$array['prevlimit'] = '';
+		$array['nextlimit'] = '';
+		$array['limit'] = '';
+		$array['limitstart'] = '';
+		if ($limit != '') {
+			$array['prevlimit'] = $limitstart - $limit;
+			if ($array['prevlimit'] < 0)
+				$array['prevlimit'] = 0;
+			$array['nextlimit'] = '';
+			if ($count > $limitstart + $limit)
+				$array['nextlimit'] = $limitstart + $limit;
+			$array['limit'] = $limit;
+			$array['limitstart'] = $limitstart;
+		}
+		return $array;
+	}
 }
