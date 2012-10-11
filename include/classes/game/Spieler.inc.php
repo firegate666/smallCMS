@@ -1,6 +1,7 @@
 <?php
 
 Setting::write('ttpointsfaktor', 0.1, 'Faktor mit denen erforschte Techs in die Punktzahl eingehen', false);
+Setting::write('islandpointsfaktor', 1.7, 'Faktor mit denen eigene Inseln in die Punktzahl eingehen', false);
 
 TemplateClasses::add('spieler');
 
@@ -28,7 +29,7 @@ class Spieler extends AbstractNavigationClass {
 		$query = 'SELECT SUM(a.groessenklasse * i.groesse) as punkte FROM archipel a, insel i WHERE i.archipel_id = a.id AND spieler_id = ' . $spieler_id;
 		$result = $mysql->executeSql($query);
 
-		return $result['punkte'] ? $result['punkte'] : 0;
+		return ($result['punkte'] ? $result['punkte'] : 0)  * Setting::read('islandpointsfaktor', 1);
 	}
 
 	function ttpoints($spieler_id = '') {
