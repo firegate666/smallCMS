@@ -116,7 +116,7 @@ class Login extends AbstractNoNavigationClass {
 			$insel = new Insel($inseln[rand(0, $anzahl)][0]);
 			$insel->set('spieler_id', $spieler_id);
 			$insel->store();
-			$query = "INSERT INTO ttexplored (spieler_id, techtree_entry_id, finished) VALUES('$spieler_id', 0, 1)";
+			$query = "INSERT INTO ttexplored (spieler_id, techtree_entry_id, finished) VALUES('$spieler_id', 1, 1)";
 			$mysql->insert($query);
 			$array['username'] = $spieler->get('username');
 			$layout = $this->getLayout($array, "confirmok", $vars);

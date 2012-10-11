@@ -147,7 +147,7 @@ class TechTree extends AbstractNavigationClass {
 		global $mysql;
 		$spieler_id = SeaWars::player();
 
-		$query = "DELETE FROM ttexplored WHERE `spieler_id` = $spieler_id AND `techtree_entry_id` <> 0;";
+		$query = "DELETE FROM ttexplored WHERE `spieler_id` = $spieler_id AND `techtree_entry_id` <> 1;";
 		$mysql->update($query);
 		$error = "Alle Forschungen gel�scht";
 		return redirect('?class=techtree&error=' . $error);
@@ -270,7 +270,7 @@ class TTExplored extends AbstractClass {
 		if (empty($spieler_id))
 			$spieler_id = SeaWars::player();
 		$spieler_id = $mysql->escape($spieler_id);
-		$query = "SELECT techtree_entry_id FROM ttexplored WHERE spieler_id=" . $spieler_id . " AND finished=1 AND techtree_entry_id <> 0;";
+		$query = "SELECT techtree_entry_id FROM ttexplored WHERE spieler_id=" . $spieler_id . " AND finished=1 AND techtree_entry_id <> 1;";
 		return $mysql->select($query, true);
 	}
 
