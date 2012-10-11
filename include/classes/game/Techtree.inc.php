@@ -170,15 +170,18 @@ class TechTree extends AbstractNavigationClass {
 	function getTechTree() {
 		$known_techs = TTExplored::getExplored();
 		$result = array();
+		$result['known'] = array();
 		foreach ($known_techs as $tech) {
 			$result['known'][] = $tech['techtree_entry_id'];
 		}
+
 		$running_techs = TTExplored::getRunning();
+		$result['running'] = array();
 		foreach ($running_techs as $tech) {
 			$result['running'][] = $tech['techtree_entry_id'];
 		}
 
-		if (isset($result['known'], $result['running'])) {
+		if (!empty($result['known'])) {
 			$avail_techs = TTExplored::getAvailable($result['known'], $result['running']);
 			foreach ($avail_techs as $tech) {
 				$result['avail'][] = $tech['entry_id'];
