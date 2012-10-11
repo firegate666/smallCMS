@@ -102,9 +102,14 @@ class Inselliste extends AbstractNavigationClass {
 
 	function show_own(&$vars) {
 		global $mysql;
+
+		$limit = !empty($vars['limit']) ? min(intval($vars['limit']), 100) : 15;
+		$limitstart = !empty($vars['limitstart']) ? intval($vars['limitstart']) : 0;
+
+		$count = $mysql->select('SELECT count(*) as count FROM insel WHERE spieler_id = ' . Session::getCookie('spieler_id'));
 		$result = $mysql->select("SELECT i.id, i.name, i.groesse, a.name
                                           FROM insel i, archipel a
-                                          WHERE a.id = i.archipel_id AND i.spieler_id=" . Session::getCookie('spieler_id') . ";");
+                                          WHERE a.id = i.archipel_id AND i.spieler_id=" . Session::getCookie('spieler_id') . " LIMIT $limitstart, $limit;");
 		$rows = '';
 		foreach ($result as $row) {
 			$array['id'] = $row[0];
@@ -113,7 +118,10 @@ class Inselliste extends AbstractNavigationClass {
 			$array['archipel'] = $row[3];
 			$rows .= $this->getLayout($array, "row", $vars);
 		}
+
 		$array = array('inseln' => $rows, 'mode' => 'OWN');
+		$array = $this->pager($limit, $limitstart, $count[0][0], $array);
+
 		return $this->getLayout($array, "page", $vars);
 	}
 
