@@ -1,5 +1,5 @@
 <?php
-$adminlogin = (User::hasright('admin') || User::hasright('useradmin'));
+$adminlogin = (User::hasPrivilege('admin') || User::hasPrivilege('useradmin'));
 if (!$adminlogin)
 	die("DENIED");
 
@@ -13,7 +13,9 @@ if (isset($_REQUEST['store']))
 	{
 		$error = array();
 		$ug->store();
-		$ug->setUserrights($_REQUEST['userright']);
+		if (!empty($_REQUEST['userright'])) {
+			$ug->setUserrights($_REQUEST['userright']);
+		}
 		unset($_REQUEST['id']);
 	}
 	unset($_REQUEST['store']);

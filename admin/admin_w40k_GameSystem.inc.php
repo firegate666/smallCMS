@@ -1,5 +1,5 @@
 <?php
-$adminlogin = (User::hasright('admin') || User::hasright('w40kadmin') || User::hasright('gamesystemadmin'));
+$adminlogin = (User::hasPrivilege('admin') || User::hasPrivilege('w40kadmin') || User::hasPrivilege('gamesystemadmin'));
 if (empty($adminlogin))
 	die("DENIED");
 

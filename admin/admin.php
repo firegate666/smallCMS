@@ -27,17 +27,22 @@ echo $admin->show($vars);
 			<?php if (get_config("cms", false))
 			{ ?>
 				<br/><a href="index.php?admin&image">Dateien</a>
-<?php if (get_config("game", false))
-				{
- ?>
-					<br><a href="index.php?admin&techtree">Tech-Tree</a>
-			<?php } ?>
 				<br/><a href="index.php?admin&filecategory">Dateikategorien</a>
 <?php } ?>
 			<?php if (get_config("questionaire", false))
 			{ ?>
 				<br/><a href="index.php?admin&questionaire">Questionaire</a>
 <?php } ?>
+
+<?php if (get_config("game", false)): ?>
+				<br/><br><a href="index.php?admin&techtree">Tech-Tree</a>
+				<?php if (isset($_REQUEST['techtree'])): ?>
+					<br/>=&gt; <a href="?admin&techtree&type=type">Type</a>
+					<br/>=&gt; <a href="?admin&techtree&type=category">Category</a>
+					<br/>=&gt; <a href="?admin&techtree&type=entry">Entry</a>
+				<?php endif; ?>
+<?php endif; ?>
+
 <?php if (get_config("w40k", false))
 			{
  ?>
@@ -85,9 +90,9 @@ echo $admin->show($vars);
 			{
 				require_once $actdir . 'admin_filecategory.inc.php';
 			}
-			else if (isset($_REQUEST['techtree']))
+			else if (isset($_REQUEST['techtree']) && isset($_REQUEST['type']))
 			{
-				require_once $actdir . 'admin_techtree.inc.php';
+				require_once $actdir . 'admin_techtree_' . $_REQUEST['type'] . '.inc.php';
 			}
 			else if (isset($_REQUEST['settings']))
 			{

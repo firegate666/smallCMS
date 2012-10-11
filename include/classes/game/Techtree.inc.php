@@ -1,6 +1,7 @@
 <?php
 
 TemplateClasses::add('techtree');
+UserPrivileges::add('techtree_admin', 'can edit game tech tree');
 
 /**
  * Main Tech-Tree class
@@ -245,18 +246,24 @@ class TTEntryDependson extends AbstractClass {
 	public function getFields() {
 		$fields[] = array('name' => 'entry_id', 'type' => 'Integer', 'notnull' => true);
 		$fields[] = array('name' => 'dependson_id', 'type' => 'Integer', 'notnull' => true);
+		return $fields;
 	}
 
 	/**
-	 * returns all ttentry ids a ttentry depends on
+	 * returns all ttentry names a ttentry depends on
 	 *
 	 * @param	int	$ttenryid	Tech-Entry id
 	 * @return int['dependson_id']	array of tech ids
 	 */
 	function get($ttentryid) {
 		global $mysql;
-		$query = "SELECT dependson_id WHERE entry_id=" . $ttentryid . ";";
-		return $mysql->select($query, true);
+		$query = "SELECT e.name FROM ttentry e, ttentrydependson d WHERE d.dependson_id  = e.id AND entry_id=" . $ttentryid . ";";
+		$result = $mysql->select($query, true);
+		$names = array();
+		foreach ($result as $entry) {
+			$names[] = $entry['name'];
+		}
+		return $names;
 	}
 
 }
@@ -382,6 +389,7 @@ class TTEntry extends AbstractClass {
 	 * all fields used in class
 	 */
 	public function getFields() {
+		$fields = array();
 		$fields[] = array('name' => 'name', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'description', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'image_id', 'type' => 'Integer', 'notnull' => true);

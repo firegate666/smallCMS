@@ -4,6 +4,8 @@ Setting::write('gamespeed', '1', 'Game Speed Faktor', false);
 Setting::write('baseurl', 'http://www.sea-wars.de/game2/index.php', 'System Base Url', false); //
 TemplateClasses::add('seawars');
 
+UserPrivileges::add('seawars_admin', 'can administer all game modules');
+
 /**
  * Main Class of the game, only layout purpose
  * has to removed as soon as navigation

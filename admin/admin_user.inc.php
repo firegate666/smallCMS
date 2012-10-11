@@ -1,5 +1,5 @@
 <?php
-$adminlogin = (User::hasright('admin') || User::hasright('useradmin'));
+$adminlogin = (User::hasPrivilege('admin') || User::hasPrivilege('useradmin'));
 if (!$adminlogin)
 	die("DENIED");
 

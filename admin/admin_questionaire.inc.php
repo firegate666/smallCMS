@@ -1,5 +1,5 @@
 <?php
-$adminlogin = (User::hasright('admin') || User::hasright('questionaireadmin') || User::hasright('questionairesuperadmin'));
+$adminlogin = (User::hasPrivilege('admin') || User::hasPrivilege('questionaireadmin') || User::hasPrivilege('questionairesuperadmin'));
 if (empty($adminlogin))
 	die("DENIED");
 
@@ -65,7 +65,7 @@ if (isset($_REQUEST['delete']))
 	if (!isset($_REQUEST['id']))
 	{
 		$list = array();
-		if (User::hasright('questionairesuperadmin'))
+		if (User::hasPrivilege('questionairesuperadmin'))
 			$list = $q->getlist('', true, 'id', array('id'),
 					'', '', array(array('key' => 'deleted', 'value' => 0)));
 		else

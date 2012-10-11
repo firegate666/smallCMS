@@ -50,9 +50,38 @@ class User extends AbstractClass {
 	/**
 	 * test rights for logged in user
 	 */
-	public function hasright($right) {
+	public static function hasPrivilege($right) {
 		$rights = Session::getCookie('userrights', array());
 		return in_array($right, $rights);
+	}
+
+	/**
+	 * check given rights
+	 *
+	 * @param array $rights
+	 * @param boolean $match_all if true user must have all rights, otherwise at least on of it
+	 * @return boolean
+	 */
+	public static function hasPrivileges($rights, $match_all = false) {
+		if ($match_all) {
+			foreach ($rights as $right) {
+				if (!static::hasPrivilege($right)) {
+					return false;
+				}
+			}
+
+			// non escaped, so all matched
+			return true;
+		} else {
+			foreach ($rights as $right) {
+				if (static::hasPrivilege($right)) {
+					return true;
+				}
+			}
+
+			// non escaped, so none matched
+			return false;
+		}
 	}
 
 	public function acl($method) {
