@@ -380,6 +380,7 @@ class TTEntry extends AbstractClass {
 	 * all fields used in class
 	 */
 	public function getFields() {
+		$fields = array();
 		$fields[] = array('name' => 'name', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'description', 'type' => 'String', 'notnull' => true);
 		$fields[] = array('name' => 'image_id', 'type' => 'Integer', 'notnull' => true);
