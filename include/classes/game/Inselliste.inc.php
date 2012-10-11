@@ -69,7 +69,7 @@ class Inselliste extends AbstractNavigationClass {
 		}
 
 		$array = array('inseln' => $rows, 'mode' => 'ALL');
-		$array = $this->pager($limit, $limitstart, $count[0]['count'], $array);
+		$array = $this->pager($limit, $limitstart, $count[0][0], $array);
 
 		return $this->getLayout($array, "page", $vars);
 	}
