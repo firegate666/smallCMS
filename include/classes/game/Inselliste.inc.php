@@ -53,10 +53,12 @@ class Inselliste extends AbstractNavigationClass {
 		$limit = !empty($vars['limit']) ? min(intval($vars['limit']), 100) : 15;
 		$limitstart = !empty($vars['limitstart']) ? intval($vars['limitstart']) : 0;
 
+		$count = $mysql->select('SELECT count(*) as count FROM insel');
 		$result = $mysql->select("SELECT i.id, i.name, i.groesse, a.name
                                           FROM insel i, archipel a
                                           WHERE a.id = i.archipel_id
 										  LIMIT $limitstart, $limit;");
+
 		$rows = '';
 		foreach ($result as $row) {
 			$array['id'] = $row[0];
@@ -67,12 +69,12 @@ class Inselliste extends AbstractNavigationClass {
 		}
 
 		$array = array('inseln' => $rows, 'mode' => 'ALL');
-		$array = $this->pager($limit, $limitstart, $array);
+		$array = $this->pager($limit, $limitstart, $count[0]['count'], $array);
 
 		return $this->getLayout($array, "page", $vars);
 	}
 
-	function pager($limit, $limitstart, $array) {
+	function pager($limit, $limitstart, $count, $array) {
 		$array['prevlimit'] = '';
 		$array['nextlimit'] = '';
 		$array['limit'] = '';
@@ -82,7 +84,7 @@ class Inselliste extends AbstractNavigationClass {
 			if ($array['prevlimit'] < 0)
 				$array['prevlimit'] = 0;
 			$array['nextlimit'] = '';
-			if (count($list) == $limit)
+			if ($count > $limitstart + $limit)
 				$array['nextlimit'] = $limitstart + $limit;
 			$array['limit'] = $limit;
 			$array['limitstart'] = $limitstart;
