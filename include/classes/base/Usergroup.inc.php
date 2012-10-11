@@ -34,7 +34,7 @@ class Usergroup extends AbstractClass {
 		}
 	}
 
-	public function hasright($right) {
+	public static function hasRight($right) {
 		$rights = $this->getUserrights();
 		return in_array($right, $rights);
 	}

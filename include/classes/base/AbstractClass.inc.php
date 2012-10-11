@@ -93,13 +93,13 @@ abstract class AbstractClass {
 	}
 
 	/**
-	 * test if logged in user has righ $right
+	 * test if logged in user has right $right
 	 *
 	 * @param String	$userright to test
 	 * @return boolean
 	 */
-	public function hasright($right) {
-		return User::hasright($right);
+	public static function hasright($right) {
+		return User::hasPrivilege($right);
 	}
 
 	/**
