@@ -64,6 +64,7 @@ class TechTree extends AbstractNavigationClass {
 	 */
 	function show(&$vars) {
 		$catlayout = '';
+		$techlayout = '';
 		foreach ($this->categories as $catid) {
 			$cat = new TTCategory($catid['id']);
 			$catlayout .= $this->getLayout(array('categoryname' => $cat->get('name')), "category_deactivated ", $vars);
@@ -168,7 +169,6 @@ class TechTree extends AbstractNavigationClass {
 	 * @return	int[]	ttentry ids
 	 */
 	function getTechTree() {
-		global $mysql;
 		$known_techs = TTExplored::getExplored();
 		$result = array();
 		foreach ($known_techs as $tech) {
@@ -179,9 +179,11 @@ class TechTree extends AbstractNavigationClass {
 			$result['running'][] = $tech['techtree_entry_id'];
 		}
 
-		$avail_techs = TTExplored::getAvailable($result['known'], $result['running']);
-		foreach ($avail_techs as $tech) {
-			$result['avail'][] = $tech['entry_id'];
+		if (isset($result['known'], $result['running'])) {
+			$avail_techs = TTExplored::getAvailable($result['known'], $result['running']);
+			foreach ($avail_techs as $tech) {
+				$result['avail'][] = $tech['entry_id'];
+			}
 		}
 		return $result;
 	}
