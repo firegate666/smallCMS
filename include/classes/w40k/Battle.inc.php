@@ -421,8 +421,8 @@ class Battle extends W40K {
 			if (!empty($vars['playerlist2']))
 				$where2[] = array('key' => 'userid', 'value' => $vars['playerlist2']);
 			$army = new Army();
-			$array['armylist1'] = $army->getOptionList($this->data['player1'], false, 'name', true, 'name', 'id', array_merge($where, $where1));
-			$array['armylist2'] = $army->getOptionList($this->data['player2'], false, 'name', true, 'name', 'id', array_merge($where, $where2));
+			$array['armylist1'] = $army->getOptionList($this->data['player1'], true, 'name', true, 'name', 'id', array_merge($where, $where1));
+			$array['armylist2'] = $army->getOptionList($this->data['player2'], true, 'name', true, 'name', 'id', array_merge($where, $where2));
 
 			$array['mbarmylist1'] = $army->getOptionList($this->mbarmies1, false, 'name', true, 'name', 'id', $where);
 			$array['mbarmylist2'] = $army->getOptionList($this->mbarmies2, false, 'name', true, 'name', 'id', $where);
